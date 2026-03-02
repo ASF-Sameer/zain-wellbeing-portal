@@ -7,6 +7,7 @@ import { POWER_BUDDY_FORM_URL, BEWELL_SUBSCRIBE_FORM_URL, KCC_INFO, BEWELL_EMAIL
 import type { CardData } from "@/components/bento-card";
 
 const EASE = [0.85, 0, 0.15, 1] as const;
+const SPRING = { type: "spring" as const, stiffness: 350, damping: 35 };
 
 function usePrefersReducedMotion() {
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
@@ -28,18 +29,23 @@ const staggerContainer = {
     opacity: 1,
     transition: {
       staggerChildren: 0.06,
-      delayChildren: 0.5,
+      delayChildren: 0.35,
     },
+  },
+  exit: {
+    opacity: 0,
+    transition: { duration: 0.15 },
   },
 };
 
 const staggerContainerReduced = {
   hidden: { opacity: 1 },
   show: { opacity: 1 },
+  exit: { opacity: 0, transition: { duration: 0 } },
 };
 
 const staggerItem = {
-  hidden: { opacity: 0, y: 14 },
+  hidden: { opacity: 0, y: 20 },
   show: {
     opacity: 1,
     y: 0,
@@ -102,20 +108,17 @@ export default function ExpandedCard({ card, onClose }: ExpandedCardProps) {
     };
   }, [card, handleKeyDown]);
 
-  const motionProps = prefersReducedMotion
-    ? { initial: false as const, animate: { opacity: 1 }, exit: { opacity: 0 }, transition: { duration: 0 } }
-    : {};
-
   return (
-    <AnimatePresence>
+    <AnimatePresence mode="sync">
       {card && (
         <>
           <motion.div
+            key="backdrop"
             className="fixed inset-0 z-40 bg-black/50"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: prefersReducedMotion ? 0 : 0.4, ease: EASE }}
+            transition={{ duration: prefersReducedMotion ? 0 : 0.3 }}
             onClick={onClose}
             aria-hidden="true"
           />
@@ -129,12 +132,18 @@ export default function ExpandedCard({ card, onClose }: ExpandedCardProps) {
               aria-label={card.title}
               tabIndex={-1}
               className="relative w-full sm:max-w-2xl min-h-screen sm:min-h-0 bg-white border-0 sm:border border-[#E2E8F0] outline-none"
-              transition={{ duration: prefersReducedMotion ? 0 : 0.7, ease: EASE }}
+              transition={prefersReducedMotion ? { duration: 0 } : SPRING}
               style={{
                 borderLeft: card.leftBorder ? `4px solid ${card.leftBorder}` : undefined,
               }}
             >
-              <div className="sticky top-0 z-10 bg-white flex items-center justify-between px-4 sm:px-8 py-4 sm:py-5 border-b border-[#E2E8F0]">
+              <motion.div
+                className="sticky top-0 z-10 bg-white flex items-center justify-between px-4 sm:px-8 py-4 sm:py-5 border-b border-[#E2E8F0]"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0, transition: { duration: 0.1 } }}
+                transition={{ duration: 0.3, delay: prefersReducedMotion ? 0 : 0.2 }}
+              >
                 <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
                   <card.icon className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0" style={{ color: card.iconColor }} strokeWidth={1.5} aria-hidden="true" />
                   <h2 className="text-base sm:text-lg font-semibold text-[#0F172A] tracking-tight truncate">{card.title}</h2>
@@ -146,13 +155,14 @@ export default function ExpandedCard({ card, onClose }: ExpandedCardProps) {
                 >
                   <X className="w-5 h-5 sm:w-4 sm:h-4" strokeWidth={1.5} aria-hidden="true" />
                 </button>
-              </div>
+              </motion.div>
 
               <motion.div
                 className="px-4 sm:px-8 py-5 sm:py-6 pb-20 sm:pb-6"
                 variants={prefersReducedMotion ? staggerContainerReduced : staggerContainer}
                 initial="hidden"
                 animate="show"
+                exit="exit"
               >
                 <CardContent type={card.id} prefersReducedMotion={prefersReducedMotion} />
               </motion.div>

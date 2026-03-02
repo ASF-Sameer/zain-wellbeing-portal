@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { motion, LayoutGroup } from "framer-motion";
+import { motion, LayoutGroup, AnimatePresence } from "framer-motion";
 import {
   HeartPulse,
   ShieldCheck,
@@ -15,7 +15,7 @@ import EditorialCard, { type CardData } from "@/components/bento-card";
 import ExpandedCard from "@/components/expanded-card";
 import StickyFooter from "@/components/sticky-footer";
 
-const EASE = [0.85, 0, 0.15, 1] as const;
+const SPRING = { type: "spring" as const, stiffness: 350, damping: 35 };
 
 const cards: CardData[] = [
   {
@@ -76,6 +76,8 @@ const cards: CardData[] = [
   },
 ];
 
+const EASE = [0.85, 0, 0.15, 1] as const;
+
 export default function HomePage() {
   const [ready, setReady] = useState(false);
   const [showLoader, setShowLoader] = useState(true);
@@ -103,11 +105,28 @@ export default function HomePage() {
     <LayoutGroup>
       {showLoader && <Loader onComplete={handleLoaderComplete} />}
 
-      <div
+      <motion.div
         id="app-wrapper"
-        className={`bg-white min-h-screen relative transition-all duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] origin-top ${
+        className={`bg-white min-h-screen relative origin-top ${
           ready ? "opacity-100" : "opacity-0"
-        } ${isExpanded ? "scale-[0.96] sm:scale-95 translate-y-[1vh] sm:translate-y-[2vh] blur-[3px] sm:blur-[4px] brightness-75 rounded-2xl sm:rounded-3xl pointer-events-none" : ""}`}
+        }`}
+        animate={
+          isExpanded
+            ? {
+                scale: 0.94,
+                y: "2vh",
+                filter: "blur(4px) brightness(0.75)",
+                borderRadius: "24px",
+              }
+            : {
+                scale: 1,
+                y: "0vh",
+                filter: "blur(0px) brightness(1)",
+                borderRadius: "0px",
+              }
+        }
+        transition={SPRING}
+        style={{ pointerEvents: isExpanded ? "none" : "auto" }}
       >
         <section className="px-4 sm:px-8 pt-8 sm:pt-16 pb-10 sm:pb-20">
           <div className="max-w-6xl mx-auto">
@@ -174,14 +193,16 @@ export default function HomePage() {
             ))}
           </div>
         </section>
-      </div>
+      </motion.div>
 
       <ExpandedCard
         card={activeCard}
         onClose={() => setActiveCard(null)}
       />
 
-      {ready && !isExpanded && <StickyFooter />}
+      <AnimatePresence>
+        {ready && !isExpanded && <StickyFooter />}
+      </AnimatePresence>
     </LayoutGroup>
   );
 }

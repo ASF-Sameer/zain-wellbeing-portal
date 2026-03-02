@@ -5,6 +5,7 @@ import { ArrowRight, type LucideIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 
 const EASE = [0.85, 0, 0.15, 1] as const;
+const SPRING = { type: "spring" as const, stiffness: 350, damping: 35 };
 
 function usePrefersReducedMotion() {
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
@@ -59,15 +60,15 @@ export default function EditorialCard({ card, onClick, index, isSelected }: Card
       } ${card.span === 2 ? "sm:col-span-2" : ""} ${card.span === 3 ? "lg:col-span-3" : ""}`}
       style={{
         borderLeft: card.leftBorder ? `4px solid ${card.leftBorder}` : undefined,
-        visibility: isSelected ? "hidden" : "visible",
+        opacity: isSelected ? 0 : 1,
       }}
       initial={prefersReducedMotion ? false : { opacity: 0, y: 12 }}
-      animate={{ opacity: 1, y: 0 }}
+      animate={{ opacity: isSelected ? 0 : 1, y: 0 }}
       transition={prefersReducedMotion ? { duration: 0 } : {
         duration: 0.5,
         delay: 0.15 + index * 0.06,
         ease: EASE,
-        layout: { duration: 0.7, ease: EASE },
+        layout: SPRING,
       }}
       whileHover={prefersReducedMotion ? undefined : {
         y: -2,

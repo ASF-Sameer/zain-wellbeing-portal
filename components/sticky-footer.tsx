@@ -12,6 +12,7 @@ export default function StickyFooter() {
       className="fixed bottom-0 left-0 right-0 z-40 bg-white border-t border-[#E2E8F0]"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: 20 }}
       transition={{ duration: 0.5, ease: EASE, delay: 0.3 }}
     >
       <div className="max-w-6xl mx-auto px-3 sm:px-8 py-2.5 sm:py-3 flex items-center justify-between gap-2 sm:gap-3">
