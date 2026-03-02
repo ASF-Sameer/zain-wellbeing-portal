@@ -2,14 +2,13 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Zain Wellbeing | Be Well - Crisis Support Portal",
+  title: "Zain Be Well | Crisis Support Portal",
   description:
     "Zain Wellbeing crisis support portal. Connect with a Power Buddy, access daily wellbeing resources, and find professional support.",
-  keywords: ["Zain", "Wellbeing", "Be Well", "Crisis Support", "Power Buddy"],
 };
 
 export const viewport: Viewport = {
-  themeColor: "#D6EEF8",
+  themeColor: "#F4F8FB",
   width: "device-width",
   initialScale: 1,
 };
@@ -27,9 +26,7 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body className="antialiased">
-        {children}
-      </body>
+      <body>{children}</body>
     </html>
   );
 }

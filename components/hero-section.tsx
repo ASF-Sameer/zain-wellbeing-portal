@@ -1,54 +1,78 @@
 "use client";
 
-import { ArrowDown, Shield, Phone } from "lucide-react";
+import { Phone, ChevronDown } from "lucide-react";
 import { KCC_INFO } from "@/data/content";
-import Image from "next/image";
 
 export default function HeroSection() {
   return (
-    <section className="relative min-h-[100dvh] flex items-center justify-center overflow-hidden px-4">
-      <div className="absolute inset-0 bg-gradient-to-br from-[var(--bw-sky)] via-[var(--bw-sky-light)] to-[var(--bw-sky-pale)]" />
-      <div className="absolute top-[10%] right-[5%] w-[300px] h-[300px] sm:w-[500px] sm:h-[500px] bg-[var(--bw-teal)] rounded-full blur-[180px] sm:blur-[250px] opacity-[0.12]" />
-      <div className="absolute bottom-[10%] left-[5%] w-[250px] h-[250px] sm:w-[400px] sm:h-[400px] bg-[var(--bw-pink)] rounded-full blur-[160px] sm:blur-[220px] opacity-[0.06]" />
+    <section className="pt-[72px]">
+      <div className="bg-gradient-to-br from-[#1A2744] via-[#2A3B5E] to-[#1A2744] relative overflow-hidden">
+        <div className="max-w-[1200px] mx-auto px-5 sm:px-8 py-16 sm:py-24 md:py-32 relative z-10">
+          <div className="max-w-2xl">
+            <p className="text-[var(--bw-pink-light)] text-sm sm:text-base font-bold tracking-wide uppercase mb-4 sm:mb-5">
+              Zain Wellbeing Crisis Portal
+            </p>
 
-      <div className="relative z-10 max-w-3xl mx-auto text-center pt-24 sm:pt-28">
-        <div className="inline-flex items-center gap-2 bg-white/60 backdrop-blur-sm px-5 py-2.5 rounded-full mb-8 sm:mb-10 border border-white/80">
-          <span className="w-2 h-2 bg-[var(--bw-teal)] rounded-full animate-soft-pulse" />
-          <span className="text-[var(--bw-text-secondary)] text-sm sm:text-base font-medium">
-            Zain Wellbeing Crisis Portal
-          </span>
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-black text-white leading-[1.05] mb-5 sm:mb-7">
+              You Are<br />
+              <span className="bg-gradient-to-r from-[var(--bw-pink)] to-[var(--bw-pink-light)] bg-clip-text text-transparent">
+                Not Alone.
+              </span>
+            </h1>
+
+            <p className="text-lg sm:text-xl text-white/60 max-w-md mb-8 sm:mb-10 leading-relaxed">
+              Immediate support for every Zain colleague. Access resources, connect with a buddy, find professional help.
+            </p>
+
+            <div className="flex flex-col sm:flex-row gap-3">
+              <a
+                href="#resources"
+                className="inline-flex items-center justify-center bg-[var(--bw-pink)] text-white px-7 py-3.5 rounded-lg text-base font-bold hover:bg-[var(--bw-pink-light)] transition-colors"
+              >
+                Access Resources
+              </a>
+              <a
+                href={`tel:${KCC_INFO.headOffice.tel.replace(/\s/g, "")}`}
+                className="inline-flex items-center justify-center gap-2 bg-white/10 text-white px-7 py-3.5 rounded-lg text-base font-bold hover:bg-white/15 transition-colors border border-white/10"
+              >
+                <Phone className="w-4 h-4" />
+                Call KCC Now
+              </a>
+            </div>
+          </div>
         </div>
 
-        <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-[var(--bw-navy)] mb-5 sm:mb-7 text-balance leading-[1.05] tracking-tight">
-          You Are{" "}
-          <span className="text-[var(--bw-pink)]">Not Alone</span>
-        </h1>
-
-        <p className="text-lg sm:text-xl md:text-2xl text-[var(--bw-text-secondary)] max-w-xl mx-auto mb-10 sm:mb-12 text-balance leading-relaxed">
-          Immediate support for every Zain colleague. Access resources, connect with a buddy, and find professional help.
-        </p>
-
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
-          <a
-            href="#toolkits"
-            className="w-full sm:w-auto flex items-center justify-center gap-2.5 bg-[var(--bw-pink)] hover:bg-[var(--bw-pink-light)] text-white px-8 py-4 rounded-full text-base sm:text-lg font-bold transition-colors shadow-lg shadow-[var(--bw-pink)]/20"
-          >
-            <Shield className="w-5 h-5" />
-            Access Resources
-          </a>
-          <a
-            href={`tel:${KCC_INFO.headOffice.tel.replace(/\s/g, "")}`}
-            className="w-full sm:w-auto flex items-center justify-center gap-2.5 bg-white/80 backdrop-blur-sm text-[var(--bw-navy)] px-8 py-4 rounded-full text-base sm:text-lg font-bold hover:bg-white transition-colors border border-white/90 shadow-lg shadow-black/5"
-          >
-            <Phone className="w-5 h-5" />
-            Call KCC Now
-          </a>
+        <div className="absolute top-0 right-0 w-1/2 h-full opacity-[0.07] hidden md:block">
+          <div className="absolute top-[15%] right-[10%] w-[300px] h-[300px] border-[40px] border-white rounded-full" />
+          <div className="absolute bottom-[20%] right-[25%] w-[150px] h-[150px] border-[25px] border-white rounded-full" />
         </div>
+      </div>
 
-        <div className="mt-14 sm:mt-16">
-          <a href="#toolkits" aria-label="Scroll to resources" className="inline-block">
-            <ArrowDown className="w-6 h-6 text-[var(--bw-text-muted)] animate-float" />
-          </a>
+      <div className="max-w-[1200px] mx-auto px-5 sm:px-8">
+        <div className="grid grid-cols-2 sm:grid-cols-4 -mt-8 sm:-mt-10 relative z-20 gap-3 sm:gap-4">
+          {[
+            { label: "Power Buddy", desc: "Peer support system", href: "#buddy", color: "var(--bw-teal)" },
+            { label: "Be Well Emails", desc: "Daily wellbeing tips", href: "#bewell", color: "var(--bw-pink)" },
+            { label: "Resource Toolkits", desc: "Guides for teams", href: "#resources", color: "var(--bw-navy)" },
+            { label: "KCC Support", desc: "Professional help", href: "#support", color: "var(--bw-teal)" },
+          ].map((item) => (
+            <a
+              key={item.label}
+              href={item.href}
+              className="bg-white rounded-xl p-4 sm:p-5 shadow-sm border border-[var(--bw-border)] hover:shadow-md transition-shadow group"
+            >
+              <div
+                className="w-2 h-2 rounded-full mb-3"
+                style={{ background: item.color }}
+              />
+              <div className="text-sm sm:text-base font-bold text-[var(--bw-navy)] group-hover:text-[var(--bw-pink)] transition-colors">
+                {item.label}
+              </div>
+              <div className="text-xs sm:text-sm text-[var(--bw-text-muted)] mt-0.5">
+                {item.desc}
+              </div>
+            </a>
+          ))}
         </div>
       </div>
     </section>

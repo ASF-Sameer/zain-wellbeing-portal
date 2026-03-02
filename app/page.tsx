@@ -11,14 +11,14 @@ export default function Home() {
   return (
     <>
       <Header />
-      <main id="main-content">
+      <main>
         <HeroSection />
         <ResourceToolkitsSection />
         <PowerBuddySection />
         <DailyWellbeingSection />
         <LiveUpdatesSection />
         <KCCSection />
-        <div className="h-24" />
+        <div className="h-16" />
       </main>
       <StickyFooter />
     </>

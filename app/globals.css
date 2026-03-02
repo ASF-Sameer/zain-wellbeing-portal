@@ -4,35 +4,25 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  --bw-sky: #D6EEF8;
-  --bw-sky-light: #E8F5FB;
-  --bw-sky-pale: #F0F8FC;
+  --bw-bg: #F4F8FB;
   --bw-white: #FFFFFF;
   --bw-pink: #D4267E;
   --bw-pink-light: #E84B93;
-  --bw-pink-muted: rgba(212, 38, 126, 0.08);
+  --bw-pink-soft: #FEF0F5;
   --bw-teal: #00A5A8;
-  --bw-teal-light: #00BFC2;
-  --bw-teal-muted: rgba(0, 165, 168, 0.08);
+  --bw-teal-soft: #EFF9F9;
   --bw-navy: #1A2744;
-  --bw-navy-light: #2A3B5E;
   --bw-text: #1A2744;
   --bw-text-secondary: #4A5568;
-  --bw-text-muted: #8896A6;
-  --bw-card: rgba(255, 255, 255, 0.7);
-  --bw-card-border: rgba(255, 255, 255, 0.9);
+  --bw-text-muted: #94A3B8;
+  --bw-border: #E8EDF2;
   --bw-danger: #C4556A;
 
-  --background: var(--bw-sky-light);
+  --background: var(--bw-bg);
   --foreground: var(--bw-text);
-  --card: var(--bw-card);
-  --card-foreground: var(--bw-text);
   --primary: var(--bw-pink);
   --primary-foreground: #FFFFFF;
-  --muted: rgba(26, 39, 68, 0.04);
-  --muted-foreground: var(--bw-text-muted);
-  --border: rgba(26, 39, 68, 0.08);
-  --input: rgba(26, 39, 68, 0.06);
+  --border: var(--bw-border);
   --ring: var(--bw-pink);
   --radius: 0.75rem;
 
@@ -45,25 +35,19 @@
 
 @theme inline {
   --font-sans: 'Zain', system-ui, -apple-system, sans-serif;
-  --font-mono: 'JetBrains Mono', monospace;
 
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --color-card: var(--card);
-  --color-card-foreground: var(--card-foreground);
   --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-foreground);
-  --color-muted: var(--muted);
-  --color-muted-foreground: var(--muted-foreground);
   --color-border: var(--border);
-  --color-input: var(--input);
   --color-ring: var(--ring);
 
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
-  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-sm: var(--radius-sm);
+  --radius-md: var(--radius-md);
+  --radius-lg: var(--radius-lg);
+  --radius-xl: var(--radius-xl);
+  --radius-2xl: var(--radius-2xl);
 }
 
 @layer base {
@@ -72,11 +56,12 @@
     box-sizing: border-box;
   }
   body {
-    @apply bg-background text-foreground antialiased;
     font-family: 'Zain', system-ui, -apple-system, sans-serif;
-    background: var(--bw-sky-light);
+    background: var(--bw-bg);
+    color: var(--bw-text);
     min-height: 100vh;
     overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
   }
   html {
     scroll-behavior: smooth;
@@ -86,41 +71,11 @@
 }
 
 @layer utilities {
-  .card-glass {
-    background: var(--bw-card);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border: 1px solid var(--bw-card-border);
-    border-radius: 20px;
-    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.04);
-  }
-
-  .text-balance {
-    text-wrap: balance;
-  }
+  .text-balance { text-wrap: balance; }
 
   .hide-scrollbar {
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
-  .hide-scrollbar::-webkit-scrollbar {
-    display: none;
-  }
-
-  @keyframes gentle-float {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-4px); }
-  }
-
-  @keyframes soft-pulse {
-    0%, 100% { opacity: 0.6; }
-    50% { opacity: 1; }
-  }
-
-  .animate-float { animation: gentle-float 5s ease-in-out infinite; }
-  .animate-soft-pulse { animation: soft-pulse 3s ease-in-out infinite; }
-
-  @media (prefers-reduced-motion: reduce) {
-    .animate-float, .animate-soft-pulse { animation: none !important; }
-  }
+  .hide-scrollbar::-webkit-scrollbar { display: none; }
 }
