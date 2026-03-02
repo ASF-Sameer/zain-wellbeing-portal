@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { motion } from "framer-motion";
+import { motion, LayoutGroup } from "framer-motion";
 import {
   HeartPulse,
   ShieldCheck,
@@ -12,7 +12,7 @@ import {
 } from "lucide-react";
 import Loader from "@/components/loader";
 import EditorialCard, { type CardData } from "@/components/bento-card";
-import SlideDrawer from "@/components/slide-drawer";
+import ExpandedCard from "@/components/expanded-card";
 import StickyFooter from "@/components/sticky-footer";
 
 const EASE = [0.85, 0, 0.15, 1] as const;
@@ -71,24 +71,20 @@ const cards: CardData[] = [
       "Subscribe to receive daily grounding exercises and regional support updates directly to your inbox.",
     icon: Mail,
     iconColor: "#94A3B8",
-    span: 3,
+    span: 2,
     dark: true,
   },
 ];
 
 export default function HomePage() {
   const [ready, setReady] = useState(false);
-  const [mounted, setMounted] = useState(false);
+  const [showLoader, setShowLoader] = useState(true);
   const [activeCard, setActiveCard] = useState<CardData | null>(null);
 
-  const isDrawerOpen = !!activeCard;
+  const isExpanded = !!activeCard;
 
   useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  useEffect(() => {
-    if (isDrawerOpen) {
+    if (isExpanded) {
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "";
@@ -96,23 +92,22 @@ export default function HomePage() {
     return () => {
       document.body.style.overflow = "";
     };
-  }, [isDrawerOpen]);
+  }, [isExpanded]);
 
   const handleLoaderComplete = useCallback(() => {
     setReady(true);
+    setShowLoader(false);
   }, []);
 
-  if (!mounted) return null;
-
   return (
-    <>
-      {!ready && <Loader onComplete={handleLoaderComplete} />}
+    <LayoutGroup>
+      {showLoader && <Loader onComplete={handleLoaderComplete} />}
 
       <div
         id="app-wrapper"
         className={`bg-white min-h-screen relative transition-all duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] origin-top ${
           ready ? "opacity-100" : "opacity-0"
-        } ${isDrawerOpen ? "app-scaled" : ""}`}
+        } ${isExpanded ? "scale-95 translate-y-[2vh] blur-[4px] brightness-75 rounded-3xl pointer-events-none" : ""}`}
       >
         <section className="px-5 sm:px-8 pt-12 sm:pt-16 pb-14 sm:pb-20">
           <div className="max-w-6xl mx-auto">
@@ -173,6 +168,7 @@ export default function HomePage() {
                 key={card.id}
                 card={card}
                 index={index}
+                isSelected={activeCard?.id === card.id}
                 onClick={() => setActiveCard(card)}
               />
             ))}
@@ -180,24 +176,12 @@ export default function HomePage() {
         </section>
       </div>
 
-      <SlideDrawer
-        isOpen={isDrawerOpen}
+      <ExpandedCard
+        card={activeCard}
         onClose={() => setActiveCard(null)}
-        title={activeCard?.title || ""}
-        icon={activeCard?.icon || HeartPulse}
-        iconColor={activeCard?.iconColor || ""}
-        contentType={
-          (activeCard?.id as
-            | "resilience"
-            | "buddy"
-            | "manager"
-            | "parents"
-            | "bewell"
-            | "kcc") || "resilience"
-        }
       />
 
       {ready && <StickyFooter />}
-    </>
+    </LayoutGroup>
   );
 }

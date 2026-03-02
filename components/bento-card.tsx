@@ -21,28 +21,29 @@ interface CardProps {
   card: CardData;
   onClick: () => void;
   index: number;
+  isSelected: boolean;
 }
 
 function getLabel(card: CardData): string {
   if (card.label) return card.label;
-  if (card.id === "buddy") return "Urgent";
-  if (card.id === "kcc") return "Emergency";
   return "Resource";
 }
 
-export default function EditorialCard({ card, onClick, index }: CardProps) {
+export default function EditorialCard({ card, onClick, index, isSelected }: CardProps) {
   const Icon = card.icon;
 
   return (
     <motion.button
+      layoutId={card.id}
       onClick={onClick}
-      className={`relative text-left w-full border transition-all duration-300 group overflow-hidden ${
+      className={`relative text-left w-full border transition-colors duration-300 group overflow-hidden ${
         card.dark
           ? "bg-[#0F172A] border-[#1E293B] hover:border-[#334155]"
           : "bg-white border-[#E2E8F0] hover:border-[#00B5E2]"
       } ${card.span === 2 ? "md:col-span-2" : ""} ${card.span === 3 ? "lg:col-span-3" : ""}`}
       style={{
         borderLeft: card.leftBorder ? `4px solid ${card.leftBorder}` : undefined,
+        visibility: isSelected ? "hidden" : "visible",
       }}
       initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
@@ -50,6 +51,7 @@ export default function EditorialCard({ card, onClick, index }: CardProps) {
         duration: 0.5,
         delay: 0.15 + index * 0.06,
         ease: EASE,
+        layout: { duration: 0.7, ease: EASE },
       }}
       whileHover={{
         y: -2,

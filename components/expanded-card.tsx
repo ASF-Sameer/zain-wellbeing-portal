@@ -1,20 +1,20 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Phone, MapPin, type LucideIcon } from "lucide-react";
+import { X, Phone, MapPin } from "lucide-react";
 import { useState, useEffect, useRef, useCallback } from "react";
 import { POWER_BUDDY_FORM_URL, BEWELL_SUBSCRIBE_FORM_URL, KCC_INFO } from "@/data/content";
+import type { CardData } from "@/components/bento-card";
 
 const EASE = [0.85, 0, 0.15, 1] as const;
-const STAGGER_EASE = [0.32, 0.72, 0, 1] as const;
 
 const staggerContainer = {
   hidden: { opacity: 0 },
   show: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.07,
-      delayChildren: 0.45,
+      staggerChildren: 0.06,
+      delayChildren: 0.5,
     },
   },
 };
@@ -24,28 +24,17 @@ const staggerItem = {
   show: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.45, ease: EASE },
+    transition: { duration: 0.4, ease: EASE },
   },
 };
 
-interface SlideDrawerProps {
-  isOpen: boolean;
+interface ExpandedCardProps {
+  card: CardData | null;
   onClose: () => void;
-  title: string;
-  icon: LucideIcon;
-  iconColor: string;
-  contentType: "resilience" | "buddy" | "manager" | "parents" | "bewell" | "kcc";
 }
 
-export default function SlideDrawer({
-  isOpen,
-  onClose,
-  title,
-  icon: Icon,
-  iconColor,
-  contentType,
-}: SlideDrawerProps) {
-  const drawerRef = useRef<HTMLDivElement>(null);
+export default function ExpandedCard({ card, onClose }: ExpandedCardProps) {
+  const modalRef = useRef<HTMLDivElement>(null);
 
   const handleKeyDown = useCallback(
     (e: KeyboardEvent) => {
@@ -55,21 +44,21 @@ export default function SlideDrawer({
   );
 
   useEffect(() => {
-    if (isOpen) {
+    if (card) {
       document.addEventListener("keydown", handleKeyDown);
-      setTimeout(() => drawerRef.current?.focus(), 100);
+      setTimeout(() => modalRef.current?.focus(), 100);
     }
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
     };
-  }, [isOpen, handleKeyDown]);
+  }, [card, handleKeyDown]);
 
   return (
     <AnimatePresence>
-      {isOpen && (
+      {card && (
         <>
           <motion.div
-            className="fixed inset-0 z-50 bg-black/40"
+            className="fixed inset-0 z-40 bg-black/50"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -78,53 +67,51 @@ export default function SlideDrawer({
             aria-hidden="true"
           />
 
-          <motion.div
-            ref={drawerRef}
-            role="dialog"
-            aria-modal="true"
-            aria-label={title}
-            tabIndex={-1}
-            className="fixed top-0 right-0 bottom-0 z-50 w-full sm:w-[500px] md:w-[560px] bg-white border-l border-[#E2E8F0] flex flex-col overflow-hidden outline-none"
-            initial={{ x: "100%" }}
-            animate={{ x: 0 }}
-            exit={{ x: "100%" }}
-            transition={{ duration: 0.5, ease: STAGGER_EASE }}
-          >
+          <div className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto py-8 sm:py-12 px-4">
             <motion.div
-              className="flex items-center justify-between px-6 sm:px-8 py-5 border-b border-[#E2E8F0]"
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, ease: EASE, delay: 0.3 }}
+              ref={modalRef}
+              layoutId={card.id}
+              role="dialog"
+              aria-modal="true"
+              aria-label={card.title}
+              tabIndex={-1}
+              className="relative w-full max-w-2xl bg-white border border-[#E2E8F0] outline-none"
+              transition={{ duration: 0.7, ease: EASE }}
+              style={{
+                borderLeft: card.leftBorder ? `4px solid ${card.leftBorder}` : undefined,
+              }}
             >
-              <div className="flex items-center gap-3">
-                <Icon className="w-4 h-4" style={{ color: iconColor }} strokeWidth={1.5} />
-                <h2 className="text-base font-semibold text-[#0F172A] tracking-tight">{title}</h2>
+              <div className="flex items-center justify-between px-6 sm:px-8 py-5 border-b border-[#E2E8F0]">
+                <div className="flex items-center gap-3">
+                  <card.icon className="w-5 h-5" style={{ color: card.iconColor }} strokeWidth={1.5} />
+                  <h2 className="text-lg font-semibold text-[#0F172A] tracking-tight">{card.title}</h2>
+                </div>
+                <button
+                  onClick={onClose}
+                  className="w-8 h-8 flex items-center justify-center text-slate-400 hover:text-slate-700 transition-colors"
+                  aria-label="Close"
+                >
+                  <X className="w-4 h-4" strokeWidth={1.5} />
+                </button>
               </div>
-              <button
-                onClick={onClose}
-                className="w-8 h-8 flex items-center justify-center text-slate-400 hover:text-slate-700 transition-colors"
-                aria-label="Close"
-              >
-                <X className="w-4 h-4" strokeWidth={1.5} />
-              </button>
-            </motion.div>
 
-            <motion.div
-              className="flex-1 overflow-y-auto px-6 sm:px-8 py-6"
-              variants={staggerContainer}
-              initial="hidden"
-              animate="show"
-            >
-              <DrawerContent type={contentType} />
+              <motion.div
+                className="px-6 sm:px-8 py-6"
+                variants={staggerContainer}
+                initial="hidden"
+                animate="show"
+              >
+                <CardContent type={card.id} />
+              </motion.div>
             </motion.div>
-          </motion.div>
+          </div>
         </>
       )}
     </AnimatePresence>
   );
 }
 
-function DrawerContent({ type }: { type: string }) {
+function CardContent({ type }: { type: string }) {
   switch (type) {
     case "resilience":
       return <ResilienceContent />;
@@ -185,6 +172,30 @@ function CheckItem({ text, defaultChecked = false }: { text: string; defaultChec
         {text}
       </span>
     </label>
+  );
+}
+
+function IframeEmbed({ src, label }: { src: string; label: string }) {
+  const [loaded, setLoaded] = useState(false);
+  return (
+    <div className="relative w-full h-[600px] overflow-hidden bg-white border border-slate-200">
+      {!loaded && (
+        <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 bg-white">
+          <div className="w-8 h-8 border-2 border-slate-200 border-t-[#00B5E2] animate-spin" />
+          <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400">
+            Loading {label}
+          </span>
+        </div>
+      )}
+      <iframe
+        src={src}
+        className="w-full h-full border-0 transition-opacity duration-500"
+        style={{ opacity: loaded ? 1 : 0 }}
+        onLoad={() => setLoaded(true)}
+        title={label}
+        allow="clipboard-write"
+      />
+    </div>
   );
 }
 
@@ -263,6 +274,7 @@ function ResilienceContent() {
 }
 
 function BuddyContent() {
+  const isRealForm = !POWER_BUDDY_FORM_URL.includes("REPLACE_WITH");
   return (
     <div className="space-y-8">
       <motion.div variants={staggerItem}>
@@ -286,7 +298,11 @@ function BuddyContent() {
         </div>
       </motion.div>
       <motion.div variants={staggerItem}>
-        <FormPlaceholder label="Power Buddy -- Sign-Up Form" />
+        {isRealForm ? (
+          <IframeEmbed src={POWER_BUDDY_FORM_URL} label="Power Buddy Form" />
+        ) : (
+          <FormPlaceholder label="Power Buddy -- Sign-Up Form" />
+        )}
       </motion.div>
     </div>
   );
@@ -406,6 +422,7 @@ function ParentsContent() {
 }
 
 function BeWellContent() {
+  const isRealForm = !BEWELL_SUBSCRIBE_FORM_URL.includes("REPLACE_WITH");
   return (
     <div className="space-y-8">
       <motion.div variants={staggerItem}>
@@ -429,7 +446,11 @@ function BeWellContent() {
         </div>
       </motion.div>
       <motion.div variants={staggerItem}>
-        <FormPlaceholder label="Be Well -- Email Subscription" />
+        {isRealForm ? (
+          <IframeEmbed src={BEWELL_SUBSCRIBE_FORM_URL} label="Be Well Subscription" />
+        ) : (
+          <FormPlaceholder label="Be Well -- Email Subscription" />
+        )}
       </motion.div>
     </div>
   );
