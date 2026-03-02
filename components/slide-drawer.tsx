@@ -335,6 +335,29 @@ function ParentsContent() {
       </motion.div>
       <motion.div variants={staggerItem} className="h-px bg-[#E2E8F0]" />
       <motion.div variants={staggerItem}>
+        <SectionLabel text="How to Take Care of Your Children" />
+        <p className="text-sm text-slate-500 leading-relaxed mb-4 italic">
+          Put your own oxygen mask on first. Your children watch you to see if they are safe, so your calm is their best protection.
+        </p>
+        <div className="space-y-0.5">
+          <CheckItem text="Stay Calm: Children copy your feelings. Speak quietly, stay calm, and offer them your presence in your home." />
+          <CheckItem text="Mute the News: Turn off the TV and social media when your children are around. Limit their consumption of media to protect their mental wellbeing." />
+          <CheckItem text="Validate Them: Avoid dismissing their feelings and asking them to be brave, but reassure them that you are with them and that they are safe with you." />
+          <CheckItem text="Reassure them of their safety: Tell them that many brave people and strong systems are working 24/7 to keep everyone safe. There's sirens outside, but there are people and systems protecting us." />
+          <CheckItem text="Keep Moving & Assign No-Phone Quality Time: For 20 minutes, offer them your undivided attention. Let them play, jump, or dance inside the house. This helps them release their nervous energy." />
+          <CheckItem text="Relax Before Bed: Spend 15 minutes reading or talking about happy things. Remind them that they are in a safe, peaceful place. Utilize white noise during sleep time to minimize interrupted sleep." />
+        </div>
+        <div className="mt-5 border border-[#E2E8F0] bg-[#F8FAFC] p-5">
+          <p className="text-right text-lg leading-relaxed text-[#0F172A] mb-2" dir="rtl">
+            ﴿ الَّذِينَ آمَنُوا وَتَطْمَئِنُّ قُلُوبُهُم بِذِكْرِ اللَّهِ ۗ أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ ﴾
+          </p>
+          <p className="text-sm text-slate-500 leading-relaxed italic">
+            &ldquo;Those who believe, and whose hearts find comfort in the remembrance of Allah. Truly, in the remembrance of Allah do hearts find comfort.&rdquo;
+          </p>
+        </div>
+      </motion.div>
+      <motion.div variants={staggerItem} className="h-px bg-[#E2E8F0]" />
+      <motion.div variants={staggerItem}>
         <SectionLabel text="Pet Care" />
         <div className="space-y-0.5">
           <CheckItem text="Prepare pet emergency kit (food, water, meds, carrier)" />
