@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Phone, MessageCircle, Mail } from "lucide-react";
+import { X, MessageCircle } from "lucide-react";
 import { useState, useEffect, useRef, useCallback } from "react";
 import { POWER_BUDDY_FORM_URL, BEWELL_SUBSCRIBE_FORM_URL, KCC_INFO, BEWELL_EMAIL } from "@/data/content";
 import type { CardData } from "@/components/bento-card";
@@ -67,7 +67,7 @@ export default function ExpandedCard({ card, onClose }: ExpandedCardProps) {
             aria-hidden="true"
           />
 
-          <div className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto py-8 sm:py-12 px-4">
+          <div className="fixed inset-0 z-50 flex items-start sm:items-start justify-center overflow-y-auto py-0 sm:py-12 px-0 sm:px-4">
             <motion.div
               ref={modalRef}
               layoutId={card.id}
@@ -75,28 +75,28 @@ export default function ExpandedCard({ card, onClose }: ExpandedCardProps) {
               aria-modal="true"
               aria-label={card.title}
               tabIndex={-1}
-              className="relative w-full max-w-2xl bg-white border border-[#E2E8F0] outline-none"
+              className="relative w-full sm:max-w-2xl min-h-screen sm:min-h-0 bg-white border-0 sm:border border-[#E2E8F0] outline-none"
               transition={{ duration: 0.7, ease: EASE }}
               style={{
                 borderLeft: card.leftBorder ? `4px solid ${card.leftBorder}` : undefined,
               }}
             >
-              <div className="flex items-center justify-between px-6 sm:px-8 py-5 border-b border-[#E2E8F0]">
-                <div className="flex items-center gap-3">
-                  <card.icon className="w-5 h-5" style={{ color: card.iconColor }} strokeWidth={1.5} />
-                  <h2 className="text-lg font-semibold text-[#0F172A] tracking-tight">{card.title}</h2>
+              <div className="sticky top-0 z-10 bg-white flex items-center justify-between px-4 sm:px-8 py-4 sm:py-5 border-b border-[#E2E8F0]">
+                <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
+                  <card.icon className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0" style={{ color: card.iconColor }} strokeWidth={1.5} />
+                  <h2 className="text-base sm:text-lg font-semibold text-[#0F172A] tracking-tight truncate">{card.title}</h2>
                 </div>
                 <button
                   onClick={onClose}
-                  className="w-8 h-8 flex items-center justify-center text-slate-400 hover:text-slate-700 transition-colors"
+                  className="w-9 h-9 sm:w-8 sm:h-8 flex items-center justify-center text-slate-400 hover:text-slate-700 transition-colors flex-shrink-0 -mr-1"
                   aria-label="Close"
                 >
-                  <X className="w-4 h-4" strokeWidth={1.5} />
+                  <X className="w-5 h-5 sm:w-4 sm:h-4" strokeWidth={1.5} />
                 </button>
               </div>
 
               <motion.div
-                className="px-6 sm:px-8 py-6"
+                className="px-4 sm:px-8 py-5 sm:py-6 pb-20 sm:pb-6"
                 variants={staggerContainer}
                 initial="hidden"
                 animate="show"
@@ -140,9 +140,9 @@ function SectionLabel({ text }: { text: string }) {
 
 function GuidanceCard({ title, text }: { title: string; text: string }) {
   return (
-    <div className="border-b border-[#E2E8F0] pb-5 last:border-0 last:pb-0">
-      <h4 className="text-sm font-semibold text-[#0F172A] mb-1.5">{title}</h4>
-      <p className="text-sm text-slate-500 leading-relaxed">{text}</p>
+    <div className="border-b border-[#E2E8F0] pb-4 sm:pb-5 last:border-0 last:pb-0">
+      <h4 className="text-[13px] sm:text-sm font-semibold text-[#0F172A] mb-1 sm:mb-1.5">{title}</h4>
+      <p className="text-[13px] sm:text-sm text-slate-500 leading-relaxed">{text}</p>
     </div>
   );
 }
@@ -150,7 +150,7 @@ function GuidanceCard({ title, text }: { title: string; text: string }) {
 function IframeEmbed({ src, label }: { src: string; label: string }) {
   const [loaded, setLoaded] = useState(false);
   return (
-    <div className="relative w-full h-[600px] overflow-hidden bg-white border border-slate-200">
+    <div className="relative w-full h-[400px] sm:h-[600px] overflow-hidden bg-white border border-slate-200">
       {!loaded && (
         <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 bg-white">
           <div className="w-8 h-8 border-2 border-slate-200 border-t-[#00B5E2] animate-spin" />
@@ -174,12 +174,12 @@ function IframeEmbed({ src, label }: { src: string; label: string }) {
 function FormPlaceholder({ label }: { label: string }) {
   return (
     <div className="border border-[#E2E8F0] bg-[#F8FAFC]">
-      <div className="border-b border-[#E2E8F0] px-5 py-3">
+      <div className="border-b border-[#E2E8F0] px-4 sm:px-5 py-3">
         <span className="text-[10px] font-bold tracking-widest uppercase text-slate-400">
           {label}
         </span>
       </div>
-      <div className="p-5 space-y-5">
+      <div className="p-4 sm:p-5 space-y-4 sm:space-y-5">
         <div>
           <label className="text-[10px] font-bold tracking-widest uppercase text-slate-400 block mb-2">Full Name</label>
           <div className="h-10 border-b-2 border-slate-200 bg-transparent" />
@@ -198,7 +198,7 @@ function FormPlaceholder({ label }: { label: string }) {
           </div>
         </div>
       </div>
-      <div className="border-t border-[#E2E8F0] px-5 py-3">
+      <div className="border-t border-[#E2E8F0] px-4 sm:px-5 py-3">
         <span className="text-[10px] text-slate-400 tracking-wide">Microsoft Forms -- Secure Embed</span>
       </div>
     </div>
@@ -207,10 +207,10 @@ function FormPlaceholder({ label }: { label: string }) {
 
 function ResilienceContent() {
   return (
-    <div className="space-y-8">
+    <div className="space-y-6 sm:space-y-8">
       <motion.div variants={staggerItem}>
         <SectionLabel text="Wellbeing Guidance" />
-        <div className="space-y-5">
+        <div className="space-y-4 sm:space-y-5">
           <GuidanceCard
             title="Regulate Before You React"
             text="When you feel your body tense or your thoughts racing, pause. Take one slow breath in through your nose and a longer breath out through your mouth. A longer exhale signals safety to your nervous system."
@@ -232,7 +232,7 @@ function ResilienceContent() {
       <motion.div variants={staggerItem} className="h-px bg-[#E2E8F0]" />
       <motion.div variants={staggerItem}>
         <SectionLabel text="Daily Practices" />
-        <div className="space-y-5">
+        <div className="space-y-4 sm:space-y-5">
           <GuidanceCard
             title="Reset Through Temperature"
             text="Wash your hands with cool water or hold something cold for 30 seconds. Sudden temperature shifts can help regulate your nervous system quickly."
@@ -257,10 +257,10 @@ function ResilienceContent() {
 
 function ManagerContent() {
   return (
-    <div className="space-y-8">
+    <div className="space-y-6 sm:space-y-8">
       <motion.div variants={staggerItem}>
         <SectionLabel text="Supporting Your Team" />
-        <div className="space-y-5">
+        <div className="space-y-4 sm:space-y-5">
           <GuidanceCard
             title="Acknowledge and Validate"
             text='Start conversations by recognizing that global events are heavy. A simple, "I know there is a lot happening right now, and I want to check in on how you are feeling," goes a long way.'
@@ -278,7 +278,7 @@ function ManagerContent() {
       <motion.div variants={staggerItem} className="h-px bg-[#E2E8F0]" />
       <motion.div variants={staggerItem}>
         <SectionLabel text="Leadership Actions" />
-        <div className="space-y-5">
+        <div className="space-y-4 sm:space-y-5">
           <GuidanceCard
             title="Honor Personal Space"
             text="Support your team members' choice in how much they wish to share. Ensure they know you are available for them whenever they are ready to talk, without any pressure to do so."
@@ -300,10 +300,10 @@ function ManagerContent() {
 function BuddyContent() {
   const isRealForm = !POWER_BUDDY_FORM_URL.includes("REPLACE_WITH");
   return (
-    <div className="space-y-8">
+    <div className="space-y-6 sm:space-y-8">
       <motion.div variants={staggerItem}>
         <SectionLabel text="How It Works" />
-        <p className="text-sm text-slate-500 leading-relaxed mb-5">
+        <p className="text-[13px] sm:text-sm text-slate-500 leading-relaxed mb-4 sm:mb-5">
           Get matched with a Zain colleague for a grounding conversation. No judgment, just human connection.
         </p>
         <div className="space-y-3">
@@ -316,15 +316,15 @@ function BuddyContent() {
               <span className="w-6 h-6 flex items-center justify-center border border-slate-200 text-[10px] font-bold text-slate-400 flex-shrink-0">
                 {i + 1}
               </span>
-              <p className="text-sm text-slate-600">{step}</p>
+              <p className="text-[13px] sm:text-sm text-slate-600">{step}</p>
             </div>
           ))}
         </div>
       </motion.div>
       <motion.div variants={staggerItem}>
-        <div className="border border-[#E2E8F0] bg-[#F8FAFC] p-5">
+        <div className="border border-[#E2E8F0] bg-[#F8FAFC] p-4 sm:p-5">
           <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">Status</p>
-          <p className="text-sm text-slate-500 leading-relaxed">
+          <p className="text-[13px] sm:text-sm text-slate-500 leading-relaxed">
             The Buddy System automation is currently being set up. Check back soon for the sign-up form.
           </p>
         </div>
@@ -342,17 +342,17 @@ function BuddyContent() {
 
 function ParentsContent() {
   return (
-    <div className="space-y-8">
+    <div className="space-y-6 sm:space-y-8">
       <motion.div variants={staggerItem}>
-        <div className="border-l-2 border-[#EA580C] pl-4 py-2 mb-6">
-          <p className="text-sm text-slate-600 italic">
+        <div className="border-l-2 border-[#EA580C] pl-3 sm:pl-4 py-2 mb-5 sm:mb-6">
+          <p className="text-[13px] sm:text-sm text-slate-600 italic">
             &ldquo;Put on your own oxygen mask first. Your children watch you to see if they are safe, so your calm is their best protection.&rdquo;
           </p>
         </div>
       </motion.div>
       <motion.div variants={staggerItem}>
         <SectionLabel text="How to Take Care of Your Children" />
-        <div className="space-y-5">
+        <div className="space-y-4 sm:space-y-5">
           <GuidanceCard
             title="Stay Calm"
             text="Children copy your feelings. Speak quietly, stay calm, and offer them your presence in your home."
@@ -382,11 +382,11 @@ function ParentsContent() {
       <motion.div variants={staggerItem} className="h-px bg-[#E2E8F0]" />
       <motion.div variants={staggerItem}>
         <SectionLabel text="Anchor Them in Faith" />
-        <div className="border border-[#E2E8F0] bg-[#F8FAFC] p-5">
-          <p className="text-right text-lg leading-relaxed text-[#0F172A] mb-2" dir="rtl">
+        <div className="border border-[#E2E8F0] bg-[#F8FAFC] p-4 sm:p-5">
+          <p className="text-right text-base sm:text-lg leading-relaxed text-[#0F172A] mb-2" dir="rtl">
             ﴿ الَّذِينَ آمَنُوا وَتَطْمَئِنُّ قُلُوبُهُم بِذِكْرِ اللَّهِ ۗ أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ ﴾
           </p>
-          <p className="text-sm text-slate-500 leading-relaxed italic">
+          <p className="text-[13px] sm:text-sm text-slate-500 leading-relaxed italic">
             &ldquo;Those who believe, and whose hearts find comfort in the remembrance of Allah. Truly, in the remembrance of Allah do hearts find comfort.&rdquo;
           </p>
           <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mt-3">
@@ -401,10 +401,10 @@ function ParentsContent() {
 function BeWellContent() {
   const isRealForm = !BEWELL_SUBSCRIBE_FORM_URL.includes("REPLACE_WITH");
   return (
-    <div className="space-y-8">
+    <div className="space-y-6 sm:space-y-8">
       <motion.div variants={staggerItem}>
         <SectionLabel text="Daily Support Emails" />
-        <p className="text-sm text-slate-500 leading-relaxed mb-5">
+        <p className="text-[13px] sm:text-sm text-slate-500 leading-relaxed mb-4 sm:mb-5">
           Subscribe to receive a daily BE WELL email with comforting words, connection, and practical wellbeing support during these difficult times.
         </p>
       </motion.div>
@@ -421,24 +421,24 @@ function BeWellContent() {
 
 function KCCContent() {
   return (
-    <div className="space-y-8">
+    <div className="space-y-6 sm:space-y-8">
       <motion.div variants={staggerItem}>
         <SectionLabel text="Free Counselling Sessions" />
-        <p className="text-sm text-slate-500 leading-relaxed mb-5">
+        <p className="text-[13px] sm:text-sm text-slate-500 leading-relaxed mb-4 sm:mb-5">
           {KCC_INFO.supportNote}
         </p>
-        <div className="border border-[#E2E8F0] bg-[#F8FAFC] p-5 space-y-4">
+        <div className="border border-[#E2E8F0] bg-[#F8FAFC] p-4 sm:p-5 space-y-4">
           <div className="flex items-start gap-3">
             <MessageCircle className="w-4 h-4 text-[#25D366] mt-0.5 flex-shrink-0" strokeWidth={1.5} />
-            <div>
-              <p className="text-sm text-slate-600 leading-relaxed">
+            <div className="min-w-0">
+              <p className="text-[13px] sm:text-sm text-slate-600 leading-relaxed">
                 {KCC_INFO.bookingNote}
               </p>
               <a
                 href={`https://wa.me/${KCC_INFO.whatsapp.replace(/\s/g, "").replace("+", "")}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 mt-3 bg-[#0F172A] text-white px-4 py-2.5 text-sm font-semibold tracking-tight hover:bg-[#1E293B] transition-colors"
+                className="inline-flex items-center gap-2 mt-3 bg-[#0F172A] text-white px-4 py-2.5 text-[13px] sm:text-sm font-semibold tracking-tight hover:bg-[#1E293B] transition-colors active:scale-[0.98]"
               >
                 <MessageCircle className="w-4 h-4" strokeWidth={1.5} />
                 WhatsApp {KCC_INFO.whatsapp}
@@ -450,17 +450,17 @@ function KCCContent() {
       <motion.div variants={staggerItem} className="h-px bg-[#E2E8F0]" />
       <motion.div variants={staggerItem}>
         <SectionLabel text="Mental Health First Aid (MHFA)" />
-        <p className="text-sm text-slate-500 leading-relaxed mb-4">
+        <p className="text-[13px] sm:text-sm text-slate-500 leading-relaxed mb-4">
           Your Mental Health First Aiders (MHFAs), Zain employees certified to support you, are also here for you. These conversations are confidential.
         </p>
         <div className="space-y-3">
-          <div className="border border-[#E2E8F0] bg-[#F8FAFC] p-4">
-            <p className="text-sm text-slate-600 leading-relaxed">
-              You can find your MHFAs' contact details by visiting the <strong>BE WELL</strong> tab on the Zainers App and selecting <strong>&ldquo;MHFAs at Zain.&rdquo;</strong>
+          <div className="border border-[#E2E8F0] bg-[#F8FAFC] p-3.5 sm:p-4">
+            <p className="text-[13px] sm:text-sm text-slate-600 leading-relaxed">
+              You can find your MHFAs&rsquo; contact details by visiting the <strong>BE WELL</strong> tab on the Zainers App and selecting <strong>&ldquo;MHFAs at Zain.&rdquo;</strong>
             </p>
           </div>
-          <div className="border border-[#E2E8F0] bg-[#F8FAFC] p-4">
-            <p className="text-sm text-slate-600 leading-relaxed">
+          <div className="border border-[#E2E8F0] bg-[#F8FAFC] p-3.5 sm:p-4">
+            <p className="text-[13px] sm:text-sm text-slate-600 leading-relaxed">
               If you don&rsquo;t have access to Zainers or need any additional support, please email{" "}
               <a href={`mailto:${BEWELL_EMAIL}`} className="font-semibold text-[#0F172A] hover:text-[#00B5E2] transition-colors underline underline-offset-2">
                 {BEWELL_EMAIL}
@@ -472,8 +472,8 @@ function KCCContent() {
       </motion.div>
       <motion.div variants={staggerItem} className="h-px bg-[#E2E8F0]" />
       <motion.div variants={staggerItem}>
-        <div className="border-l-2 border-[#E40068] pl-4 py-2">
-          <p className="text-sm text-slate-600 italic">
+        <div className="border-l-2 border-[#E40068] pl-3 sm:pl-4 py-2">
+          <p className="text-[13px] sm:text-sm text-slate-600 italic">
             &ldquo;Reaching out is a sign of strength, not weakness. All conversations are strictly confidential.&rdquo;
           </p>
         </div>

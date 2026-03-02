@@ -107,32 +107,30 @@ export default function HomePage() {
         id="app-wrapper"
         className={`bg-white min-h-screen relative transition-all duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] origin-top ${
           ready ? "opacity-100" : "opacity-0"
-        } ${isExpanded ? "scale-95 translate-y-[2vh] blur-[4px] brightness-75 rounded-3xl pointer-events-none" : ""}`}
+        } ${isExpanded ? "scale-[0.96] sm:scale-95 translate-y-[1vh] sm:translate-y-[2vh] blur-[3px] sm:blur-[4px] brightness-75 rounded-2xl sm:rounded-3xl pointer-events-none" : ""}`}
       >
-        <section className="px-5 sm:px-8 pt-12 sm:pt-16 pb-14 sm:pb-20">
+        <section className="px-4 sm:px-8 pt-8 sm:pt-16 pb-10 sm:pb-20">
           <div className="max-w-6xl mx-auto">
             <motion.div
-              className="flex items-center gap-3 mb-10 sm:mb-14"
+              className="flex items-center gap-2.5 sm:gap-3 mb-8 sm:mb-14"
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: ready ? 1 : 0, y: ready ? 0 : 10 }}
               transition={{ duration: 0.5, ease: EASE, delay: 0.05 }}
             >
-              <img
-                src="/images/zain-logo.png"
-                alt="Zain"
-                className="h-8 sm:h-10 w-auto invert"
-              />
-              <div className="w-px h-6 bg-slate-300" />
-              <span
-                className="text-xl sm:text-2xl font-bold tracking-tight"
-                style={{ color: "#E40068", fontFamily: "'Zain', sans-serif" }}
-              >
+              <div className="flex items-center gap-1.5">
+                <div className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-[#E40068]" />
+                <span className="text-lg sm:text-xl font-black tracking-tighter text-[#0F172A]" style={{ fontFamily: "'Zain', sans-serif" }}>
+                  zain
+                </span>
+              </div>
+              <div className="w-px h-5 sm:h-6 bg-slate-200" />
+              <span className="text-[10px] sm:text-[11px] font-bold tracking-[0.25em] text-[#E40068] uppercase">
                 BE WELL
               </span>
             </motion.div>
 
             <motion.h1
-              className="text-[clamp(2.2rem,6vw,4rem)] font-bold text-[#0F172A] leading-[1.08] tracking-tight"
+              className="text-[clamp(1.8rem,7vw,4rem)] font-bold text-[#0F172A] leading-[1.08] tracking-tight"
               style={{ fontFamily: "'Zain', sans-serif" }}
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: ready ? 1 : 0, y: ready ? 0 : 16 }}
@@ -142,7 +140,7 @@ export default function HomePage() {
             </motion.h1>
 
             <motion.div
-              className="w-16 h-[4px] bg-[#E40068] mt-6 mb-6"
+              className="w-12 sm:w-16 h-[3px] sm:h-[4px] bg-[#E40068] mt-4 sm:mt-6 mb-4 sm:mb-6"
               initial={{ opacity: 0, scaleX: 0 }}
               animate={{ opacity: ready ? 1 : 0, scaleX: ready ? 1 : 0 }}
               transition={{ duration: 0.5, ease: EASE, delay: 0.25 }}
@@ -150,7 +148,7 @@ export default function HomePage() {
             />
 
             <motion.p
-              className="text-lg text-slate-500 max-w-xl leading-relaxed"
+              className="text-base sm:text-lg text-slate-500 max-w-xl leading-relaxed"
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: ready ? 1 : 0, y: ready ? 0 : 12 }}
               transition={{ duration: 0.6, ease: EASE, delay: 0.35 }}
@@ -161,8 +159,8 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section className="px-5 sm:px-8 pb-20">
-          <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-[#E2E8F0] border border-[#E2E8F0]">
+        <section className="px-4 sm:px-8 pb-24 sm:pb-20">
+          <div className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px bg-[#E2E8F0] border border-[#E2E8F0]">
             {cards.map((card, index) => (
               <EditorialCard
                 key={card.id}
