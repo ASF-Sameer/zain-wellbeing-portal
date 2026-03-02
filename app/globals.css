@@ -4,61 +4,50 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  --zn-navy: #12192A;
+  --zn-navy: #0B101E;
   --zn-magenta: #E40068;
   --zn-cyan: #00B5E2;
   --zn-bg: #F8FAFC;
   --zn-white: #FFFFFF;
   --zn-border: #E2E8F0;
-  --zn-text: #1E293B;
-  --zn-text-secondary: #64748B;
+  --zn-text: #0F172A;
+  --zn-text-secondary: #475569;
   --zn-text-muted: #94A3B8;
+  --zn-dark: #0F172A;
 
   --background: var(--zn-bg);
   --foreground: var(--zn-text);
   --primary: var(--zn-magenta);
-  --primary-foreground: #FFFFFF;
   --border: var(--zn-border);
-  --ring: var(--zn-cyan);
-  --radius: 1.5rem;
+  --radius: 0.25rem;
 }
 
 @theme inline {
-  --font-sans: 'Zain', system-ui, -apple-system, sans-serif;
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-primary: var(--primary);
-  --color-primary-foreground: var(--primary-foreground);
   --color-border: var(--border);
-  --color-ring: var(--ring);
 }
 
 @layer base {
   * {
-    @apply border-border outline-ring/50;
+    @apply border-border;
     box-sizing: border-box;
   }
   body {
-    font-family: 'Zain', system-ui, -apple-system, sans-serif;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
     background: var(--zn-bg);
     color: var(--zn-text);
-    font-size: 17px;
+    font-size: 16px;
     line-height: 1.6;
     min-height: 100vh;
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
   html {
     scroll-behavior: smooth;
     overflow-x: hidden;
   }
-}
-
-@layer utilities {
-  .text-balance { text-wrap: balance; }
-  .hide-scrollbar {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-  }
-  .hide-scrollbar::-webkit-scrollbar { display: none; }
 }

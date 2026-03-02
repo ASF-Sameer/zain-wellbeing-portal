@@ -1,69 +1,83 @@
 "use client";
 
-import { motion, AnimatePresence } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
+import { motion, useAnimation } from "framer-motion";
+import { useEffect, useState } from "react";
 
 interface LoaderProps {
-  show: boolean;
-  onComplete?: () => void;
+  onComplete: () => void;
 }
 
-export default function Loader({ show, onComplete }: LoaderProps) {
-  const [phase, setPhase] = useState<"center" | "morph">("center");
+const EASE = [0.85, 0, 0.15, 1] as const;
+const DURATION = 2.5;
+
+export default function Loader({ onComplete }: LoaderProps) {
+  const [progress, setProgress] = useState(0);
+  const controls = useAnimation();
 
   useEffect(() => {
-    if (show) {
-      const morphTimer = setTimeout(() => setPhase("morph"), 1200);
-      return () => clearTimeout(morphTimer);
-    }
-  }, [show]);
+    const start = Date.now();
+    const tick = () => {
+      const elapsed = Date.now() - start;
+      const p = Math.min(elapsed / (DURATION * 1000), 1);
+      setProgress(p);
+      if (p < 1) {
+        requestAnimationFrame(tick);
+      }
+    };
+    requestAnimationFrame(tick);
+
+    const timer = setTimeout(async () => {
+      await controls.start({
+        y: "-100%",
+        transition: { duration: 0.8, ease: EASE },
+      });
+      onComplete();
+    }, DURATION * 1000 + 200);
+
+    return () => clearTimeout(timer);
+  }, [controls, onComplete]);
 
   return (
-    <AnimatePresence onExitComplete={onComplete}>
-      {show && (
-        <motion.div
-          className="fixed inset-0 z-[100]"
-          style={{ background: "#12192A" }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1], delay: 0.15 }}
+    <motion.div
+      className="fixed inset-0 z-[100] flex flex-col items-center justify-center"
+      style={{ background: "#0B101E" }}
+      animate={controls}
+    >
+      <div className="flex items-center gap-5">
+        <motion.span
+          className="text-white text-3xl sm:text-4xl font-bold tracking-tight"
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: EASE, delay: 0.2 }}
         >
-          <motion.div
-            className="flex items-center gap-3"
-            initial={{ position: "fixed", top: "50%", left: "50%", x: "-50%", y: "-50%" }}
-            animate={
-              phase === "morph"
-                ? {
-                    position: "fixed",
-                    top: "24px",
-                    left: "20px",
-                    x: "0%",
-                    y: "0%",
-                    scale: 0.65,
-                  }
-                : {
-                    position: "fixed",
-                    top: "50%",
-                    left: "50%",
-                    x: "-50%",
-                    y: "-50%",
-                    scale: 1,
-                  }
-            }
-            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-          >
-            <span className="text-white text-3xl sm:text-4xl font-black tracking-tight whitespace-nowrap">
-              ZAIN
-            </span>
-            <div className="w-px h-8 bg-white/20" />
-            <span
-              className="text-2xl sm:text-3xl font-black tracking-tight whitespace-nowrap"
-              style={{ color: "#E40068" }}
-            >
-              BE WELL
-            </span>
-          </motion.div>
-        </motion.div>
-      )}
-    </AnimatePresence>
+          ZAIN
+        </motion.span>
+        <motion.div
+          className="w-px h-10 bg-white/15"
+          initial={{ opacity: 0, scaleY: 0 }}
+          animate={{ opacity: 1, scaleY: 1 }}
+          transition={{ duration: 0.4, ease: EASE, delay: 0.5 }}
+        />
+        <motion.span
+          className="text-3xl sm:text-4xl font-bold tracking-tight"
+          style={{ color: "#E40068" }}
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: EASE, delay: 0.6 }}
+        >
+          BE WELL
+        </motion.span>
+      </div>
+
+      <div className="fixed bottom-0 left-0 right-0 h-[2px] bg-white/5">
+        <motion.div
+          className="h-full origin-left"
+          style={{
+            background: "#E40068",
+            transform: `scaleX(${progress})`,
+          }}
+        />
+      </div>
+    </motion.div>
   );
 }

@@ -3,66 +3,99 @@
 import { motion } from "framer-motion";
 import { ArrowRight, type LucideIcon } from "lucide-react";
 
-export interface BentoCardData {
+const EASE = [0.85, 0, 0.15, 1] as const;
+
+export interface CardData {
   id: string;
   title: string;
   subtitle: string;
   icon: LucideIcon;
-  iconBg: string;
   iconColor: string;
-  span2?: boolean;
+  span?: number;
+  dark?: boolean;
+  leftBorder?: string;
 }
 
-interface BentoCardProps {
-  card: BentoCardData;
+interface CardProps {
+  card: CardData;
   onClick: () => void;
   index: number;
 }
 
-export default function BentoCard({ card, onClick, index }: BentoCardProps) {
+export default function EditorialCard({ card, onClick, index }: CardProps) {
   const Icon = card.icon;
 
   return (
     <motion.button
       onClick={onClick}
-      className={`relative text-left bg-white rounded-3xl p-7 sm:p-8 cursor-pointer group overflow-hidden ${
-        card.span2 ? "md:col-span-2" : ""
-      }`}
+      className={`relative text-left w-full border transition-all duration-300 group overflow-hidden ${
+        card.dark
+          ? "bg-[#0F172A] border-[#1E293B] hover:border-[#334155]"
+          : "bg-white border-[#E2E8F0] hover:border-[#00B5E2]"
+      } ${card.span === 2 ? "md:col-span-2" : ""} ${card.span === 3 ? "lg:col-span-3" : ""}`}
       style={{
-        boxShadow: "0 20px 40px -15px rgba(0,0,0,0.08)",
+        borderLeft: card.leftBorder ? `4px solid ${card.leftBorder}` : undefined,
       }}
-      initial={{ opacity: 0, y: 30 }}
+      initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{
         duration: 0.5,
-        delay: 0.2 + index * 0.08,
-        ease: [0.22, 1, 0.36, 1],
+        delay: 0.15 + index * 0.06,
+        ease: EASE,
       }}
-      whileHover={{ y: -4 }}
-      whileTap={{ scale: 0.98 }}
+      whileHover={{
+        y: -2,
+        boxShadow: card.dark
+          ? "0 2px 8px rgba(0,0,0,0.3)"
+          : "0 2px 8px rgba(0,0,0,0.04)",
+      }}
+      whileTap={{ scale: 0.995 }}
     >
-      <div
-        className="w-14 h-14 rounded-2xl flex items-center justify-center mb-5"
-        style={{ background: card.iconBg }}
-      >
-        <Icon className="w-7 h-7" style={{ color: card.iconColor }} />
-      </div>
+      <div className="p-6 sm:p-8">
+        <div className="flex items-start justify-between gap-4">
+          <div className="flex-1">
+            <div className="flex items-center gap-3 mb-4">
+              <Icon
+                className="w-5 h-5 flex-shrink-0"
+                style={{ color: card.iconColor }}
+                strokeWidth={1.5}
+              />
+              <span
+                className={`text-[11px] font-semibold uppercase tracking-[0.15em] ${
+                  card.dark ? "text-slate-500" : "text-slate-400"
+                }`}
+              >
+                {card.id === "buddy" ? "Urgent" : "Resource"}
+              </span>
+            </div>
 
-      <h3 className="text-xl sm:text-2xl font-black text-[#12192A] mb-2 leading-tight">
-        {card.title}
-      </h3>
+            <h3
+              className={`text-lg sm:text-xl font-semibold tracking-tight mb-2 leading-snug ${
+                card.dark ? "text-white" : "text-[#0F172A]"
+              }`}
+            >
+              {card.title}
+            </h3>
 
-      <p className="text-[15px] sm:text-base text-[#64748B] leading-relaxed pr-10">
-        {card.subtitle}
-      </p>
+            <p
+              className={`text-sm leading-relaxed ${
+                card.dark ? "text-slate-400" : "text-slate-500"
+              }`}
+            >
+              {card.subtitle}
+            </p>
+          </div>
 
-      <div className="absolute bottom-7 right-7 sm:bottom-8 sm:right-8">
-        <motion.div
-          className="w-10 h-10 rounded-full bg-[#F1F5F9] flex items-center justify-center"
-          whileHover={{ x: 0 }}
-        >
-          <ArrowRight className="w-4 h-4 text-[#94A3B8] group-hover:text-[#12192A] group-hover:translate-x-0.5 transition-all duration-300" />
-        </motion.div>
+          <div
+            className={`w-8 h-8 flex items-center justify-center flex-shrink-0 mt-1 transition-all duration-300 ${
+              card.dark
+                ? "text-slate-600 group-hover:text-white"
+                : "text-slate-300 group-hover:text-[#0F172A]"
+            }`}
+          >
+            <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform duration-300" />
+          </div>
+        </div>
       </div>
     </motion.button>
   );

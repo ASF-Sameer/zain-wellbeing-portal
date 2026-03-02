@@ -2,55 +2,57 @@
 
 ## Overview
 
-Crisis support portal for Zain employees. Bento Box single-page design with a morphing loader, premium card grid overlapping the hero, slide-over drawers for content, and Framer Motion animations. Built with empathetic, grounded tone for crisis context.
+Crisis support portal for Zain employees. Editorial / Swiss Architecture design language with cinematic loader, flat editorial card grid, slide-over drawers, and deliberate cinematic animations. No gradients, no glassmorphism, no bouncy physics.
 
 ## Tech Stack
 
 - **Framework**: Next.js 16 (App Router)
 - **Language**: TypeScript 5
 - **Styling**: Tailwind CSS v4
-- **Animations**: Framer Motion
-- **Font**: Zain (Google Fonts CDN, weights 300-900)
+- **Animations**: Framer Motion (cinematic easing: cubic-bezier(0.85, 0, 0.15, 1))
+- **Font**: Inter (Google Fonts CDN)
 - **Icons**: Lucide React
 
 ## Design System
 
-**"Bento Box Aesthetics"** - Premium Apple Health-style card tiles on an ultra-soft background. Cards overlap the deep navy hero section creating physical depth.
+**"Editorial / Swiss Architecture"** - Stark, clean lines. Strict grid. 1px borders. No AI-generated aesthetic patterns.
 
 Color palette:
-- **Navy** (#12192A): Hero background, card headers
-- **Magenta** (#E40068): Be Well brand, accent
-- **Cyan** (#00B5E2): Action CTAs, KCC button, interactive elements
-- **Background** (#F8FAFC): Ultra-soft page background
-- **Cards**: White, rounded-3xl, premium shadows
+- **Navy** (#0B101E): Loader background
+- **Dark** (#0F172A): Text, dark card, CTA buttons
+- **Magenta** (#E40068): Be Well brand accent, progress bar, divider line
+- **Cyan** (#00B5E2): Power Buddy urgency, hover borders
+- **Background** (#F8FAFC): Ultra-soft off-white
+- **Cards**: Solid white, 1px border-slate-200
+- **Borders**: #E2E8F0
 
-Interaction model: No page navigation. All content opens in a slide-over drawer from the right with blurred backdrop.
+Typography: Inter font. Headers tracking-tight. Labels 11px uppercase with wide tracking (0.15em).
 
 ## Page Architecture
 
-1. **Morphing Loader** (1.5s): Full-screen navy with "ZAIN | BE WELL" centered, fades out
-2. **Header**: Zain logo + "BE WELL" mark, no navigation links
-3. **Hero**: Deep navy, "Standing Together." headline with cyan accent
-4. **Bento Grid** (overlaps hero at -mt-32): 5 cards in responsive grid
-   - For You: Resilience Toolkit (span 2 cols)
-   - Power Buddy System
+1. **Cinematic Loader** (2.5s): Navy screen, stagger-fade "ZAIN | BE WELL", 2px magenta progress bar at bottom, curtain-slide-up reveal
+2. **Header**: Zain logo + "BE WELL" text, no navigation
+3. **Hero**: "Standing Together." headline, 4rem magenta divider, subtext
+4. **Editorial Grid**: 5 cards in responsive grid with gap-px borders
+   - Resilience Toolkit (span 2 cols)
    - For Managers
    - For Parents & Elderly
-   - Daily BE WELL Updates (span 2 cols)
-5. **Slide-Over Drawer**: Opens from right on card click, contains checklist UIs and form embeds
-6. **Sticky Footer**: KCC 24hr support with cyan call button
+   - Power Buddy (span 2 cols, 4px cyan left border)
+   - Daily BE WELL (span 3 cols, dark card)
+5. **Slide-Over Drawer**: Square corners, architectural feel, checklist UIs and form wireframes
+6. **Sticky Footer**: White, top border, dark CTA button for KCC phone
 
 ## Project Structure
 
 ```
 app/
-  layout.tsx          - Root layout with Zain font
-  page.tsx            - Single-page entry with Bento grid
-  globals.css         - Global styles, color palette
+  layout.tsx          - Root layout with Inter font
+  page.tsx            - Single-page entry with editorial grid
+  globals.css         - Global styles, editorial palette
 components/
-  loader.tsx          - Morphing loader animation
-  bento-card.tsx      - Reusable Bento grid card (Framer Motion)
-  slide-drawer.tsx    - Slide-over drawer with content panels
+  loader.tsx          - Cinematic curtain loader with progress bar
+  bento-card.tsx      - Editorial card component (flat, 1px borders)
+  slide-drawer.tsx    - Architectural slide-over drawer
   sticky-footer.tsx   - KCC contact footer
   ui/button.tsx       - Base button component
 data/
