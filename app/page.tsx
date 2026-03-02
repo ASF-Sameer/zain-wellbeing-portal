@@ -4,6 +4,7 @@ import ResourceToolkitsSection from "@/components/resource-toolkits-section";
 import PowerBuddySection from "@/components/power-buddy-section";
 import DailyWellbeingSection from "@/components/daily-wellbeing-section";
 import LiveUpdatesSection from "@/components/live-updates-section";
+import KCCSection from "@/components/kcc-section";
 import StickyFooter from "@/components/sticky-footer";
 
 export default function Home() {
@@ -16,6 +17,7 @@ export default function Home() {
         <PowerBuddySection />
         <DailyWellbeingSection />
         <LiveUpdatesSection />
+        <KCCSection />
         <div className="h-20" />
       </main>
       <StickyFooter />

@@ -47,7 +47,7 @@ export default function HeroSection() {
 
         <div className="mt-16 sm:mt-20">
           <a href="#toolkits" aria-label="Scroll to resources" className="inline-block">
-            <ArrowDown className="w-5 h-5 text-[var(--wellbeing-text-muted)] animate-bounce" />
+            <ArrowDown className="w-5 h-5 text-[var(--wellbeing-text-muted)] animate-float" />
           </a>
         </div>
       </div>
