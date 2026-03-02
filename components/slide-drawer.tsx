@@ -1,9 +1,9 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Check, type LucideIcon } from "lucide-react";
+import { X, Phone, MapPin, type LucideIcon } from "lucide-react";
 import { useState, useEffect, useRef, useCallback } from "react";
-import { POWER_BUDDY_FORM_URL, BEWELL_SUBSCRIBE_FORM_URL } from "@/data/content";
+import { POWER_BUDDY_FORM_URL, BEWELL_SUBSCRIBE_FORM_URL, KCC_INFO } from "@/data/content";
 
 const EASE = [0.85, 0, 0.15, 1] as const;
 const STAGGER_EASE = [0.32, 0.72, 0, 1] as const;
@@ -14,17 +14,17 @@ const staggerContainer = {
     opacity: 1,
     transition: {
       staggerChildren: 0.07,
-      delayChildren: 0.3,
+      delayChildren: 0.45,
     },
   },
 };
 
 const staggerItem = {
-  hidden: { opacity: 0, y: 12 },
+  hidden: { opacity: 0, y: 14 },
   show: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.4, ease: EASE },
+    transition: { duration: 0.45, ease: EASE },
   },
 };
 
@@ -34,7 +34,7 @@ interface SlideDrawerProps {
   title: string;
   icon: LucideIcon;
   iconColor: string;
-  contentType: "resilience" | "buddy" | "manager" | "parents" | "bewell";
+  contentType: "resilience" | "buddy" | "manager" | "parents" | "bewell" | "kcc";
 }
 
 export default function SlideDrawer({
@@ -94,7 +94,7 @@ export default function SlideDrawer({
               className="flex items-center justify-between px-6 sm:px-8 py-5 border-b border-[#E2E8F0]"
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, ease: EASE, delay: 0.25 }}
+              transition={{ duration: 0.4, ease: EASE, delay: 0.3 }}
             >
               <div className="flex items-center gap-3">
                 <Icon className="w-4 h-4" style={{ color: iconColor }} strokeWidth={1.5} />
@@ -136,6 +136,8 @@ function DrawerContent({ type }: { type: string }) {
       return <ParentsContent />;
     case "bewell":
       return <BeWellContent />;
+    case "kcc":
+      return <KCCContent />;
     default:
       return null;
   }
@@ -143,7 +145,7 @@ function DrawerContent({ type }: { type: string }) {
 
 function SectionLabel({ text }: { text: string }) {
   return (
-    <span className="text-[11px] font-semibold uppercase tracking-[0.15em] text-slate-400 block mb-3">
+    <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400 block mb-3">
       {text}
     </span>
   );
@@ -151,19 +153,29 @@ function SectionLabel({ text }: { text: string }) {
 
 function CheckItem({ text, defaultChecked = false }: { text: string; defaultChecked?: boolean }) {
   const [checked, setChecked] = useState(defaultChecked);
+  const id = useRef(`chk-${Math.random().toString(36).slice(2, 9)}`).current;
   return (
-    <button
-      onClick={() => setChecked(!checked)}
-      className="flex items-start gap-3 w-full text-left py-2 group"
+    <label
+      htmlFor={id}
+      className="flex items-start gap-4 w-full text-left p-4 bg-slate-50 cursor-pointer group transition-colors hover:bg-slate-100"
     >
+      <input
+        type="checkbox"
+        id={id}
+        checked={checked}
+        onChange={() => setChecked(!checked)}
+        className="peer sr-only"
+      />
       <div
-        className={`w-5 h-5 flex-shrink-0 mt-0.5 flex items-center justify-center border transition-all duration-200 ${
+        className={`w-5 h-5 flex-shrink-0 mt-0.5 flex items-center justify-center border-2 transition-all duration-200 ${
           checked
-            ? "bg-[#0F172A] border-[#0F172A]"
+            ? "bg-[#00B5E2] border-[#00B5E2]"
             : "border-slate-300 group-hover:border-slate-400"
         }`}
       >
-        {checked && <Check className="w-3 h-3 text-white" strokeWidth={2} />}
+        {checked && (
+          <div className="w-2 h-3 border-r-2 border-b-2 border-white rotate-45 -translate-y-px" />
+        )}
       </div>
       <span
         className={`text-sm leading-relaxed transition-colors ${
@@ -172,7 +184,7 @@ function CheckItem({ text, defaultChecked = false }: { text: string; defaultChec
       >
         {text}
       </span>
-    </button>
+    </label>
   );
 }
 
@@ -180,31 +192,31 @@ function FormPlaceholder({ label }: { label: string }) {
   return (
     <div className="border border-[#E2E8F0] bg-[#F8FAFC]">
       <div className="border-b border-[#E2E8F0] px-5 py-3">
-        <span className="text-[11px] font-semibold uppercase tracking-[0.15em] text-slate-400">
+        <span className="text-[10px] font-bold tracking-widest uppercase text-slate-400">
           {label}
         </span>
       </div>
-      <div className="p-5 space-y-4">
+      <div className="p-5 space-y-5">
         <div>
-          <label className="text-xs font-medium text-slate-500 block mb-1.5">Full Name</label>
-          <div className="h-10 border border-slate-200 bg-white" />
+          <label className="text-[10px] font-bold tracking-widest uppercase text-slate-400 block mb-2">Full Name</label>
+          <div className="h-10 border-b-2 border-slate-200 bg-transparent" />
         </div>
         <div>
-          <label className="text-xs font-medium text-slate-500 block mb-1.5">Phone Number</label>
-          <div className="h-10 border border-slate-200 bg-white" />
+          <label className="text-[10px] font-bold tracking-widest uppercase text-slate-400 block mb-2">Phone Number</label>
+          <div className="h-10 border-b-2 border-slate-200 bg-transparent" />
         </div>
         <div>
-          <label className="text-xs font-medium text-slate-500 block mb-1.5">Preference</label>
-          <div className="h-10 border border-slate-200 bg-white" />
+          <label className="text-[10px] font-bold tracking-widest uppercase text-slate-400 block mb-2">Preference</label>
+          <div className="h-10 border-b-2 border-slate-200 bg-transparent" />
         </div>
         <div className="pt-2">
-          <div className="h-10 bg-[#0F172A] flex items-center justify-center">
-            <span className="text-white text-xs font-semibold tracking-wide uppercase">Submit</span>
+          <div className="h-10 bg-[#121626] flex items-center justify-center">
+            <span className="text-white text-[10px] font-bold tracking-widest uppercase">Submit</span>
           </div>
         </div>
       </div>
       <div className="border-t border-[#E2E8F0] px-5 py-3">
-        <span className="text-[11px] text-slate-400">Microsoft Forms -- Secure Embed</span>
+        <span className="text-[10px] text-slate-400 tracking-wide">Microsoft Forms -- Secure Embed</span>
       </div>
     </div>
   );
@@ -215,7 +227,7 @@ function ResilienceContent() {
     <div className="space-y-8">
       <motion.div variants={staggerItem}>
         <SectionLabel text="Breathing Exercises" />
-        <div className="space-y-0.5">
+        <div className="space-y-px">
           <CheckItem text="4-7-8 breathing: Inhale 4s, hold 7s, exhale 8s" />
           <CheckItem text="Box breathing: 4s inhale, 4s hold, 4s exhale, 4s hold" />
           <CheckItem text="Practice the 5-4-3-2-1 grounding technique" />
@@ -225,7 +237,7 @@ function ResilienceContent() {
       <motion.div variants={staggerItem} className="h-px bg-[#E2E8F0]" />
       <motion.div variants={staggerItem}>
         <SectionLabel text="Media Diet" />
-        <div className="space-y-0.5">
+        <div className="space-y-px">
           <CheckItem text="Set 2 specific times per day for news (morning & evening)" />
           <CheckItem text="Use only 2-3 trusted, factual news sources" />
           <CheckItem text="Turn off push notifications for news apps" />
@@ -237,7 +249,7 @@ function ResilienceContent() {
       <motion.div variants={staggerItem} className="h-px bg-[#E2E8F0]" />
       <motion.div variants={staggerItem}>
         <SectionLabel text="Crisis Readiness" />
-        <div className="space-y-0.5">
+        <div className="space-y-px">
           <CheckItem text="Keep emergency numbers saved and accessible" />
           <CheckItem text="Prepare a go-bag with 3 days of essentials" />
           <CheckItem text="Know building emergency exits and meeting points" />
@@ -265,7 +277,7 @@ function BuddyContent() {
             "Have a grounding conversation together",
           ].map((step, i) => (
             <div key={i} className="flex items-center gap-3">
-              <span className="w-6 h-6 flex items-center justify-center border border-slate-200 text-[11px] font-semibold text-slate-400 flex-shrink-0">
+              <span className="w-6 h-6 flex items-center justify-center border border-slate-200 text-[10px] font-bold text-slate-400 flex-shrink-0">
                 {i + 1}
               </span>
               <p className="text-sm text-slate-600">{step}</p>
@@ -284,9 +296,28 @@ function ManagerContent() {
   return (
     <div className="space-y-8">
       <motion.div variants={staggerItem}>
+        <SectionLabel text="Swipe File: Opening Lines" />
+        <div className="space-y-3">
+          {[
+            "How are you managing today?",
+            "I wanted to check in -- how are things at home?",
+            "I've been feeling [X] this week too. How about you?",
+            "Is there anything I can take off your plate right now?",
+          ].map((line, i) => (
+            <div
+              key={i}
+              className="border-l-2 border-[#00B5E2] pl-4 py-2"
+            >
+              <p className="text-sm text-slate-600 italic">&ldquo;{line}&rdquo;</p>
+            </div>
+          ))}
+        </div>
+      </motion.div>
+      <motion.div variants={staggerItem} className="h-px bg-[#E2E8F0]" />
+      <motion.div variants={staggerItem}>
         <SectionLabel text="Empathy Guidelines" />
-        <div className="space-y-0.5">
-          <CheckItem text="Use open questions: 'How are you managing today?'" />
+        <div className="space-y-px">
+          <CheckItem text="Use open questions -- avoid yes/no framing" />
           <CheckItem text="Share your own feelings briefly to normalize" />
           <CheckItem text="Listen actively -- avoid rushing to solutions" />
           <CheckItem text="Encourage Power Buddy sign-ups in your team" />
@@ -296,7 +327,7 @@ function ManagerContent() {
       <motion.div variants={staggerItem} className="h-px bg-[#E2E8F0]" />
       <motion.div variants={staggerItem}>
         <SectionLabel text="Team Wellness Actions" />
-        <div className="space-y-0.5">
+        <div className="space-y-px">
           <CheckItem text="Set boundaries around news consumption during work" />
           <CheckItem text="Maintain normal work rhythms where possible" />
           <CheckItem text="Encourage regular breaks and physical movement" />
@@ -314,7 +345,7 @@ function ParentsContent() {
     <div className="space-y-8">
       <motion.div variants={staggerItem}>
         <SectionLabel text="Home Safety" />
-        <div className="space-y-0.5">
+        <div className="space-y-px">
           <CheckItem text="Prepare go-bags with essentials for each family member" />
           <CheckItem text="Keep important documents in one accessible location" />
           <CheckItem text="Create a family communication plan" />
@@ -325,7 +356,7 @@ function ParentsContent() {
       <motion.div variants={staggerItem} className="h-px bg-[#E2E8F0]" />
       <motion.div variants={staggerItem}>
         <SectionLabel text="Managing Anxiety" />
-        <div className="space-y-0.5">
+        <div className="space-y-px">
           <CheckItem text="Maintain routines -- especially for children and elderly" />
           <CheckItem text="Limit news exposure for the whole family" />
           <CheckItem text="Talk openly but age-appropriately with children" />
@@ -339,7 +370,7 @@ function ParentsContent() {
         <p className="text-sm text-slate-500 leading-relaxed mb-4 italic">
           Put your own oxygen mask on first. Your children watch you to see if they are safe, so your calm is their best protection.
         </p>
-        <div className="space-y-0.5">
+        <div className="space-y-px">
           <CheckItem text="Stay Calm: Children copy your feelings. Speak quietly, stay calm, and offer them your presence in your home." />
           <CheckItem text="Mute the News: Turn off the TV and social media when your children are around. Limit their consumption of media to protect their mental wellbeing." />
           <CheckItem text="Validate Them: Avoid dismissing their feelings and asking them to be brave, but reassure them that you are with them and that they are safe with you." />
@@ -354,7 +385,7 @@ function ParentsContent() {
           <p className="text-sm text-slate-500 leading-relaxed italic">
             &ldquo;Those who believe, and whose hearts find comfort in the remembrance of Allah. Surely in the remembrance of Allah do hearts find comfort.&rdquo;
           </p>
-          <p className="text-[11px] uppercase tracking-[0.15em] text-slate-400 mt-3">
+          <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mt-3">
             Surah Ar-Ra&rsquo;d (13:28)
           </p>
         </div>
@@ -362,7 +393,7 @@ function ParentsContent() {
       <motion.div variants={staggerItem} className="h-px bg-[#E2E8F0]" />
       <motion.div variants={staggerItem}>
         <SectionLabel text="Pet Care" />
-        <div className="space-y-0.5">
+        <div className="space-y-px">
           <CheckItem text="Prepare pet emergency kit (food, water, meds, carrier)" />
           <CheckItem text="Keep pets in a secure, quiet room during disturbances" />
           <CheckItem text="Maintain feeding schedules as much as possible" />
@@ -390,7 +421,7 @@ function BeWellContent() {
           ].map((stat) => (
             <div key={stat.label} className="bg-white p-4 text-center">
               <div className="text-lg font-semibold text-[#0F172A] tracking-tight">{stat.value}</div>
-              <div className="text-[11px] uppercase tracking-[0.15em] text-slate-400 mt-0.5">
+              <div className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mt-0.5">
                 {stat.label}
               </div>
             </div>
@@ -399,6 +430,68 @@ function BeWellContent() {
       </motion.div>
       <motion.div variants={staggerItem}>
         <FormPlaceholder label="Be Well -- Email Subscription" />
+      </motion.div>
+    </div>
+  );
+}
+
+function KCCContent() {
+  return (
+    <div className="space-y-8">
+      <motion.div variants={staggerItem}>
+        <SectionLabel text="Professional Support" />
+        <p className="text-sm text-slate-500 leading-relaxed mb-5">
+          {KCC_INFO.supportNote}
+        </p>
+        <div className="border-l-2 border-[#E40068] pl-4 py-2 mb-6">
+          <p className="text-sm text-slate-600 italic">
+            &ldquo;Reaching out is a sign of strength, not weakness. All conversations are strictly confidential.&rdquo;
+          </p>
+        </div>
+      </motion.div>
+      <motion.div variants={staggerItem} className="h-px bg-[#E2E8F0]" />
+      <motion.div variants={staggerItem}>
+        <SectionLabel text="Head Office" />
+        <div className="border border-[#E2E8F0] bg-[#F8FAFC] p-5 space-y-4">
+          <div className="flex items-start gap-3">
+            <MapPin className="w-4 h-4 text-slate-400 mt-0.5 flex-shrink-0" strokeWidth={1.5} />
+            <p className="text-sm text-slate-600">{KCC_INFO.headOffice.address}</p>
+          </div>
+          <div className="flex items-center gap-3">
+            <Phone className="w-4 h-4 text-slate-400 flex-shrink-0" strokeWidth={1.5} />
+            <a href={`tel:${KCC_INFO.headOffice.tel.replace(/\s/g, "")}`} className="text-sm font-semibold text-[#0F172A] hover:text-[#00B5E2] transition-colors">
+              {KCC_INFO.headOffice.tel}
+            </a>
+          </div>
+        </div>
+      </motion.div>
+      <motion.div variants={staggerItem} className="h-px bg-[#E2E8F0]" />
+      <motion.div variants={staggerItem}>
+        <SectionLabel text="Jabriya Office" />
+        <div className="border border-[#E2E8F0] bg-[#F8FAFC] p-5 space-y-4">
+          <div className="flex items-start gap-3">
+            <MapPin className="w-4 h-4 text-slate-400 mt-0.5 flex-shrink-0" strokeWidth={1.5} />
+            <p className="text-sm text-slate-600">{KCC_INFO.jabriyaOffice.address}</p>
+          </div>
+          <div className="flex items-center gap-3">
+            <Phone className="w-4 h-4 text-slate-400 flex-shrink-0" strokeWidth={1.5} />
+            <a href={`tel:${KCC_INFO.jabriyaOffice.tel.replace(/\s/g, "")}`} className="text-sm font-semibold text-[#0F172A] hover:text-[#00B5E2] transition-colors">
+              {KCC_INFO.jabriyaOffice.tel}
+            </a>
+          </div>
+        </div>
+      </motion.div>
+      <motion.div variants={staggerItem} className="h-px bg-[#E2E8F0]" />
+      <motion.div variants={staggerItem}>
+        <SectionLabel text="When to Reach Out" />
+        <div className="space-y-px">
+          <CheckItem text="Persistent sleep disruption lasting more than a few days" />
+          <CheckItem text="Inability to focus or complete daily tasks" />
+          <CheckItem text="Withdrawal from social interaction or team activities" />
+          <CheckItem text="Feelings of hopelessness or overwhelming anxiety" />
+          <CheckItem text="Physical symptoms: headaches, chest tightness, fatigue" />
+          <CheckItem text="Increased reliance on substances to cope" />
+        </div>
       </motion.div>
     </div>
   );

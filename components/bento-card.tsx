@@ -14,12 +14,20 @@ export interface CardData {
   span?: number;
   dark?: boolean;
   leftBorder?: string;
+  label?: string;
 }
 
 interface CardProps {
   card: CardData;
   onClick: () => void;
   index: number;
+}
+
+function getLabel(card: CardData): string {
+  if (card.label) return card.label;
+  if (card.id === "buddy") return "Urgent";
+  if (card.id === "kcc") return "Emergency";
+  return "Resource";
 }
 
 export default function EditorialCard({ card, onClick, index }: CardProps) {
@@ -65,7 +73,7 @@ export default function EditorialCard({ card, onClick, index }: CardProps) {
                   card.dark ? "text-slate-500" : "text-slate-400"
                 }`}
               >
-                {card.id === "buddy" ? "Urgent" : "Resource"}
+                {getLabel(card)}
               </span>
             </div>
 
