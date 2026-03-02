@@ -6,6 +6,7 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import { POWER_BUDDY_FORM_URL, BEWELL_SUBSCRIBE_FORM_URL } from "@/data/content";
 
 const EASE = [0.85, 0, 0.15, 1] as const;
+const STAGGER_EASE = [0.32, 0.72, 0, 1] as const;
 
 interface SlideDrawerProps {
   isOpen: boolean;
@@ -50,11 +51,11 @@ export default function SlideDrawer({
       {isOpen && (
         <>
           <motion.div
-            className="fixed inset-0 z-50 bg-black/30"
+            className="fixed inset-0 z-50 bg-black/40"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.3, ease: EASE }}
+            transition={{ duration: 0.4, ease: EASE }}
             onClick={onClose}
             aria-hidden="true"
           />
@@ -69,9 +70,14 @@ export default function SlideDrawer({
             initial={{ x: "100%" }}
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
-            transition={{ duration: 0.4, ease: EASE }}
+            transition={{ duration: 0.5, ease: STAGGER_EASE }}
           >
-            <div className="flex items-center justify-between px-6 sm:px-8 py-5 border-b border-[#E2E8F0]">
+            <motion.div
+              className="flex items-center justify-between px-6 sm:px-8 py-5 border-b border-[#E2E8F0]"
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, ease: EASE, delay: 0.25 }}
+            >
               <div className="flex items-center gap-3">
                 <Icon className="w-4 h-4" style={{ color: iconColor }} strokeWidth={1.5} />
                 <h2 className="text-base font-semibold text-[#0F172A] tracking-tight">{title}</h2>
@@ -83,11 +89,16 @@ export default function SlideDrawer({
               >
                 <X className="w-4 h-4" strokeWidth={1.5} />
               </button>
-            </div>
+            </motion.div>
 
-            <div className="flex-1 overflow-y-auto px-6 sm:px-8 py-6">
+            <motion.div
+              className="flex-1 overflow-y-auto px-6 sm:px-8 py-6"
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, ease: EASE, delay: 0.35 }}
+            >
               <DrawerContent type={contentType} />
-            </div>
+            </motion.div>
           </motion.div>
         </>
       )}

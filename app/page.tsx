@@ -13,7 +13,6 @@ import Loader from "@/components/loader";
 import EditorialCard, { type CardData } from "@/components/bento-card";
 import SlideDrawer from "@/components/slide-drawer";
 import StickyFooter from "@/components/sticky-footer";
-import Image from "next/image";
 
 const EASE = [0.85, 0, 0.15, 1] as const;
 
@@ -70,6 +69,8 @@ export default function HomePage() {
   const [mounted, setMounted] = useState(false);
   const [activeCard, setActiveCard] = useState<CardData | null>(null);
 
+  const isDrawerOpen = !!activeCard;
+
   useEffect(() => {
     setMounted(true);
   }, []);
@@ -85,31 +86,36 @@ export default function HomePage() {
       {!ready && <Loader onComplete={handleLoaderComplete} />}
 
       <div
-        className={`min-h-screen pb-16 transition-opacity duration-500 ${
+        id="app-wrapper"
+        className={`bg-white min-h-screen relative transition-all duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] origin-top ${
           ready ? "opacity-100" : "opacity-0"
-        }`}
+        } ${isDrawerOpen ? "app-scaled" : ""}`}
       >
-        <header className="px-5 sm:px-8 pt-8 pb-0">
-          <div className="max-w-6xl mx-auto flex items-center gap-3">
-            <Image
-              src="/images/zain-logo.png"
-              alt="Zain"
-              width={80}
-              height={28}
-              className="h-5 w-auto invert"
-              priority
-            />
-            <div className="w-px h-4 bg-slate-300" />
-            <span className="text-[#E40068] text-sm font-bold tracking-tight">
-              BE WELL
-            </span>
-          </div>
-        </header>
-
-        <section className="px-5 sm:px-8 pt-16 sm:pt-24 pb-14 sm:pb-20">
+        <section className="px-5 sm:px-8 pt-12 sm:pt-16 pb-14 sm:pb-20">
           <div className="max-w-6xl mx-auto">
+            <motion.div
+              className="flex items-center gap-3 mb-10 sm:mb-14"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: ready ? 1 : 0, y: ready ? 0 : 10 }}
+              transition={{ duration: 0.5, ease: EASE, delay: 0.05 }}
+            >
+              <img
+                src="/images/zain-logo.png"
+                alt="Zain"
+                className="h-8 sm:h-10 w-auto invert"
+              />
+              <div className="w-px h-6 bg-slate-300" />
+              <span
+                className="text-xl sm:text-2xl font-bold tracking-tight"
+                style={{ color: "#E40068", fontFamily: "'Zain', sans-serif" }}
+              >
+                BE WELL
+              </span>
+            </motion.div>
+
             <motion.h1
               className="text-[clamp(2.2rem,6vw,4rem)] font-bold text-[#0F172A] leading-[1.08] tracking-tight"
+              style={{ fontFamily: "'Zain', sans-serif" }}
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: ready ? 1 : 0, y: ready ? 0 : 16 }}
               transition={{ duration: 0.6, ease: EASE, delay: 0.1 }}
@@ -149,23 +155,23 @@ export default function HomePage() {
             ))}
           </div>
         </section>
-
-        <SlideDrawer
-          isOpen={!!activeCard}
-          onClose={() => setActiveCard(null)}
-          title={activeCard?.title || ""}
-          icon={activeCard?.icon || HeartPulse}
-          iconColor={activeCard?.iconColor || ""}
-          contentType={
-            (activeCard?.id as
-              | "resilience"
-              | "buddy"
-              | "manager"
-              | "parents"
-              | "bewell") || "resilience"
-          }
-        />
       </div>
+
+      <SlideDrawer
+        isOpen={isDrawerOpen}
+        onClose={() => setActiveCard(null)}
+        title={activeCard?.title || ""}
+        icon={activeCard?.icon || HeartPulse}
+        iconColor={activeCard?.iconColor || ""}
+        contentType={
+          (activeCard?.id as
+            | "resilience"
+            | "buddy"
+            | "manager"
+            | "parents"
+            | "bewell") || "resilience"
+        }
+      />
 
       {ready && <StickyFooter />}
     </>

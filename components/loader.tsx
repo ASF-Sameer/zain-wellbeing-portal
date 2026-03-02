@@ -43,27 +43,29 @@ export default function Loader({ onComplete }: LoaderProps) {
       style={{ background: "#0B101E" }}
       animate={controls}
     >
-      <div className="flex items-center gap-5">
-        <motion.span
-          className="text-white text-3xl sm:text-4xl font-bold tracking-tight"
-          initial={{ opacity: 0, y: 8 }}
+      <div className="flex flex-col items-center gap-6">
+        <motion.img
+          src="/images/zain-logo.png"
+          alt="Zain"
+          className="h-14 sm:h-20 w-auto"
+          initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease: EASE, delay: 0.2 }}
-        >
-          ZAIN
-        </motion.span>
+          transition={{ duration: 0.7, ease: EASE, delay: 0.15 }}
+        />
+
         <motion.div
-          className="w-px h-10 bg-white/15"
-          initial={{ opacity: 0, scaleY: 0 }}
-          animate={{ opacity: 1, scaleY: 1 }}
+          className="w-12 h-px bg-white/15"
+          initial={{ opacity: 0, scaleX: 0 }}
+          animate={{ opacity: 1, scaleX: 1 }}
           transition={{ duration: 0.4, ease: EASE, delay: 0.5 }}
         />
+
         <motion.span
-          className="text-3xl sm:text-4xl font-bold tracking-tight"
-          style={{ color: "#E40068" }}
-          initial={{ opacity: 0, y: 8 }}
+          className="text-4xl sm:text-5xl font-bold tracking-tight"
+          style={{ color: "#E40068", fontFamily: "'Zain', sans-serif" }}
+          initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease: EASE, delay: 0.6 }}
+          transition={{ duration: 0.7, ease: EASE, delay: 0.65 }}
         >
           BE WELL
         </motion.span>
