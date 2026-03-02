@@ -352,7 +352,10 @@ function ParentsContent() {
             ﴿ الَّذِينَ آمَنُوا وَتَطْمَئِنُّ قُلُوبُهُم بِذِكْرِ اللَّهِ ۗ أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ ﴾
           </p>
           <p className="text-sm text-slate-500 leading-relaxed italic">
-            &ldquo;Those who believe, and whose hearts find comfort in the remembrance of Allah. Truly, in the remembrance of Allah do hearts find comfort.&rdquo;
+            &ldquo;Those who believe, and whose hearts find comfort in the remembrance of Allah. Surely in the remembrance of Allah do hearts find comfort.&rdquo;
+          </p>
+          <p className="text-[11px] uppercase tracking-[0.15em] text-slate-400 mt-3">
+            Surah Ar-Ra&rsquo;d (13:28)
           </p>
         </div>
       </motion.div>
