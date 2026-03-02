@@ -2,75 +2,72 @@
 
 import { Users, ArrowUpRight, RefreshCw } from "lucide-react";
 import { POWER_BUDDY_FORM_URL } from "@/data/content";
+import ScrollReveal from "@/components/scroll-reveal";
 
 export default function PowerBuddySection() {
   return (
-    <section id="buddy" className="py-16 sm:py-24">
+    <section id="buddy" className="section-cyan py-20 sm:py-28">
       <div className="max-w-[1200px] mx-auto px-5 sm:px-8">
-        <div className="grid lg:grid-cols-5 gap-8 lg:gap-12 items-start">
+        <div className="grid lg:grid-cols-5 gap-10 lg:gap-14 items-start">
           <div className="lg:col-span-2 lg:sticky lg:top-24">
-            <p className="text-sm font-bold text-[var(--bw-teal)] uppercase tracking-wide mb-2">
-              Peer Support
-            </p>
-            <h2 className="text-3xl sm:text-4xl font-black text-[var(--bw-navy)] tracking-tight mb-4">
-              Power Buddy System
-            </h2>
-            <p className="text-base sm:text-lg text-[var(--bw-text-secondary)] leading-relaxed mb-6">
-              Get matched with a colleague for a grounding conversation. No judgment, just human connection when you need it most.
-            </p>
-            <div className="space-y-3">
-              <div className="flex items-start gap-3">
-                <div className="w-6 h-6 rounded bg-[var(--bw-teal-soft)] flex items-center justify-center flex-shrink-0 mt-0.5">
-                  <span className="text-xs font-bold text-[var(--bw-teal)]">1</span>
-                </div>
-                <p className="text-sm text-[var(--bw-text-secondary)]">Fill in the form with your details</p>
+            <ScrollReveal animation="fade-right">
+              <p className="text-white/60 text-[15px] font-bold uppercase tracking-wider mb-2">
+                Peer Support
+              </p>
+              <h2 className="text-[clamp(2rem,5vw,3rem)] font-black tracking-tight leading-tight mb-5">
+                Power Buddy System
+              </h2>
+              <p className="text-lg sm:text-xl text-white/70 leading-relaxed mb-8">
+                Get matched with a colleague for a grounding conversation. No judgment, just human connection when you need it most.
+              </p>
+              <div className="space-y-4">
+                {[
+                  "Fill in the form with your details",
+                  "We match you with a buddy within minutes",
+                  "Have a grounding conversation together",
+                ].map((step, i) => (
+                  <div key={i} className="flex items-start gap-4">
+                    <div className="w-8 h-8 rounded-lg bg-white/15 flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <span className="text-sm font-black">{i + 1}</span>
+                    </div>
+                    <p className="text-lg text-white/80">{step}</p>
+                  </div>
+                ))}
               </div>
-              <div className="flex items-start gap-3">
-                <div className="w-6 h-6 rounded bg-[var(--bw-teal-soft)] flex items-center justify-center flex-shrink-0 mt-0.5">
-                  <span className="text-xs font-bold text-[var(--bw-teal)]">2</span>
-                </div>
-                <p className="text-sm text-[var(--bw-text-secondary)]">We match you with a buddy within minutes</p>
-              </div>
-              <div className="flex items-start gap-3">
-                <div className="w-6 h-6 rounded bg-[var(--bw-teal-soft)] flex items-center justify-center flex-shrink-0 mt-0.5">
-                  <span className="text-xs font-bold text-[var(--bw-teal)]">3</span>
-                </div>
-                <p className="text-sm text-[var(--bw-text-secondary)]">Have a grounding conversation together</p>
-              </div>
-            </div>
+            </ScrollReveal>
           </div>
 
           <div className="lg:col-span-3">
-            <div className="bg-white rounded-xl border border-[var(--bw-border)] overflow-hidden">
-              <div className="bg-[var(--bw-teal)] px-5 sm:px-6 py-4 flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <Users className="w-5 h-5 text-white" />
-                  <span className="text-white font-bold text-base">Request a Power Buddy</span>
+            <ScrollReveal animation="fade-left">
+              <div className="bg-white rounded-2xl overflow-hidden shadow-xl">
+                <div className="bg-[var(--zn-navy)] px-6 sm:px-8 py-5 flex items-center gap-3">
+                  <Users className="w-5 h-5 text-[var(--zn-cyan)]" />
+                  <span className="text-white font-bold text-lg">Request a Power Buddy</span>
+                </div>
+                <div className="p-3 sm:p-4">
+                  <iframe
+                    src={POWER_BUDDY_FORM_URL}
+                    width="100%"
+                    height="480"
+                    style={{ border: "none", minHeight: "400px" }}
+                    title="Power Buddy Sign-Up Form"
+                    className="rounded-xl"
+                  />
+                </div>
+                <div className="px-6 sm:px-8 py-4 border-t border-[var(--zn-border)]">
+                  <a
+                    href={POWER_BUDDY_FORM_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 text-[var(--zn-cyan)] text-[15px] font-bold hover:underline"
+                  >
+                    <RefreshCw className="w-4 h-4" />
+                    Open in new tab
+                    <ArrowUpRight className="w-4 h-4" />
+                  </a>
                 </div>
               </div>
-              <div className="p-2 sm:p-3">
-                <iframe
-                  src={POWER_BUDDY_FORM_URL}
-                  width="100%"
-                  height="480"
-                  style={{ border: "none", minHeight: "400px" }}
-                  title="Power Buddy Sign-Up Form"
-                  className="rounded-lg"
-                />
-              </div>
-              <div className="px-5 sm:px-6 py-3 border-t border-[var(--bw-border)] flex items-center justify-between">
-                <a
-                  href={POWER_BUDDY_FORM_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-2 text-[var(--bw-teal)] text-sm font-medium hover:underline"
-                >
-                  <RefreshCw className="w-3.5 h-3.5" />
-                  Open in new tab
-                  <ArrowUpRight className="w-3.5 h-3.5" />
-                </a>
-              </div>
-            </div>
+            </ScrollReveal>
           </div>
         </div>
       </div>

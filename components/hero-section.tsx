@@ -1,79 +1,114 @@
 "use client";
 
-import { Phone, ChevronDown } from "lucide-react";
+import { Phone, Shield, Users, Mail, HeartHandshake } from "lucide-react";
 import { KCC_INFO } from "@/data/content";
+import ScrollReveal, { ScrollRevealGroup } from "@/components/scroll-reveal";
+
+const quickLinks = [
+  {
+    label: "Resource Toolkits",
+    desc: "Guides for managers and individuals",
+    href: "#resources",
+    color: "var(--zn-magenta)",
+    bg: "var(--zn-magenta-soft)",
+    icon: Shield,
+  },
+  {
+    label: "Power Buddy",
+    desc: "Connect with a colleague now",
+    href: "#buddy",
+    color: "var(--zn-cyan)",
+    bg: "var(--zn-cyan-soft)",
+    icon: Users,
+  },
+  {
+    label: "Be Well Emails",
+    desc: "Daily wellbeing in your inbox",
+    href: "#bewell",
+    color: "var(--zn-magenta)",
+    bg: "var(--zn-magenta-soft)",
+    icon: Mail,
+  },
+  {
+    label: "KCC Support",
+    desc: "Professional confidential help",
+    href: "#support",
+    color: "var(--zn-cyan)",
+    bg: "var(--zn-cyan-soft)",
+    icon: HeartHandshake,
+  },
+];
 
 export default function HeroSection() {
   return (
-    <section className="pt-[72px]">
-      <div className="bg-gradient-to-br from-[#1A2744] via-[#2A3B5E] to-[#1A2744] relative overflow-hidden">
-        <div className="max-w-[1200px] mx-auto px-5 sm:px-8 py-16 sm:py-24 md:py-32 relative z-10">
+    <section className="pt-16 sm:pt-[72px]">
+      <div className="section-navy relative overflow-hidden">
+        <div className="max-w-[1200px] mx-auto px-5 sm:px-8 py-20 sm:py-28 md:py-36 relative z-10">
           <div className="max-w-2xl">
-            <p className="text-[var(--bw-pink-light)] text-sm sm:text-base font-bold tracking-wide uppercase mb-4 sm:mb-5">
-              Zain Wellbeing Crisis Portal
+            <p className="text-[var(--zn-magenta-light)] text-base sm:text-lg font-bold tracking-wide uppercase mb-5">
+              Zain Wellbeing
             </p>
 
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-black text-white leading-[1.05] mb-5 sm:mb-7">
+            <h1 className="text-[clamp(2.5rem,8vw,5rem)] font-black leading-[1.02] mb-6 tracking-tight">
               You Are<br />
-              <span className="bg-gradient-to-r from-[var(--bw-pink)] to-[var(--bw-pink-light)] bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-[var(--zn-magenta)] to-[var(--zn-magenta-light)] bg-clip-text text-transparent">
                 Not Alone.
               </span>
             </h1>
 
-            <p className="text-lg sm:text-xl text-white/60 max-w-md mb-8 sm:mb-10 leading-relaxed">
+            <p className="text-xl sm:text-2xl text-white/55 max-w-lg mb-10 leading-relaxed">
               Immediate support for every Zain colleague. Access resources, connect with a buddy, find professional help.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-3">
               <a
                 href="#resources"
-                className="inline-flex items-center justify-center bg-[var(--bw-pink)] text-white px-7 py-3.5 rounded-lg text-base font-bold hover:bg-[var(--bw-pink-light)] transition-colors"
+                className="inline-flex items-center justify-center bg-[var(--zn-magenta)] text-white px-8 py-4 rounded-xl text-lg font-bold hover:bg-[var(--zn-magenta-light)] transition-colors"
               >
                 Access Resources
               </a>
               <a
                 href={`tel:${KCC_INFO.headOffice.tel.replace(/\s/g, "")}`}
-                className="inline-flex items-center justify-center gap-2 bg-white/10 text-white px-7 py-3.5 rounded-lg text-base font-bold hover:bg-white/15 transition-colors border border-white/10"
+                className="inline-flex items-center justify-center gap-2 bg-white/10 text-white px-8 py-4 rounded-xl text-lg font-bold hover:bg-white/15 transition-colors border border-white/10"
               >
-                <Phone className="w-4 h-4" />
-                Call KCC Now
+                <Phone className="w-5 h-5" />
+                Call KCC
               </a>
             </div>
           </div>
         </div>
 
-        <div className="absolute top-0 right-0 w-1/2 h-full opacity-[0.07] hidden md:block">
-          <div className="absolute top-[15%] right-[10%] w-[300px] h-[300px] border-[40px] border-white rounded-full" />
-          <div className="absolute bottom-[20%] right-[25%] w-[150px] h-[150px] border-[25px] border-white rounded-full" />
+        <div className="absolute top-0 right-0 w-1/2 h-full hidden md:block">
+          <div className="absolute top-[12%] right-[8%] w-[280px] h-[280px] border-[35px] border-white/[0.04] rounded-full" />
+          <div className="absolute bottom-[18%] right-[22%] w-[140px] h-[140px] border-[20px] border-white/[0.04] rounded-full" />
+          <div className="absolute top-[50%] right-[3%] w-[80px] h-[80px] bg-[var(--zn-cyan)]/10 rounded-full" />
         </div>
       </div>
 
-      <div className="max-w-[1200px] mx-auto px-5 sm:px-8">
-        <div className="grid grid-cols-2 sm:grid-cols-4 -mt-8 sm:-mt-10 relative z-20 gap-3 sm:gap-4">
-          {[
-            { label: "Power Buddy", desc: "Peer support system", href: "#buddy", color: "var(--bw-teal)" },
-            { label: "Be Well Emails", desc: "Daily wellbeing tips", href: "#bewell", color: "var(--bw-pink)" },
-            { label: "Resource Toolkits", desc: "Guides for teams", href: "#resources", color: "var(--bw-navy)" },
-            { label: "KCC Support", desc: "Professional help", href: "#support", color: "var(--bw-teal)" },
-          ].map((item) => (
-            <a
-              key={item.label}
-              href={item.href}
-              className="bg-white rounded-xl p-4 sm:p-5 shadow-sm border border-[var(--bw-border)] hover:shadow-md transition-shadow group"
-            >
-              <div
-                className="w-2 h-2 rounded-full mb-3"
-                style={{ background: item.color }}
-              />
-              <div className="text-sm sm:text-base font-bold text-[var(--bw-navy)] group-hover:text-[var(--bw-pink)] transition-colors">
-                {item.label}
-              </div>
-              <div className="text-xs sm:text-sm text-[var(--bw-text-muted)] mt-0.5">
-                {item.desc}
-              </div>
-            </a>
+      <div className="max-w-[1200px] mx-auto px-5 sm:px-8 -mt-10 sm:-mt-12 relative z-20">
+        <ScrollRevealGroup className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+          {quickLinks.map((item) => (
+            <ScrollReveal key={item.label} animation="fade-up">
+              <a
+                href={item.href}
+                className="block bg-white rounded-2xl p-5 sm:p-6 shadow-sm border border-[var(--zn-border)] hover:shadow-lg hover:-translate-y-1 transition-all duration-300 group h-full"
+              >
+                <div
+                  className="w-11 h-11 rounded-xl flex items-center justify-center mb-4"
+                  style={{ background: item.bg }}
+                >
+                  <item.icon className="w-5 h-5" style={{ color: item.color }} />
+                </div>
+                <div className="text-base sm:text-lg font-bold text-[var(--zn-navy)] group-hover:text-[var(--zn-magenta)] transition-colors leading-snug">
+                  {item.label}
+                </div>
+                <div className="text-sm text-[var(--zn-text-muted)] mt-1">
+                  {item.desc}
+                </div>
+              </a>
+            </ScrollReveal>
           ))}
-        </div>
+        </ScrollRevealGroup>
       </div>
     </section>
   );

@@ -4,50 +4,41 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  --bw-bg: #F4F8FB;
-  --bw-white: #FFFFFF;
-  --bw-pink: #D4267E;
-  --bw-pink-light: #E84B93;
-  --bw-pink-soft: #FEF0F5;
-  --bw-teal: #00A5A8;
-  --bw-teal-soft: #EFF9F9;
-  --bw-navy: #1A2744;
-  --bw-text: #1A2744;
-  --bw-text-secondary: #4A5568;
-  --bw-text-muted: #94A3B8;
-  --bw-border: #E8EDF2;
-  --bw-danger: #C4556A;
+  --zn-navy: #1A2744;
+  --zn-navy-light: #243356;
+  --zn-cyan: #00A5A8;
+  --zn-cyan-light: #00C4C7;
+  --zn-cyan-soft: #E8F7F7;
+  --zn-magenta: #D4267E;
+  --zn-magenta-light: #E84B93;
+  --zn-magenta-soft: #FDF0F5;
+  --zn-yellow: #F5A623;
+  --zn-yellow-soft: #FFF8EB;
+  --zn-white: #FFFFFF;
+  --zn-bg: #F5F7FA;
+  --zn-text: #1A2744;
+  --zn-text-secondary: #4A5568;
+  --zn-text-muted: #8896A6;
+  --zn-border: #E2E8F0;
+  --zn-danger: #C4556A;
 
-  --background: var(--bw-bg);
-  --foreground: var(--bw-text);
-  --primary: var(--bw-pink);
+  --background: var(--zn-bg);
+  --foreground: var(--zn-text);
+  --primary: var(--zn-magenta);
   --primary-foreground: #FFFFFF;
-  --border: var(--bw-border);
-  --ring: var(--bw-pink);
+  --border: var(--zn-border);
+  --ring: var(--zn-magenta);
   --radius: 0.75rem;
-
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
-  --radius-2xl: calc(var(--radius) + 8px);
 }
 
 @theme inline {
   --font-sans: 'Zain', system-ui, -apple-system, sans-serif;
-
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-foreground);
   --color-border: var(--border);
   --color-ring: var(--ring);
-
-  --radius-sm: var(--radius-sm);
-  --radius-md: var(--radius-md);
-  --radius-lg: var(--radius-lg);
-  --radius-xl: var(--radius-xl);
-  --radius-2xl: var(--radius-2xl);
 }
 
 @layer base {
@@ -57,15 +48,17 @@
   }
   body {
     font-family: 'Zain', system-ui, -apple-system, sans-serif;
-    background: var(--bw-bg);
-    color: var(--bw-text);
+    background: var(--zn-bg);
+    color: var(--zn-text);
+    font-size: 18px;
+    line-height: 1.6;
     min-height: 100vh;
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
   }
   html {
     scroll-behavior: smooth;
-    scroll-padding-top: 5.5rem;
+    scroll-padding-top: 5rem;
     overflow-x: hidden;
   }
 }
@@ -78,4 +71,56 @@
     scrollbar-width: none;
   }
   .hide-scrollbar::-webkit-scrollbar { display: none; }
+
+  .section-navy {
+    background: var(--zn-navy);
+    color: #FFFFFF;
+  }
+  .section-cyan {
+    background: var(--zn-cyan);
+    color: #FFFFFF;
+  }
+  .section-magenta {
+    background: linear-gradient(135deg, var(--zn-magenta) 0%, var(--zn-magenta-light) 100%);
+    color: #FFFFFF;
+  }
+  .section-white {
+    background: var(--zn-white);
+    color: var(--zn-text);
+  }
+  .section-bg {
+    background: var(--zn-bg);
+    color: var(--zn-text);
+  }
+
+  .sr-base {
+    opacity: 0;
+    transition: opacity 0.7s ease, transform 0.7s ease;
+    will-change: opacity, transform;
+  }
+  .sr-fade-up { transform: translateY(32px); }
+  .sr-fade-left { transform: translateX(32px); }
+  .sr-fade-right { transform: translateX(-32px); }
+  .sr-fade-in { transform: none; }
+
+  .sr-visible {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .sr-group .sr-base { transition-delay: 0ms; }
+  .sr-group-visible .sr-base:nth-child(1) { opacity: 1; transform: none; transition-delay: 0ms; }
+  .sr-group-visible .sr-base:nth-child(2) { opacity: 1; transform: none; transition-delay: 80ms; }
+  .sr-group-visible .sr-base:nth-child(3) { opacity: 1; transform: none; transition-delay: 160ms; }
+  .sr-group-visible .sr-base:nth-child(4) { opacity: 1; transform: none; transition-delay: 240ms; }
+  .sr-group-visible .sr-base:nth-child(5) { opacity: 1; transform: none; transition-delay: 320ms; }
+  .sr-group-visible .sr-base:nth-child(6) { opacity: 1; transform: none; transition-delay: 400ms; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .sr-base {
+      opacity: 1 !important;
+      transform: none !important;
+      transition: none !important;
+    }
+  }
 }

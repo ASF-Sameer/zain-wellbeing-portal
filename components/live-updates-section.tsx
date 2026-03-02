@@ -1,13 +1,14 @@
 "use client";
 
-import { Calendar, ChevronRight } from "lucide-react";
+import { Calendar } from "lucide-react";
 import { updates, type UpdatePost } from "@/data/content";
+import ScrollReveal, { ScrollRevealGroup } from "@/components/scroll-reveal";
 
 const categoryColor: Record<UpdatePost["category"], string> = {
-  Urgent: "var(--bw-danger)",
-  Resource: "var(--bw-teal)",
-  Announcement: "#6366F1",
-  Wellbeing: "#16A34A",
+  Urgent: "var(--zn-danger)",
+  Resource: "var(--zn-cyan)",
+  Announcement: "var(--zn-magenta)",
+  Wellbeing: "var(--zn-yellow)",
 };
 
 function formatDate(dateStr: string): string {
@@ -23,52 +24,53 @@ export default function LiveUpdatesSection() {
   );
 
   return (
-    <section id="updates" className="py-16 sm:py-24">
+    <section id="updates" className="section-bg py-20 sm:py-28">
       <div className="max-w-[1200px] mx-auto px-5 sm:px-8">
-        <div className="mb-10 sm:mb-12">
-          <p className="text-sm font-bold text-[#6366F1] uppercase tracking-wide mb-2">
-            Live Feed
-          </p>
-          <h2 className="text-3xl sm:text-4xl font-black text-[var(--bw-navy)] tracking-tight">
-            Latest Updates
-          </h2>
-        </div>
+        <ScrollReveal>
+          <div className="mb-10 sm:mb-14">
+            <p className="text-[15px] font-bold text-[var(--zn-yellow)] uppercase tracking-wider mb-2">
+              Live Feed
+            </p>
+            <h2 className="text-[clamp(2rem,5vw,3rem)] font-black text-[var(--zn-navy)] tracking-tight leading-tight">
+              Latest Updates
+            </h2>
+          </div>
+        </ScrollReveal>
 
-        <div className="space-y-3">
+        <ScrollRevealGroup className="space-y-4">
           {sorted.map((post) => (
-            <article
-              key={post.id}
-              className="bg-white rounded-xl border border-[var(--bw-border)] p-5 sm:p-6 hover:shadow-sm transition-shadow"
-            >
-              <div className="flex items-start gap-4">
-                <div
-                  className="w-1 h-full min-h-[40px] rounded-full flex-shrink-0 self-stretch"
-                  style={{ background: categoryColor[post.category] }}
-                />
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-3 mb-1.5 flex-wrap">
-                    <span
-                      className="text-xs font-bold uppercase tracking-wide"
-                      style={{ color: categoryColor[post.category] }}
-                    >
-                      {post.category}
-                    </span>
-                    <span className="flex items-center gap-1 text-xs text-[var(--bw-text-muted)]">
-                      <Calendar className="w-3 h-3" />
-                      {formatDate(post.date)}
-                    </span>
+            <ScrollReveal key={post.id} animation="fade-up">
+              <article className="bg-white rounded-2xl border border-[var(--zn-border)] overflow-hidden hover:shadow-md transition-shadow duration-300">
+                <div className="flex">
+                  <div
+                    className="w-1.5 flex-shrink-0"
+                    style={{ background: categoryColor[post.category] }}
+                  />
+                  <div className="p-5 sm:p-7 flex-1">
+                    <div className="flex items-center gap-3 mb-2 flex-wrap">
+                      <span
+                        className="text-xs font-black uppercase tracking-wider"
+                        style={{ color: categoryColor[post.category] }}
+                      >
+                        {post.category}
+                      </span>
+                      <span className="flex items-center gap-1.5 text-sm text-[var(--zn-text-muted)]">
+                        <Calendar className="w-3.5 h-3.5" />
+                        {formatDate(post.date)}
+                      </span>
+                    </div>
+                    <h3 className="text-lg sm:text-xl font-bold text-[var(--zn-navy)] mb-2">
+                      {post.title}
+                    </h3>
+                    <p className="text-[16px] text-[var(--zn-text-secondary)] leading-relaxed">
+                      {post.body}
+                    </p>
                   </div>
-                  <h3 className="text-base sm:text-lg font-bold text-[var(--bw-navy)] mb-1">
-                    {post.title}
-                  </h3>
-                  <p className="text-sm text-[var(--bw-text-secondary)] leading-relaxed">
-                    {post.body}
-                  </p>
                 </div>
-              </div>
-            </article>
+              </article>
+            </ScrollReveal>
           ))}
-        </div>
+        </ScrollRevealGroup>
       </div>
     </section>
   );

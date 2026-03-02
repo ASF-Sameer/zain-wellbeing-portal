@@ -1,56 +1,59 @@
 "use client";
 
-import { Mail, ArrowUpRight } from "lucide-react";
+import { Mail } from "lucide-react";
 import { BEWELL_SUBSCRIBE_FORM_URL } from "@/data/content";
+import ScrollReveal from "@/components/scroll-reveal";
 
 export default function DailyWellbeingSection() {
   return (
-    <section id="bewell" className="py-16 sm:py-24 bg-[var(--bw-pink-soft)]">
+    <section id="bewell" className="section-magenta py-20 sm:py-28">
       <div className="max-w-[1200px] mx-auto px-5 sm:px-8">
-        <div className="grid lg:grid-cols-5 gap-8 lg:gap-12 items-start">
+        <div className="grid lg:grid-cols-5 gap-10 lg:gap-14 items-start">
           <div className="lg:col-span-2">
-            <p className="text-sm font-bold text-[var(--bw-pink)] uppercase tracking-wide mb-2">
-              Daily Support
-            </p>
-            <h2 className="text-3xl sm:text-4xl font-black text-[var(--bw-navy)] tracking-tight mb-4">
-              Be Well Daily Emails
-            </h2>
-            <p className="text-base sm:text-lg text-[var(--bw-text-secondary)] leading-relaxed mb-6">
-              A moment of calm in your inbox every morning. Quick tips, grounding exercises, and supportive messages that take less than 2 minutes.
-            </p>
-            <div className="flex gap-6 sm:gap-8">
-              <div>
-                <div className="text-2xl sm:text-3xl font-black text-[var(--bw-navy)]">2 min</div>
-                <div className="text-sm text-[var(--bw-text-muted)]">Quick read</div>
+            <ScrollReveal animation="fade-right">
+              <p className="text-white/50 text-[15px] font-bold uppercase tracking-wider mb-2">
+                Daily Support
+              </p>
+              <h2 className="text-[clamp(2rem,5vw,3rem)] font-black tracking-tight leading-tight mb-5">
+                Be Well Daily Emails
+              </h2>
+              <p className="text-lg sm:text-xl text-white/65 leading-relaxed mb-8">
+                A moment of calm in your inbox every morning. Quick tips, grounding exercises, and supportive messages that take less than 2 minutes.
+              </p>
+              <div className="flex gap-8 sm:gap-10">
+                {[
+                  { value: "2 min", label: "Quick read" },
+                  { value: "Daily", label: "Every morning" },
+                  { value: "Free", label: "Always" },
+                ].map((stat) => (
+                  <div key={stat.label}>
+                    <div className="text-3xl sm:text-4xl font-black">{stat.value}</div>
+                    <div className="text-white/50 text-sm mt-0.5">{stat.label}</div>
+                  </div>
+                ))}
               </div>
-              <div>
-                <div className="text-2xl sm:text-3xl font-black text-[var(--bw-navy)]">Daily</div>
-                <div className="text-sm text-[var(--bw-text-muted)]">Every morning</div>
-              </div>
-              <div>
-                <div className="text-2xl sm:text-3xl font-black text-[var(--bw-navy)]">Free</div>
-                <div className="text-sm text-[var(--bw-text-muted)]">Always</div>
-              </div>
-            </div>
+            </ScrollReveal>
           </div>
 
           <div className="lg:col-span-3">
-            <div className="bg-white rounded-xl border border-[var(--bw-border)] overflow-hidden">
-              <div className="bg-gradient-to-r from-[var(--bw-pink)] to-[var(--bw-pink-light)] px-5 sm:px-6 py-4 flex items-center gap-3">
-                <Mail className="w-5 h-5 text-white" />
-                <span className="text-white font-bold text-base">Subscribe to Be Well Emails</span>
+            <ScrollReveal animation="fade-left">
+              <div className="bg-white rounded-2xl overflow-hidden shadow-xl">
+                <div className="bg-[var(--zn-navy)] px-6 sm:px-8 py-5 flex items-center gap-3">
+                  <Mail className="w-5 h-5 text-[var(--zn-magenta-light)]" />
+                  <span className="text-white font-bold text-lg">Subscribe to Be Well Emails</span>
+                </div>
+                <div className="p-3 sm:p-4">
+                  <iframe
+                    src={BEWELL_SUBSCRIBE_FORM_URL}
+                    width="100%"
+                    height="340"
+                    style={{ border: "none", minHeight: "280px" }}
+                    title="Be Well Email Subscription Form"
+                    className="rounded-xl"
+                  />
+                </div>
               </div>
-              <div className="p-2 sm:p-3">
-                <iframe
-                  src={BEWELL_SUBSCRIBE_FORM_URL}
-                  width="100%"
-                  height="320"
-                  style={{ border: "none", minHeight: "280px" }}
-                  title="Be Well Email Subscription Form"
-                  className="rounded-lg"
-                />
-              </div>
-            </div>
+            </ScrollReveal>
           </div>
         </div>
       </div>

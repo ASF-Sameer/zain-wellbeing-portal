@@ -16,18 +16,28 @@ import {
   Phone,
 } from "lucide-react";
 import { managerToolkit, individualToolkit, type ToolkitItem } from "@/data/content";
+import ScrollReveal from "@/components/scroll-reveal";
 
 const managerIcons = [HandHeart, Users, Newspaper, Shield, Brain, Phone];
 const individualIcons = [AlertTriangle, Newspaper, Dog];
 
+const borderColors = [
+  "var(--zn-magenta)",
+  "var(--zn-cyan)",
+  "var(--zn-yellow)",
+  "var(--zn-magenta)",
+  "var(--zn-cyan)",
+  "var(--zn-yellow)",
+];
+
 function SwipeableCards({
   items,
   icons,
-  accent,
+  colors,
 }: {
   items: ToolkitItem[];
   icons: React.ComponentType<{ className?: string }>[];
-  accent: string;
+  colors: string[];
 }) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
@@ -56,39 +66,40 @@ function SwipeableCards({
   const scroll = (dir: "left" | "right") => {
     const el = scrollRef.current;
     if (!el) return;
-    const cardWidth = el.querySelector("article")?.offsetWidth || 300;
-    el.scrollBy({ left: dir === "left" ? -cardWidth - 16 : cardWidth + 16, behavior: "smooth" });
+    const cardWidth = el.querySelector("article")?.offsetWidth || 320;
+    el.scrollBy({ left: dir === "left" ? -cardWidth - 20 : cardWidth + 20, behavior: "smooth" });
   };
 
   return (
     <div className="relative">
-      <div className="hidden sm:flex absolute -top-12 right-0 gap-2 z-10">
+      <div className="hidden sm:flex absolute -top-14 right-0 gap-2 z-10">
         <button
           onClick={() => scroll("left")}
           disabled={!canScrollLeft}
-          className="w-9 h-9 rounded-lg border border-[var(--bw-border)] bg-white flex items-center justify-center text-[var(--bw-text-secondary)] hover:text-[var(--bw-navy)] disabled:opacity-25 transition-all"
+          className="w-10 h-10 rounded-xl border border-[var(--zn-border)] bg-white flex items-center justify-center text-[var(--zn-text-secondary)] hover:text-[var(--zn-navy)] hover:border-[var(--zn-navy)]/20 disabled:opacity-25 transition-all"
           aria-label="Previous"
         >
-          <ChevronLeft className="w-4 h-4" />
+          <ChevronLeft className="w-5 h-5" />
         </button>
         <button
           onClick={() => scroll("right")}
           disabled={!canScrollRight}
-          className="w-9 h-9 rounded-lg border border-[var(--bw-border)] bg-white flex items-center justify-center text-[var(--bw-text-secondary)] hover:text-[var(--bw-navy)] disabled:opacity-25 transition-all"
+          className="w-10 h-10 rounded-xl border border-[var(--zn-border)] bg-white flex items-center justify-center text-[var(--zn-text-secondary)] hover:text-[var(--zn-navy)] hover:border-[var(--zn-navy)]/20 disabled:opacity-25 transition-all"
           aria-label="Next"
         >
-          <ChevronRight className="w-4 h-4" />
+          <ChevronRight className="w-5 h-5" />
         </button>
       </div>
 
       <div
         ref={scrollRef}
-        className="flex gap-4 overflow-x-auto hide-scrollbar snap-x snap-mandatory pb-2 -mx-5 px-5 sm:-mx-8 sm:px-8"
+        className="flex gap-5 overflow-x-auto hide-scrollbar snap-x snap-mandatory pb-2 -mx-5 px-5 sm:-mx-8 sm:px-8"
       >
         {items.map((item, index) => {
           const Icon = icons[index % icons.length];
+          const color = colors[index % colors.length];
           return (
-            <ToolkitCard key={item.id} item={item} icon={Icon} accent={accent} />
+            <ToolkitCard key={item.id} item={item} icon={Icon} color={color} />
           );
         })}
       </div>
@@ -99,33 +110,26 @@ function SwipeableCards({
 function ToolkitCard({
   item,
   icon: Icon,
-  accent,
+  color,
 }: {
   item: ToolkitItem;
   icon: React.ComponentType<{ className?: string }>;
-  accent: string;
+  color: string;
 }) {
   const [expanded, setExpanded] = useState(false);
 
   return (
-    <article className="flex-shrink-0 w-[280px] sm:w-[320px] snap-start bg-white rounded-xl border border-[var(--bw-border)] flex flex-col hover:shadow-sm transition-shadow">
-      <div className="p-5 sm:p-6 flex flex-col flex-1">
-        <div
-          className="w-10 h-10 rounded-lg flex items-center justify-center mb-4"
-          style={{ background: accent === "pink" ? "var(--bw-pink-soft)" : "var(--bw-teal-soft)" }}
-        >
-          <Icon
-            className="w-5 h-5"
-            style={{ color: accent === "pink" ? "var(--bw-pink)" : "var(--bw-teal)" }}
-          />
-        </div>
+    <article className="flex-shrink-0 w-[300px] sm:w-[340px] snap-start bg-white rounded-2xl border border-[var(--zn-border)] flex flex-col overflow-hidden hover:shadow-md transition-shadow duration-300">
+      <div className="h-1.5 w-full" style={{ background: color }} />
+      <div className="p-6 sm:p-7 flex flex-col flex-1">
+        <Icon className="w-6 h-6 mb-4" style={{ color }} />
 
-        <h4 className="font-bold text-[var(--bw-navy)] text-[15px] sm:text-base leading-snug mb-2.5">
+        <h4 className="font-bold text-[var(--zn-navy)] text-lg leading-snug mb-3">
           {item.title}
         </h4>
 
         <div
-          className={`text-sm text-[var(--bw-text-secondary)] leading-relaxed whitespace-pre-line flex-1 ${
+          className={`text-[16px] leading-relaxed text-[var(--zn-text-secondary)] whitespace-pre-line flex-1 ${
             !expanded ? "line-clamp-3" : ""
           }`}
         >
@@ -133,8 +137,8 @@ function ToolkitCard({
         </div>
 
         <button
-          className="mt-4 text-sm font-bold transition-colors"
-          style={{ color: accent === "pink" ? "var(--bw-pink)" : "var(--bw-teal)" }}
+          className="mt-5 text-[15px] font-bold transition-colors"
+          style={{ color }}
           onClick={() => setExpanded(!expanded)}
         >
           {expanded ? "Show less" : "Read more"}
@@ -146,41 +150,51 @@ function ToolkitCard({
 
 export default function ResourceToolkitsSection() {
   return (
-    <section id="resources" className="py-16 sm:py-24">
+    <section id="resources" className="section-white py-20 sm:py-28">
       <div className="max-w-[1200px] mx-auto px-5 sm:px-8">
-        <div className="mb-12 sm:mb-14">
-          <p className="text-sm font-bold text-[var(--bw-pink)] uppercase tracking-wide mb-2">
-            Toolkits
-          </p>
-          <h2 className="text-3xl sm:text-4xl font-black text-[var(--bw-navy)] tracking-tight">
-            Resource Guides
-          </h2>
-        </div>
-
-        <div className="mb-12 sm:mb-16">
-          <div className="flex items-center gap-3 mb-6">
-            <Briefcase className="w-5 h-5 text-[var(--bw-pink)]" />
-            <h3 className="text-lg sm:text-xl font-bold text-[var(--bw-navy)]">
-              Manager Swipe File
-            </h3>
-            <span className="text-sm text-[var(--bw-text-muted)]">
-              6 guides
-            </span>
+        <ScrollReveal>
+          <div className="mb-12 sm:mb-16">
+            <p className="text-[15px] font-bold text-[var(--zn-magenta)] uppercase tracking-wider mb-2">
+              Toolkits
+            </p>
+            <h2 className="text-[clamp(2rem,5vw,3rem)] font-black text-[var(--zn-navy)] tracking-tight leading-tight">
+              Resource Guides
+            </h2>
           </div>
-          <SwipeableCards items={managerToolkit} icons={managerIcons} accent="pink" />
+        </ScrollReveal>
+
+        <div className="mb-14 sm:mb-20">
+          <ScrollReveal>
+            <div className="flex items-center gap-3 mb-7">
+              <Briefcase className="w-6 h-6 text-[var(--zn-magenta)]" />
+              <h3 className="text-xl sm:text-2xl font-bold text-[var(--zn-navy)]">
+                Manager Swipe File
+              </h3>
+              <span className="text-[var(--zn-text-muted)] text-base">
+                6 guides
+              </span>
+            </div>
+          </ScrollReveal>
+          <SwipeableCards items={managerToolkit} icons={managerIcons} colors={borderColors} />
         </div>
 
         <div>
-          <div className="flex items-center gap-3 mb-6">
-            <Heart className="w-5 h-5 text-[var(--bw-teal)]" />
-            <h3 className="text-lg sm:text-xl font-bold text-[var(--bw-navy)]">
-              Individual Resilience
-            </h3>
-            <span className="text-sm text-[var(--bw-text-muted)]">
-              3 guides
-            </span>
-          </div>
-          <SwipeableCards items={individualToolkit} icons={individualIcons} accent="teal" />
+          <ScrollReveal>
+            <div className="flex items-center gap-3 mb-7">
+              <Heart className="w-6 h-6 text-[var(--zn-cyan)]" />
+              <h3 className="text-xl sm:text-2xl font-bold text-[var(--zn-navy)]">
+                Individual Resilience
+              </h3>
+              <span className="text-[var(--zn-text-muted)] text-base">
+                3 guides
+              </span>
+            </div>
+          </ScrollReveal>
+          <SwipeableCards
+            items={individualToolkit}
+            icons={individualIcons}
+            colors={["var(--zn-cyan)", "var(--zn-yellow)", "var(--zn-magenta)"]}
+          />
         </div>
       </div>
     </section>

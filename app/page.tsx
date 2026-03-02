@@ -18,7 +18,7 @@ export default function Home() {
         <DailyWellbeingSection />
         <LiveUpdatesSection />
         <KCCSection />
-        <div className="h-16" />
+        <div className="h-20 sm:h-16" />
       </main>
       <StickyFooter />
     </>
