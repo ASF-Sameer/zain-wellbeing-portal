@@ -1,98 +1,156 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import {
   Briefcase,
-  Shield,
-  ChevronDown,
+  Heart,
+  ChevronLeft,
+  ChevronRight,
+  AlertTriangle,
   Newspaper,
   Dog,
-  Heart,
-  AlertTriangle,
+  HandHeart,
   Users,
+  Shield,
   Brain,
   Phone,
-  HandHeart,
-  BookOpen,
+  ArrowRight,
 } from "lucide-react";
 import { managerToolkit, individualToolkit, type ToolkitItem } from "@/data/content";
 
 const managerIcons = [HandHeart, Users, Newspaper, Shield, Brain, Phone];
 const individualIcons = [AlertTriangle, Newspaper, Dog];
 
-function AccordionItem({
-  item,
-  isOpen,
-  onToggle,
-  icon: Icon,
+function SwipeableCards({
+  items,
+  icons,
+  accentColor,
+  accentMuted,
 }: {
-  item: ToolkitItem;
-  isOpen: boolean;
-  onToggle: () => void;
-  icon: React.ComponentType<{ className?: string }>;
+  items: ToolkitItem[];
+  icons: React.ComponentType<{ className?: string }>[];
+  accentColor: string;
+  accentMuted: string;
 }) {
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(true);
+
+  const checkScroll = () => {
+    const el = scrollRef.current;
+    if (!el) return;
+    setCanScrollLeft(el.scrollLeft > 4);
+    setCanScrollRight(el.scrollLeft < el.scrollWidth - el.clientWidth - 4);
+  };
+
+  useEffect(() => {
+    checkScroll();
+    const el = scrollRef.current;
+    if (el) {
+      el.addEventListener("scroll", checkScroll, { passive: true });
+      window.addEventListener("resize", checkScroll);
+    }
+    return () => {
+      el?.removeEventListener("scroll", checkScroll);
+      window.removeEventListener("resize", checkScroll);
+    };
+  }, []);
+
+  const scroll = (dir: "left" | "right") => {
+    const el = scrollRef.current;
+    if (!el) return;
+    const cardWidth = el.querySelector("div")?.offsetWidth || 300;
+    el.scrollBy({ left: dir === "left" ? -cardWidth - 16 : cardWidth + 16, behavior: "smooth" });
+  };
+
   return (
-    <div className="glass-card overflow-hidden">
-      <button
-        className="w-full flex items-center gap-2.5 px-3.5 sm:px-4 py-3 sm:py-3.5 text-left hover:bg-white/[0.04] transition-colors"
-        onClick={onToggle}
-        aria-expanded={isOpen}
+    <div className="relative">
+      <div className="hidden sm:flex absolute -top-12 right-0 gap-2 z-10">
+        <button
+          onClick={() => scroll("left")}
+          disabled={!canScrollLeft}
+          className="w-9 h-9 rounded-full glass flex items-center justify-center text-[var(--wellbeing-text-secondary)] hover:text-white disabled:opacity-30 transition-all"
+          aria-label="Scroll left"
+        >
+          <ChevronLeft className="w-4 h-4" />
+        </button>
+        <button
+          onClick={() => scroll("right")}
+          disabled={!canScrollRight}
+          className="w-9 h-9 rounded-full glass flex items-center justify-center text-[var(--wellbeing-text-secondary)] hover:text-white disabled:opacity-30 transition-all"
+          aria-label="Scroll right"
+        >
+          <ChevronRight className="w-4 h-4" />
+        </button>
+      </div>
+
+      <div
+        ref={scrollRef}
+        className="flex gap-4 overflow-x-auto hide-scrollbar snap-x snap-mandatory pb-4 -mx-4 px-4"
       >
-        <div className="flex-shrink-0 w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-[var(--wellbeing-teal-muted)] flex items-center justify-center">
-          <Icon className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[var(--wellbeing-teal)]" />
-        </div>
-        <span className="flex-1 font-medium text-[var(--wellbeing-text)] text-xs sm:text-sm leading-tight">
-          {item.title}
-        </span>
-        <ChevronDown
-          className={`w-4 h-4 text-[var(--wellbeing-text-muted)] flex-shrink-0 transition-transform duration-200 ${
-            isOpen ? "rotate-180" : ""
-          }`}
-        />
-      </button>
-      {isOpen && (
-        <div className="px-3.5 sm:px-4 pb-3.5 sm:pb-4">
-          <div className="pl-[38px] sm:pl-[42px] text-[var(--wellbeing-text-muted)] text-xs sm:text-sm leading-relaxed whitespace-pre-line">
-            {item.content}
-          </div>
-        </div>
-      )}
+        {items.map((item, index) => {
+          const Icon = icons[index % icons.length];
+          return (
+            <SwipeCard
+              key={item.id}
+              item={item}
+              icon={Icon}
+              accentColor={accentColor}
+              accentMuted={accentMuted}
+            />
+          );
+        })}
+      </div>
     </div>
   );
 }
 
-function IndividualCard({
+function SwipeCard({
   item,
   icon: Icon,
+  accentColor,
+  accentMuted,
 }: {
   item: ToolkitItem;
   icon: React.ComponentType<{ className?: string }>;
+  accentColor: string;
+  accentMuted: string;
 }) {
-  const [isOpen, setIsOpen] = useState(false);
+  const [expanded, setExpanded] = useState(false);
 
   return (
-    <div className="glass-card overflow-hidden">
-      <div className="p-3.5 sm:p-4">
-        <div className="flex items-start gap-2.5 mb-2">
-          <div className="flex-shrink-0 w-8 h-8 rounded-lg bg-[var(--wellbeing-warm)]/15 flex items-center justify-center">
-            <Icon className="w-4 h-4 text-[var(--wellbeing-warm)]" />
-          </div>
-          <h4 className="font-semibold text-[var(--wellbeing-text)] text-sm pt-1.5">
-            {item.title}
-          </h4>
-        </div>
+    <div
+      className="flex-shrink-0 w-[280px] sm:w-[320px] snap-start glass-card flex flex-col"
+    >
+      <div className="p-5 sm:p-6 flex flex-col flex-1">
         <div
-          className={`text-xs sm:text-sm text-[var(--wellbeing-text-muted)] leading-relaxed whitespace-pre-line ${
-            !isOpen ? "line-clamp-3" : ""
+          className="w-10 h-10 rounded-xl flex items-center justify-center mb-4"
+          style={{ background: accentMuted }}
+        >
+          <Icon className="w-5 h-5" style={{ color: accentColor }} />
+        </div>
+
+        <h4 className="font-semibold text-white text-sm sm:text-[15px] leading-snug mb-3">
+          {item.title}
+        </h4>
+
+        <div
+          className={`text-[13px] sm:text-sm text-[var(--wellbeing-text-secondary)] leading-relaxed whitespace-pre-line flex-1 ${
+            !expanded ? "line-clamp-4" : ""
           }`}
         >
           {item.content}
         </div>
+
         <button
-          className="mt-2 text-xs sm:text-sm font-medium text-[var(--wellbeing-teal)] hover:text-[var(--wellbeing-teal-light)] transition-colors"
-          onClick={() => setIsOpen(!isOpen)}
+          className="mt-4 flex items-center gap-1.5 text-xs sm:text-sm font-medium transition-colors group"
+          style={{ color: accentColor }}
+          onClick={() => setExpanded(!expanded)}
         >
-          {isOpen ? "Show less" : "Read more"}
+          <span>{expanded ? "Show less" : "Read more"}</span>
+          <ArrowRight
+            className={`w-3.5 h-3.5 transition-transform ${expanded ? "rotate-90" : "group-hover:translate-x-0.5"}`}
+          />
         </button>
       </div>
     </div>
@@ -100,80 +158,65 @@ function IndividualCard({
 }
 
 export default function ResourceToolkitsSection() {
-  const [openAccordion, setOpenAccordion] = useState<string | null>(null);
-
   return (
-    <section id="toolkits" className="relative py-16 sm:py-24 px-4">
-      <div className="absolute bottom-0 right-0 w-[250px] h-[250px] bg-[var(--wellbeing-sage)] rounded-full blur-[180px] opacity-[0.04]" />
+    <section id="toolkits" className="relative py-16 sm:py-24">
+      <div className="absolute top-0 right-0 w-[300px] h-[300px] bg-[var(--wellbeing-teal)] rounded-full blur-[200px] opacity-[0.03]" />
+      <div className="absolute bottom-0 left-0 w-[250px] h-[250px] bg-[var(--wellbeing-warm)] rounded-full blur-[180px] opacity-[0.03]" />
 
-      <div className="relative max-w-5xl mx-auto">
-        <div className="text-center mb-8 sm:mb-12">
-          <div className="inline-flex items-center gap-2 glass px-3 py-1.5 rounded-full mb-3 sm:mb-4">
-            <BookOpen className="w-3.5 h-3.5 text-[var(--wellbeing-sage)]" />
-            <span className="text-xs font-medium text-[var(--wellbeing-sage)]">Resources</span>
-          </div>
-          <h2 className="text-2xl sm:text-3xl font-bold text-[var(--wellbeing-text)] mb-3">
+      <div className="relative max-w-6xl mx-auto px-4 sm:px-6">
+        <div className="text-center mb-10 sm:mb-14">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-3 tracking-tight">
             Resource Toolkits
           </h2>
-          <p className="text-sm sm:text-base text-[var(--wellbeing-text-muted)] max-w-lg mx-auto">
-            Practical guides for managers and individuals.
+          <p className="text-sm sm:text-base text-[var(--wellbeing-text-secondary)] max-w-md mx-auto">
+            Practical guides to help you and your team navigate through difficult times.
           </p>
         </div>
 
-        <div className="grid gap-8 lg:grid-cols-2">
-          <div>
-            <div className="flex items-center gap-2.5 mb-4 sm:mb-5">
-              <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-lg bg-[var(--wellbeing-teal)] flex items-center justify-center">
-                <Briefcase className="w-4 h-4 text-white" />
-              </div>
-              <div>
-                <h3 className="text-base sm:text-lg font-bold text-[var(--wellbeing-text)]">
-                  Manager's Swipe File
-                </h3>
-                <p className="text-[10px] sm:text-xs text-[var(--wellbeing-text-muted)]">
-                  6 ready-to-use internal posts
-                </p>
-              </div>
+        <div className="mb-12 sm:mb-16">
+          <div className="flex items-center gap-3 mb-6 sm:mb-8 px-4 sm:px-0">
+            <div className="w-9 h-9 rounded-xl bg-[var(--wellbeing-teal-muted)] flex items-center justify-center">
+              <Briefcase className="w-4.5 h-4.5 text-[var(--wellbeing-teal)]" />
             </div>
-            <div className="space-y-2.5">
-              {managerToolkit.map((item, index) => (
-                <AccordionItem
-                  key={item.id}
-                  item={item}
-                  isOpen={openAccordion === item.id}
-                  onToggle={() =>
-                    setOpenAccordion(openAccordion === item.id ? null : item.id)
-                  }
-                  icon={managerIcons[index]}
-                />
-              ))}
+            <div>
+              <h3 className="text-lg sm:text-xl font-bold text-white">
+                Manager Swipe File
+              </h3>
+              <p className="text-xs text-[var(--wellbeing-text-muted)]">
+                6 ready-to-use guides for team leaders
+              </p>
             </div>
           </div>
 
-          <div>
-            <div className="flex items-center gap-2.5 mb-4 sm:mb-5">
-              <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-lg bg-[var(--wellbeing-warm)] flex items-center justify-center">
-                <Heart className="w-4 h-4 text-white" />
-              </div>
-              <div>
-                <h3 className="text-base sm:text-lg font-bold text-[var(--wellbeing-text)]">
-                  Individual Resilience
-                </h3>
-                <p className="text-[10px] sm:text-xs text-[var(--wellbeing-text-muted)]">
-                  Personal wellbeing guides
-                </p>
-              </div>
+          <SwipeableCards
+            items={managerToolkit}
+            icons={managerIcons}
+            accentColor="var(--wellbeing-teal)"
+            accentMuted="var(--wellbeing-teal-muted)"
+          />
+        </div>
+
+        <div>
+          <div className="flex items-center gap-3 mb-6 sm:mb-8 px-4 sm:px-0">
+            <div className="w-9 h-9 rounded-xl bg-[var(--wellbeing-warm-muted)] flex items-center justify-center">
+              <Heart className="w-4.5 h-4.5 text-[var(--wellbeing-warm)]" />
             </div>
-            <div className="space-y-3">
-              {individualToolkit.map((item, index) => (
-                <IndividualCard
-                  key={item.id}
-                  item={item}
-                  icon={individualIcons[index]}
-                />
-              ))}
+            <div>
+              <h3 className="text-lg sm:text-xl font-bold text-white">
+                Individual Resilience
+              </h3>
+              <p className="text-xs text-[var(--wellbeing-text-muted)]">
+                Personal wellbeing and crisis readiness
+              </p>
             </div>
           </div>
+
+          <SwipeableCards
+            items={individualToolkit}
+            icons={individualIcons}
+            accentColor="var(--wellbeing-warm)"
+            accentMuted="var(--wellbeing-warm-muted)"
+          />
         </div>
       </div>
     </section>

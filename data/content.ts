@@ -14,11 +14,29 @@ export interface ToolkitItem {
   content: string;
 }
 
-export const EMERGENCY_HOTLINE = "+965-XXXX-XXXX";
-export const KCC_PHONE = "+965-XXXX-XXXX";
+export const EMERGENCY_HOTLINE = "+96525356444";
+export const KCC_PHONE = "+96525356444";
 
-export const POWER_BUDDY_FORM_URL = "https://forms.office.com/Pages/ResponsePage.aspx?id=REPLACE_WITH_ACTUAL_FORM_ID";
-export const BEWELL_SUBSCRIBE_FORM_URL = "https://forms.office.com/Pages/ResponsePage.aspx?id=REPLACE_WITH_ACTUAL_FORM_ID";
+export const KCC_INFO = {
+  headOffice: {
+    name: "Head Office",
+    address: "Al Hamra Business Tower 19th Floor, Sharq, Kuwait",
+    tel: "+965 2535 6444",
+    fax: "+965 2535 6999",
+  },
+  jabriyaOffice: {
+    name: "Jabriya Office",
+    address: "Clover Center, 14th Floor, Block 1A, Street 1, Jabriya, Kuwait City 13007",
+    tel: "+965 2535 6444",
+  },
+  supportNote:
+    "World-class flexible support via WhatsApp, Email and Phone. Any issue resolved within 24 hours.",
+};
+
+export const POWER_BUDDY_FORM_URL =
+  "https://forms.office.com/Pages/ResponsePage.aspx?id=REPLACE_WITH_ACTUAL_FORM_ID";
+export const BEWELL_SUBSCRIBE_FORM_URL =
+  "https://forms.office.com/Pages/ResponsePage.aspx?id=REPLACE_WITH_ACTUAL_FORM_ID";
 
 export const updates: UpdatePost[] = [
   {
@@ -27,7 +45,6 @@ export const updates: UpdatePost[] = [
     date: "2026-03-02",
     category: "Resource",
     body: "We have compiled a comprehensive set of wellbeing check-in resources for all employees. These include guided breathing exercises, grounding techniques, and conversation starters for checking in with colleagues.",
-    imageUrl: "/images/placeholder-resource.jpg",
   },
   {
     id: "2",
@@ -63,7 +80,7 @@ export const managerToolkit: ToolkitItem[] = [
     id: "m2",
     title: "The Power Buddy System: Promoting Connection",
     content:
-      "Encourage your team members to sign up for the Power Buddy system. Share the benefits: instant connection with a colleague, no judgment, just a quick grounding conversation. Lead by example — sign up yourself and share your positive experience with the team.",
+      "Encourage your team members to sign up for the Power Buddy system. Share the benefits: instant connection with a colleague, no judgment, just a quick grounding conversation. Lead by example \u2014 sign up yourself and share your positive experience with the team.",
   },
   {
     id: "m3",
@@ -81,7 +98,7 @@ export const managerToolkit: ToolkitItem[] = [
     id: "m5",
     title: "Focus & Conditioning: Maintaining Routine",
     content:
-      "Routine is an anchor during uncertainty. Help your team maintain normal work rhythms where possible. Encourage regular breaks, physical movement, and hydration. Small acts of normalcy — a team coffee, a brief standup — provide stability. Flexibility is key, but structure provides comfort.",
+      "Routine is an anchor during uncertainty. Help your team maintain normal work rhythms where possible. Encourage regular breaks, physical movement, and hydration. Small acts of normalcy \u2014 a team coffee, a brief standup \u2014 provide stability. Flexibility is key, but structure provides comfort.",
   },
   {
     id: "m6",
@@ -96,18 +113,18 @@ export const individualToolkit: ToolkitItem[] = [
     id: "i1",
     title: "Crisis Conditioning",
     content:
-      "Practical checklist for crisis readiness:\n• Keep emergency numbers saved and accessible\n• Prepare a go-bag with 3 days of essentials\n• Know your building's emergency exits and meeting points\n• Keep your phone charged — carry a power bank\n• Identify your personal support network (3-5 people you can call)\n• Practice the 5-4-3-2-1 grounding technique daily\n• Maintain a 72-hour supply of any medications",
+      "Practical checklist for crisis readiness:\n\u2022 Keep emergency numbers saved and accessible\n\u2022 Prepare a go-bag with 3 days of essentials\n\u2022 Know your building's emergency exits and meeting points\n\u2022 Keep your phone charged \u2014 carry a power bank\n\u2022 Identify your personal support network (3-5 people you can call)\n\u2022 Practice the 5-4-3-2-1 grounding technique daily\n\u2022 Maintain a 72-hour supply of any medications",
   },
   {
     id: "i2",
     title: "News Consumption Rules",
     content:
-      "How to stay informed without spiraling:\n• Set 2 specific times per day for news updates (morning & evening)\n• Use only 2-3 trusted, factual news sources\n• Turn off push notifications for news apps\n• Avoid social media as a primary news source\n• If you feel your heart rate rising, stop immediately\n• After consuming news, do a 2-minute breathing exercise\n• Share facts, not fear — verify before forwarding",
+      "How to stay informed without spiraling:\n\u2022 Set 2 specific times per day for news updates (morning & evening)\n\u2022 Use only 2-3 trusted, factual news sources\n\u2022 Turn off push notifications for news apps\n\u2022 Avoid social media as a primary news source\n\u2022 If you feel your heart rate rising, stop immediately\n\u2022 After consuming news, do a 2-minute breathing exercise\n\u2022 Share facts, not fear \u2014 verify before forwarding",
   },
   {
     id: "i3",
     title: "Pet Care Guide",
     content:
-      "Taking care of pets during sudden movements:\n• Prepare a pet emergency kit (food, water, medications, leash, carrier)\n• Keep pets in a secure, quiet room during disturbances\n• Familiar items (blankets, toys) reduce pet anxiety\n• Maintain feeding schedules as much as possible\n• Watch for signs of stress: excessive panting, hiding, aggression\n• Identify pet-friendly emergency shelters in advance\n• Consider calming aids recommended by your veterinarian",
+      "Taking care of pets during sudden movements:\n\u2022 Prepare a pet emergency kit (food, water, medications, leash, carrier)\n\u2022 Keep pets in a secure, quiet room during disturbances\n\u2022 Familiar items (blankets, toys) reduce pet anxiety\n\u2022 Maintain feeding schedules as much as possible\n\u2022 Watch for signs of stress: excessive panting, hiding, aggression\n\u2022 Identify pet-friendly emergency shelters in advance\n\u2022 Consider calming aids recommended by your veterinarian",
   },
 ];
