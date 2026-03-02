@@ -1,12 +1,21 @@
 "use client";
 
+import Link from "next/link";
+import { motion } from "framer-motion";
 import { KCC_INFO, BEWELL_EMAIL } from "@/data/content";
+
+const EASE = [0.85, 0, 0.15, 1] as const;
 
 export default function StickyFooter() {
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-40 bg-white border-t border-[#E2E8F0]">
+    <motion.div
+      className="fixed bottom-0 left-0 right-0 z-40 bg-white border-t border-[#E2E8F0]"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, ease: EASE, delay: 0.3 }}
+    >
       <div className="max-w-6xl mx-auto px-3 sm:px-8 py-2.5 sm:py-3 flex items-center justify-between gap-2 sm:gap-3">
-        <div className="min-w-0">
+        <div className="min-w-0 flex items-center gap-3">
           <p className="text-slate-500">
             <span className="hidden sm:inline text-sm">
               Need support? Email{" "}
@@ -20,6 +29,12 @@ export default function StickyFooter() {
               </a>
             </span>
           </p>
+          <Link
+            href="/design"
+            className="hidden sm:inline-block text-[10px] uppercase tracking-[0.15em] text-slate-400 hover:text-slate-600 transition-colors"
+          >
+            Design
+          </Link>
         </div>
         <a
           href={`https://wa.me/${KCC_INFO.whatsapp.replace(/\s/g, "").replace("+", "")}`}
@@ -32,6 +47,6 @@ export default function StickyFooter() {
           <span>{KCC_INFO.whatsapp}</span>
         </a>
       </div>
-    </div>
+    </motion.div>
   );
 }

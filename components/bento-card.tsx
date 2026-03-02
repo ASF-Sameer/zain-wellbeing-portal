@@ -2,8 +2,23 @@
 
 import { motion } from "framer-motion";
 import { ArrowRight, type LucideIcon } from "lucide-react";
+import { useEffect, useState } from "react";
 
 const EASE = [0.85, 0, 0.15, 1] as const;
+
+function usePrefersReducedMotion() {
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+
+  useEffect(() => {
+    const mql = window.matchMedia("(prefers-reduced-motion: reduce)");
+    setPrefersReducedMotion(mql.matches);
+    const handler = (e: MediaQueryListEvent) => setPrefersReducedMotion(e.matches);
+    mql.addEventListener("change", handler);
+    return () => mql.removeEventListener("change", handler);
+  }, []);
+
+  return prefersReducedMotion;
+}
 
 export interface CardData {
   id: string;
@@ -31,6 +46,7 @@ function getLabel(card: CardData): string {
 
 export default function EditorialCard({ card, onClick, index, isSelected }: CardProps) {
   const Icon = card.icon;
+  const prefersReducedMotion = usePrefersReducedMotion();
 
   return (
     <motion.button
@@ -45,21 +61,21 @@ export default function EditorialCard({ card, onClick, index, isSelected }: Card
         borderLeft: card.leftBorder ? `4px solid ${card.leftBorder}` : undefined,
         visibility: isSelected ? "hidden" : "visible",
       }}
-      initial={{ opacity: 0, y: 12 }}
+      initial={prefersReducedMotion ? false : { opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{
+      transition={prefersReducedMotion ? { duration: 0 } : {
         duration: 0.5,
         delay: 0.15 + index * 0.06,
         ease: EASE,
         layout: { duration: 0.7, ease: EASE },
       }}
-      whileHover={{
+      whileHover={prefersReducedMotion ? undefined : {
         y: -2,
         boxShadow: card.dark
           ? "0 2px 8px rgba(0,0,0,0.3)"
           : "0 2px 8px rgba(0,0,0,0.04)",
       }}
-      whileTap={{ scale: 0.98 }}
+      whileTap={prefersReducedMotion ? undefined : { scale: 0.98 }}
     >
       <div className="p-5 sm:p-6 lg:p-8">
         <div className="flex items-start justify-between gap-3 sm:gap-4">
@@ -69,6 +85,7 @@ export default function EditorialCard({ card, onClick, index, isSelected }: Card
                 className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0"
                 style={{ color: card.iconColor }}
                 strokeWidth={1.5}
+                aria-hidden="true"
               />
               <span
                 className={`text-[10px] sm:text-[11px] font-semibold uppercase tracking-[0.15em] ${
@@ -103,7 +120,7 @@ export default function EditorialCard({ card, onClick, index, isSelected }: Card
                 : "text-slate-300 group-hover:text-[#0F172A]"
             }`}
           >
-            <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 group-hover:translate-x-0.5 transition-transform duration-300" />
+            <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 group-hover:translate-x-0.5 transition-transform duration-300" aria-hidden="true" />
           </div>
         </div>
       </div>

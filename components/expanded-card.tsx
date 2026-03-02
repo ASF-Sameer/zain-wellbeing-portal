@@ -8,6 +8,20 @@ import type { CardData } from "@/components/bento-card";
 
 const EASE = [0.85, 0, 0.15, 1] as const;
 
+function usePrefersReducedMotion() {
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+
+  useEffect(() => {
+    const mql = window.matchMedia("(prefers-reduced-motion: reduce)");
+    setPrefersReducedMotion(mql.matches);
+    const handler = (e: MediaQueryListEvent) => setPrefersReducedMotion(e.matches);
+    mql.addEventListener("change", handler);
+    return () => mql.removeEventListener("change", handler);
+  }, []);
+
+  return prefersReducedMotion;
+}
+
 const staggerContainer = {
   hidden: { opacity: 0 },
   show: {
@@ -19,6 +33,11 @@ const staggerContainer = {
   },
 };
 
+const staggerContainerReduced = {
+  hidden: { opacity: 1 },
+  show: { opacity: 1 },
+};
+
 const staggerItem = {
   hidden: { opacity: 0, y: 14 },
   show: {
@@ -28,6 +47,11 @@ const staggerItem = {
   },
 };
 
+const staggerItemReduced = {
+  hidden: { opacity: 1, y: 0 },
+  show: { opacity: 1, y: 0 },
+};
+
 interface ExpandedCardProps {
   card: CardData | null;
   onClose: () => void;
@@ -35,10 +59,31 @@ interface ExpandedCardProps {
 
 export default function ExpandedCard({ card, onClose }: ExpandedCardProps) {
   const modalRef = useRef<HTMLDivElement>(null);
+  const prefersReducedMotion = usePrefersReducedMotion();
 
   const handleKeyDown = useCallback(
     (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
+
+      if (e.key === "Tab" && modalRef.current) {
+        const focusableElements = modalRef.current.querySelectorAll<HTMLElement>(
+          'a[href], button, textarea, input, select, [tabindex]:not([tabindex="-1"])'
+        );
+        const firstFocusable = focusableElements[0];
+        const lastFocusable = focusableElements[focusableElements.length - 1];
+
+        if (e.shiftKey) {
+          if (document.activeElement === firstFocusable) {
+            e.preventDefault();
+            lastFocusable?.focus();
+          }
+        } else {
+          if (document.activeElement === lastFocusable) {
+            e.preventDefault();
+            firstFocusable?.focus();
+          }
+        }
+      }
     },
     [onClose]
   );
@@ -53,6 +98,10 @@ export default function ExpandedCard({ card, onClose }: ExpandedCardProps) {
     };
   }, [card, handleKeyDown]);
 
+  const motionProps = prefersReducedMotion
+    ? { initial: false as const, animate: { opacity: 1 }, exit: { opacity: 0 }, transition: { duration: 0 } }
+    : {};
+
   return (
     <AnimatePresence>
       {card && (
@@ -62,7 +111,7 @@ export default function ExpandedCard({ card, onClose }: ExpandedCardProps) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.4, ease: EASE }}
+            transition={{ duration: prefersReducedMotion ? 0 : 0.4, ease: EASE }}
             onClick={onClose}
             aria-hidden="true"
           />
@@ -76,32 +125,32 @@ export default function ExpandedCard({ card, onClose }: ExpandedCardProps) {
               aria-label={card.title}
               tabIndex={-1}
               className="relative w-full sm:max-w-2xl min-h-screen sm:min-h-0 bg-white border-0 sm:border border-[#E2E8F0] outline-none"
-              transition={{ duration: 0.7, ease: EASE }}
+              transition={{ duration: prefersReducedMotion ? 0 : 0.7, ease: EASE }}
               style={{
                 borderLeft: card.leftBorder ? `4px solid ${card.leftBorder}` : undefined,
               }}
             >
               <div className="sticky top-0 z-10 bg-white flex items-center justify-between px-4 sm:px-8 py-4 sm:py-5 border-b border-[#E2E8F0]">
                 <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
-                  <card.icon className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0" style={{ color: card.iconColor }} strokeWidth={1.5} />
+                  <card.icon className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0" style={{ color: card.iconColor }} strokeWidth={1.5} aria-hidden="true" />
                   <h2 className="text-base sm:text-lg font-semibold text-[#0F172A] tracking-tight truncate">{card.title}</h2>
                 </div>
                 <button
                   onClick={onClose}
-                  className="w-9 h-9 sm:w-8 sm:h-8 flex items-center justify-center text-slate-400 hover:text-slate-700 transition-colors flex-shrink-0 -mr-1"
+                  className="min-w-[44px] min-h-[44px] w-11 h-11 sm:w-11 sm:h-11 flex items-center justify-center text-slate-400 hover:text-slate-700 transition-colors flex-shrink-0 -mr-1"
                   aria-label="Close"
                 >
-                  <X className="w-5 h-5 sm:w-4 sm:h-4" strokeWidth={1.5} />
+                  <X className="w-5 h-5 sm:w-4 sm:h-4" strokeWidth={1.5} aria-hidden="true" />
                 </button>
               </div>
 
               <motion.div
                 className="px-4 sm:px-8 py-5 sm:py-6 pb-20 sm:pb-6"
-                variants={staggerContainer}
+                variants={prefersReducedMotion ? staggerContainerReduced : staggerContainer}
                 initial="hidden"
                 animate="show"
               >
-                <CardContent type={card.id} />
+                <CardContent type={card.id} prefersReducedMotion={prefersReducedMotion} />
               </motion.div>
             </motion.div>
           </div>
@@ -111,23 +160,27 @@ export default function ExpandedCard({ card, onClose }: ExpandedCardProps) {
   );
 }
 
-function CardContent({ type }: { type: string }) {
+function CardContent({ type, prefersReducedMotion }: { type: string; prefersReducedMotion: boolean }) {
   switch (type) {
     case "resilience":
-      return <ResilienceContent />;
+      return <ResilienceContent prefersReducedMotion={prefersReducedMotion} />;
     case "buddy":
-      return <BuddyContent />;
+      return <BuddyContent prefersReducedMotion={prefersReducedMotion} />;
     case "manager":
-      return <ManagerContent />;
+      return <ManagerContent prefersReducedMotion={prefersReducedMotion} />;
     case "parents":
-      return <ParentsContent />;
+      return <ParentsContent prefersReducedMotion={prefersReducedMotion} />;
     case "bewell":
-      return <BeWellContent />;
+      return <BeWellContent prefersReducedMotion={prefersReducedMotion} />;
     case "kcc":
-      return <KCCContent />;
+      return <KCCContent prefersReducedMotion={prefersReducedMotion} />;
     default:
       return null;
   }
+}
+
+function useStaggerItem(prefersReducedMotion: boolean) {
+  return prefersReducedMotion ? staggerItemReduced : staggerItem;
 }
 
 function SectionLabel({ text }: { text: string }) {
@@ -149,6 +202,33 @@ function GuidanceCard({ title, text }: { title: string; text: string }) {
 
 function IframeEmbed({ src, label }: { src: string; label: string }) {
   const [loaded, setLoaded] = useState(false);
+  const [timedOut, setTimedOut] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (!loaded) setTimedOut(true);
+    }, 15000);
+    return () => clearTimeout(timer);
+  }, [loaded]);
+
+  if (timedOut && !loaded) {
+    return (
+      <div className="relative w-full h-[200px] overflow-hidden bg-white border border-slate-200 flex flex-col items-center justify-center gap-4">
+        <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400">
+          Unable to load {label}
+        </span>
+        <a
+          href={src}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-2 bg-[#0F172A] text-white px-4 py-2.5 text-[13px] sm:text-sm font-semibold tracking-tight hover:bg-[#1E293B] transition-colors"
+        >
+          Open in new tab
+        </a>
+      </div>
+    );
+  }
+
   return (
     <div className="relative w-full h-[400px] sm:h-[600px] overflow-hidden bg-white border border-slate-200">
       {!loaded && (
@@ -205,10 +285,11 @@ function FormPlaceholder({ label }: { label: string }) {
   );
 }
 
-function ResilienceContent() {
+function ResilienceContent({ prefersReducedMotion }: { prefersReducedMotion: boolean }) {
+  const item = useStaggerItem(prefersReducedMotion);
   return (
     <div className="space-y-6 sm:space-y-8">
-      <motion.div variants={staggerItem}>
+      <motion.div variants={item}>
         <SectionLabel text="Wellbeing Guidance" />
         <div className="space-y-4 sm:space-y-5">
           <GuidanceCard
@@ -229,8 +310,8 @@ function ResilienceContent() {
           />
         </div>
       </motion.div>
-      <motion.div variants={staggerItem} className="h-px bg-[#E2E8F0]" />
-      <motion.div variants={staggerItem}>
+      <motion.div variants={item} className="h-px bg-[#E2E8F0]" />
+      <motion.div variants={item}>
         <SectionLabel text="Daily Practices" />
         <div className="space-y-4 sm:space-y-5">
           <GuidanceCard
@@ -255,10 +336,11 @@ function ResilienceContent() {
   );
 }
 
-function ManagerContent() {
+function ManagerContent({ prefersReducedMotion }: { prefersReducedMotion: boolean }) {
+  const item = useStaggerItem(prefersReducedMotion);
   return (
     <div className="space-y-6 sm:space-y-8">
-      <motion.div variants={staggerItem}>
+      <motion.div variants={item}>
         <SectionLabel text="Supporting Your Team" />
         <div className="space-y-4 sm:space-y-5">
           <GuidanceCard
@@ -275,8 +357,8 @@ function ManagerContent() {
           />
         </div>
       </motion.div>
-      <motion.div variants={staggerItem} className="h-px bg-[#E2E8F0]" />
-      <motion.div variants={staggerItem}>
+      <motion.div variants={item} className="h-px bg-[#E2E8F0]" />
+      <motion.div variants={item}>
         <SectionLabel text="Leadership Actions" />
         <div className="space-y-4 sm:space-y-5">
           <GuidanceCard
@@ -297,11 +379,12 @@ function ManagerContent() {
   );
 }
 
-function BuddyContent() {
+function BuddyContent({ prefersReducedMotion }: { prefersReducedMotion: boolean }) {
+  const item = useStaggerItem(prefersReducedMotion);
   const isRealForm = !POWER_BUDDY_FORM_URL.includes("REPLACE_WITH");
   return (
     <div className="space-y-6 sm:space-y-8">
-      <motion.div variants={staggerItem}>
+      <motion.div variants={item}>
         <SectionLabel text="How It Works" />
         <p className="text-[13px] sm:text-sm text-slate-500 leading-relaxed mb-4 sm:mb-5">
           Get matched with a Zain colleague for a grounding conversation. No judgment, just human connection.
@@ -321,7 +404,7 @@ function BuddyContent() {
           ))}
         </div>
       </motion.div>
-      <motion.div variants={staggerItem}>
+      <motion.div variants={item}>
         <div className="border border-[#E2E8F0] bg-[#F8FAFC] p-4 sm:p-5">
           <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">Status</p>
           <p className="text-[13px] sm:text-sm text-slate-500 leading-relaxed">
@@ -329,7 +412,7 @@ function BuddyContent() {
           </p>
         </div>
       </motion.div>
-      <motion.div variants={staggerItem}>
+      <motion.div variants={item}>
         {isRealForm ? (
           <IframeEmbed src={POWER_BUDDY_FORM_URL} label="Power Buddy Form" />
         ) : (
@@ -340,17 +423,18 @@ function BuddyContent() {
   );
 }
 
-function ParentsContent() {
+function ParentsContent({ prefersReducedMotion }: { prefersReducedMotion: boolean }) {
+  const item = useStaggerItem(prefersReducedMotion);
   return (
     <div className="space-y-6 sm:space-y-8">
-      <motion.div variants={staggerItem}>
+      <motion.div variants={item}>
         <div className="border-l-2 border-[#EA580C] pl-3 sm:pl-4 py-2 mb-5 sm:mb-6">
           <p className="text-[13px] sm:text-sm text-slate-600 italic">
             &ldquo;Put on your own oxygen mask first. Your children watch you to see if they are safe, so your calm is their best protection.&rdquo;
           </p>
         </div>
       </motion.div>
-      <motion.div variants={staggerItem}>
+      <motion.div variants={item}>
         <SectionLabel text="How to Take Care of Your Children" />
         <div className="space-y-4 sm:space-y-5">
           <GuidanceCard
@@ -379,8 +463,8 @@ function ParentsContent() {
           />
         </div>
       </motion.div>
-      <motion.div variants={staggerItem} className="h-px bg-[#E2E8F0]" />
-      <motion.div variants={staggerItem}>
+      <motion.div variants={item} className="h-px bg-[#E2E8F0]" />
+      <motion.div variants={item}>
         <SectionLabel text="Anchor Them in Faith" />
         <div className="border border-[#E2E8F0] bg-[#F8FAFC] p-4 sm:p-5">
           <p className="text-right text-base sm:text-lg leading-relaxed text-[#0F172A] mb-2" dir="rtl">
@@ -398,17 +482,18 @@ function ParentsContent() {
   );
 }
 
-function BeWellContent() {
+function BeWellContent({ prefersReducedMotion }: { prefersReducedMotion: boolean }) {
+  const item = useStaggerItem(prefersReducedMotion);
   const isRealForm = !BEWELL_SUBSCRIBE_FORM_URL.includes("REPLACE_WITH");
   return (
     <div className="space-y-6 sm:space-y-8">
-      <motion.div variants={staggerItem}>
+      <motion.div variants={item}>
         <SectionLabel text="Daily Support Emails" />
         <p className="text-[13px] sm:text-sm text-slate-500 leading-relaxed mb-4 sm:mb-5">
           Subscribe to receive a daily BE WELL email with comforting words, connection, and practical wellbeing support during these difficult times.
         </p>
       </motion.div>
-      <motion.div variants={staggerItem}>
+      <motion.div variants={item}>
         {isRealForm ? (
           <IframeEmbed src={BEWELL_SUBSCRIBE_FORM_URL} label="BE WELL Subscription" />
         ) : (
@@ -419,17 +504,18 @@ function BeWellContent() {
   );
 }
 
-function KCCContent() {
+function KCCContent({ prefersReducedMotion }: { prefersReducedMotion: boolean }) {
+  const item = useStaggerItem(prefersReducedMotion);
   return (
     <div className="space-y-6 sm:space-y-8">
-      <motion.div variants={staggerItem}>
+      <motion.div variants={item}>
         <SectionLabel text="Free Counselling Sessions" />
         <p className="text-[13px] sm:text-sm text-slate-500 leading-relaxed mb-4 sm:mb-5">
           {KCC_INFO.supportNote}
         </p>
         <div className="border border-[#E2E8F0] bg-[#F8FAFC] p-4 sm:p-5 space-y-4">
           <div className="flex items-start gap-3">
-            <MessageCircle className="w-4 h-4 text-[#25D366] mt-0.5 flex-shrink-0" strokeWidth={1.5} />
+            <MessageCircle className="w-4 h-4 text-[#25D366] mt-0.5 flex-shrink-0" strokeWidth={1.5} aria-hidden="true" />
             <div className="min-w-0">
               <p className="text-[13px] sm:text-sm text-slate-600 leading-relaxed">
                 {KCC_INFO.bookingNote}
@@ -440,15 +526,15 @@ function KCCContent() {
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 mt-3 bg-[#0F172A] text-white px-4 py-2.5 text-[13px] sm:text-sm font-semibold tracking-tight hover:bg-[#1E293B] transition-colors active:scale-[0.98]"
               >
-                <MessageCircle className="w-4 h-4" strokeWidth={1.5} />
+                <MessageCircle className="w-4 h-4" strokeWidth={1.5} aria-hidden="true" />
                 WhatsApp {KCC_INFO.whatsapp}
               </a>
             </div>
           </div>
         </div>
       </motion.div>
-      <motion.div variants={staggerItem} className="h-px bg-[#E2E8F0]" />
-      <motion.div variants={staggerItem}>
+      <motion.div variants={item} className="h-px bg-[#E2E8F0]" />
+      <motion.div variants={item}>
         <SectionLabel text="Mental Health First Aid (MHFA)" />
         <p className="text-[13px] sm:text-sm text-slate-500 leading-relaxed mb-4">
           Your Mental Health First Aiders (MHFAs), Zain employees certified to support you, are also here for you. These conversations are confidential.
@@ -470,8 +556,8 @@ function KCCContent() {
           </div>
         </div>
       </motion.div>
-      <motion.div variants={staggerItem} className="h-px bg-[#E2E8F0]" />
-      <motion.div variants={staggerItem}>
+      <motion.div variants={item} className="h-px bg-[#E2E8F0]" />
+      <motion.div variants={item}>
         <div className="border-l-2 border-[#E40068] pl-3 sm:pl-4 py-2">
           <p className="text-[13px] sm:text-sm text-slate-600 italic">
             &ldquo;Reaching out is a sign of strength, not weakness. All conversations are strictly confidential.&rdquo;
