@@ -112,19 +112,21 @@ export default function HomePage() {
         <section className="px-4 sm:px-8 pt-8 sm:pt-16 pb-10 sm:pb-20">
           <div className="max-w-6xl mx-auto">
             <motion.div
-              className="flex items-center gap-2.5 sm:gap-3 mb-8 sm:mb-14"
+              className="flex items-center gap-3 sm:gap-4 mb-8 sm:mb-14"
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: ready ? 1 : 0, y: ready ? 0 : 10 }}
               transition={{ duration: 0.5, ease: EASE, delay: 0.05 }}
             >
-              <div className="flex items-center gap-1.5">
-                <div className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-[#E40068]" />
-                <span className="text-lg sm:text-xl font-black tracking-tighter text-[#0F172A]" style={{ fontFamily: "'Zain', sans-serif" }}>
-                  zain
-                </span>
-              </div>
-              <div className="w-px h-5 sm:h-6 bg-slate-200" />
-              <span className="text-[10px] sm:text-[11px] font-bold tracking-[0.25em] text-[#E40068] uppercase">
+              <img
+                src="/images/zain-logo.png"
+                alt="Zain"
+                className="h-7 sm:h-9 w-auto invert"
+              />
+              <div className="w-px h-6 sm:h-7 bg-slate-200" />
+              <span
+                className="text-base sm:text-lg font-bold tracking-[0.2em] text-[#E40068] uppercase"
+                style={{ fontFamily: "'Zain', sans-serif" }}
+              >
                 BE WELL
               </span>
             </motion.div>
