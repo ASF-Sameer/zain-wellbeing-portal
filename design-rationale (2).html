@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zain BE WELL — Design Rationale</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Zain:wght@400;700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Zain', 'Inter', system-ui, -apple-system, sans-serif;
+      background: #F8FAFC;
+      color: #0F172A;
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    .container { max-width: 720px; margin: 0 auto; padding: 48px 24px 96px; }
+    @media (min-width: 640px) { .container { padding: 64px 32px 128px; } }
+    .back-link {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 14px; color: #94A3B8; text-decoration: none;
+      margin-bottom: 56px; transition: color 0.2s;
+    }
+    .back-link:hover { color: #0F172A; }
+    .back-link svg { width: 16px; height: 16px; }
+    .lockup { display: flex; align-items: center; gap: 16px; margin-bottom: 24px; }
+    .lockup img { height: 36px; width: auto; filter: invert(1); }
+    .lockup .divider { width: 1px; height: 28px; background: #E2E8F0; }
+    .lockup .bewell {
+      font-family: 'Zain', sans-serif; font-weight: 700;
+      font-size: 18px; letter-spacing: 0.2em;
+      color: #E40068; text-transform: uppercase;
+    }
+    h1 {
+      font-family: 'Zain', sans-serif; font-weight: 700;
+      font-size: clamp(1.6rem, 5vw, 3rem);
+      color: #0F172A; line-height: 1.1; letter-spacing: -0.02em;
+      margin-bottom: 16px;
+    }
+    .accent-bar { width: 48px; height: 3px; background: #E40068; margin-bottom: 16px; }
+    @media (min-width: 640px) { .accent-bar { width: 64px; height: 4px; margin-bottom: 24px; } }
+    .intro {
+      font-size: 16px; color: #64748B; max-width: 640px;
+      line-height: 1.7; margin-bottom: 64px;
+    }
+    @media (min-width: 640px) { .intro { font-size: 18px; margin-bottom: 96px; } }
+    .sections { display: flex; flex-direction: column; gap: 64px; }
+    @media (min-width: 640px) { .sections { gap: 96px; } }
+    article {}
+    .section-label {
+      font-size: 10px; font-weight: 600; text-transform: uppercase;
+      letter-spacing: 0.25em; color: #94A3B8; margin-bottom: 12px;
+    }
+    h2 {
+      font-family: 'Zain', sans-serif; font-weight: 700;
+      font-size: 20px; color: #0F172A; line-height: 1.2;
+      letter-spacing: -0.02em; margin-bottom: 24px;
+    }
+    @media (min-width: 640px) { h2 { font-size: 24px; } }
+    .section-divider { width: 32px; height: 2px; background: #E2E8F0; margin-bottom: 24px; }
+    .content p {
+      font-size: 15px; color: #475569; line-height: 1.75; margin-bottom: 16px;
+    }
+    .content p:last-child { margin-bottom: 0; }
+    @media (min-width: 640px) { .content p { font-size: 16px; } }
+    .color-swatches {
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;
+      margin-top: 24px; margin-bottom: 8px;
+    }
+    @media (min-width: 640px) { .color-swatches { grid-template-columns: repeat(4, 1fr); } }
+    .swatch { border: 1px solid #E2E8F0; padding: 16px 12px; }
+    .swatch-color { width: 100%; height: 32px; margin-bottom: 10px; }
+    .swatch-name { font-size: 11px; font-weight: 600; color: #0F172A; margin-bottom: 2px; }
+    .swatch-hex { font-size: 10px; font-weight: 600; letter-spacing: 0.1em; color: #94A3B8; text-transform: uppercase; }
+    .footer {
+      margin-top: 80px; padding-top: 32px;
+      border-top: 1px solid #E2E8F0;
+    }
+    @media (min-width: 640px) { .footer { margin-top: 112px; } }
+    .footer-label {
+      font-size: 10px; font-weight: 600; text-transform: uppercase;
+      letter-spacing: 0.25em; color: #94A3B8; margin-bottom: 8px;
+    }
+    .footer-text { font-size: 14px; color: #64748B; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="/" class="back-link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
+      Back to Portal
+    </a>
+
+    <div class="lockup">
+      <img src="/images/zain-logo.png" alt="Zain">
+      <div class="divider"></div>
+      <span class="bewell">BE WELL</span>
+    </div>
+
+    <h1>Design Rationale</h1>
+    <div class="accent-bar"></div>
+    <p class="intro">A comprehensive explanation of the architectural and design decisions behind the Zain BE WELL crisis support portal.</p>
+
+    <div class="sections">
+
+      <article>
+        <p class="section-label">Philosophy</p>
+        <h2>Swiss Editorial / International Typographic Style</h2>
+        <div class="section-divider"></div>
+        <div class="content">
+          <p>The Zain BE WELL portal serves as a crisis support resource — a tool people reach for during moments of stress, uncertainty, or emotional difficulty. Every design decision was filtered through one question: does this reduce cognitive load when someone is struggling?</p>
+          <p>Swiss Editorial design — rooted in the International Typographic Style of the 1950s — was chosen precisely because it prioritizes clarity over decoration. Grid-based layouts, generous whitespace, and systematic typography create an environment of calm authority. There are no gradients fighting for attention, no illustrative flourishes adding visual noise. The interface communicates: this is serious, this is trustworthy, this will help you.</p>
+          <p>The editorial metaphor (newspaper-like grid, section labels, typographic hierarchy) gives the content an implicit credibility. People trust editorial layouts because they associate them with journalism and institutional communication — exactly the tone a crisis support portal needs.</p>
+        </div>
+      </article>
+
+      <article>
+        <p class="section-label">Color System</p>
+        <h2>Psychological Color Architecture</h2>
+        <div class="section-divider"></div>
+        <div class="color-swatches">
+          <div class="swatch">
+            <div class="swatch-color" style="background: #0B101E;"></div>
+            <div class="swatch-name">Navy</div>
+            <div class="swatch-hex">#0B101E</div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background: #E40068;"></div>
+            <div class="swatch-name">Magenta</div>
+            <div class="swatch-hex">#E40068</div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background: #00B5E2;"></div>
+            <div class="swatch-name">Cyan</div>
+            <div class="swatch-hex">#00B5E2</div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background: #F8FAFC; border: 1px solid #E2E8F0;"></div>
+            <div class="swatch-name">Off-White</div>
+            <div class="swatch-hex">#F8FAFC</div>
+          </div>
+        </div>
+        <div class="content">
+          <p><strong>Navy (#0B101E) — Authority &amp; Stability:</strong> The primary text and accent color is near-black navy rather than pure black. This reduces harsh contrast against the light background while conveying institutional authority. Navy is universally associated with trust, professionalism, and security — critical emotional signals for a wellbeing resource.</p>
+          <p><strong>Magenta (#E40068) — Urgency &amp; Brand Identity:</strong> Zain's brand magenta serves a dual purpose. As a brand element, it maintains corporate identity. As a design element, it signals urgency and importance — the progress bar, the accent line, the emergency labels. Magenta is warm enough to feel human but vivid enough to command attention when needed.</p>
+          <p><strong>Cyan (#00B5E2) — Hope &amp; Action:</strong> The secondary accent creates visual relief from the magenta's intensity. Cyan is psychologically associated with openness, clarity, and forward movement. It's used for interactive elements and the Power Buddy system — things that represent connection and positive action.</p>
+          <p><strong>Off-White (#F8FAFC) — Calm &amp; Comfort:</strong> The background is not pure white (#FFFFFF) but a carefully tuned cool off-white. Pure white can feel clinical and harsh; this warm-cool neutral creates a sense of calm space. It's the color of a clean page, a fresh start, a quiet room.</p>
+        </div>
+      </article>
+
+      <article>
+        <p class="section-label">Typography</p>
+        <h2>Typographic Decisions</h2>
+        <div class="section-divider"></div>
+        <div class="content">
+          <p>Zain's custom typeface was chosen as the primary font across the entire portal — not just for headings, but for all body text, labels, and content. This is a deliberate brand-first decision: when employees open a crisis resource, they should immediately feel that this is a Zain product, built by their organization, for them. The Zain font carries warmth, familiarity, and institutional identity in every paragraph.</p>
+          <p>Using a single brand typeface throughout also eliminates the visual friction of font switching. When headings and body text share the same typographic DNA, the reading experience feels cohesive and intentional. The font's rounded forms and generous spacing create a tone that is approachable without being casual — exactly the balance a wellbeing resource needs.</p>
+          <p>The 10px uppercase tracking-widest label system ("FOR YOU", "URGENT", "EMERGENCY") borrows directly from editorial design. These micro-labels create scannable entry points — a user in distress can locate relevant content in seconds without reading full sentences. The uppercase treatment and wide letter-spacing make them function as visual anchors rather than readable text.</p>
+          <p>Serif fonts were deliberately avoided. While serifs convey tradition and authority in print, they can reduce readability on screens — particularly on mobile devices at small sizes. The stakes are too high to trade legibility for aesthetic convention. Inter is retained as a system fallback to ensure legibility if the Zain font fails to load.</p>
+        </div>
+      </article>
+
+      <article>
+        <p class="section-label">Layout</p>
+        <h2>The 3&times;2 Editorial Grid</h2>
+        <div class="section-divider"></div>
+        <div class="content">
+          <p>The grid architecture uses a 3-column layout on desktop that collapses to a single column on mobile. Content hierarchy is established through column spanning: span-2 cards are primary content ("For You", "Power Buddy", "Daily Emails"), while span-1 cards are secondary but equally accessible.</p>
+          <p>The gap-px borders between cards create a newspaper-like reading flow. Rather than using card shadows or rounded corners (which signal "click me, I'm a card"), the flat grid borders signal "read me, I'm content". This is a deliberate shift from app-like UI to editorial UI — the content is the interface.</p>
+          <p>The grid's visual rhythm creates natural reading paths. The eye moves from the large primary card (top-left, spanning two columns) across to the secondary cards, then down to the action-oriented bottom row. This Z-pattern reading flow is well-established in editorial design and maps perfectly to the content priority: learn first, then act.</p>
+        </div>
+      </article>
+
+      <article>
+        <p class="section-label">Interaction</p>
+        <h2>In-Place Card Expansion (layoutId)</h2>
+        <div class="section-divider"></div>
+        <div class="content">
+          <p>When a user selects a card, it expands in place using Framer Motion's layoutId animation. This was chosen over three alternatives: page navigation (too slow, loses context), slide-out drawers (feels like a settings panel, not content), and modals (feels like an interruption).</p>
+          <p>The in-place expansion maintains spatial continuity — the user sees the card grow from its original position, preserving their mental model of where they are in the interface. This is the same pattern Apple uses in the App Store for app previews: content expands from its origin, and collapses back to it.</p>
+          <p>Spatial continuity is particularly important for users in distress. Disorienting transitions (page changes, slide-ins from unexpected directions) add cognitive load. The expansion animation is a form of wayfinding — it says "you're still here, we just showed you more".</p>
+        </div>
+      </article>
+
+      <article>
+        <p class="section-label">Depth</p>
+        <h2>The 3D Scale-Back Effect</h2>
+        <div class="section-divider"></div>
+        <div class="content">
+          <p>When a card expands, the background grid scales down (to 94%), shifts down slightly, and applies a subtle blur with reduced brightness. This creates a depth-of-field effect borrowed from cinematography — the "subject" (expanded card) is in focus while the "background" recedes.</p>
+          <p>This serves a functional purpose beyond aesthetics: it eliminates distraction. When a user is reading crisis support content, the rest of the interface shouldn't compete for attention. The scale-back effect creates a visual hierarchy that says "focus here, everything else can wait".</p>
+          <p>The rounded corners that appear on the scaled-back container reinforce the depth illusion — objects further away appear to have softer edges. This subtle detail contributes to the overall feeling of spatial depth without requiring actual 3D rendering.</p>
+        </div>
+      </article>
+
+      <article>
+        <p class="section-label">Loader</p>
+        <h2>The Cinematic Entry Sequence</h2>
+        <div class="section-divider"></div>
+        <div class="content">
+          <p>The 2.5-second branded loader is not a loading spinner — it's an emotional transition. Users arriving at a crisis support portal may be in a heightened emotional state. The loader serves as a decompression chamber: the dark background, the slowly revealing "BE WELL" text, and the magenta progress bar create a moment of pause before content appears.</p>
+          <p>The magenta progress bar serves as a trust signal — it communicates that the system is working, that content is coming, that this is a polished and reliable resource. In crisis contexts, even small signals of competence and reliability matter.</p>
+          <p>The fade-to-content transition (opacity animation with a smooth ease curve) prevents the jarring snap from dark loader to light content. The timing is calibrated to feel intentional without feeling slow — long enough to set emotional tone, short enough to respect urgency.</p>
+        </div>
+      </article>
+
+      <article>
+        <p class="section-label">Mobile</p>
+        <h2>Mobile-First Crisis Design</h2>
+        <div class="section-divider"></div>
+        <div class="content">
+          <p>The majority of users will access this portal from their phones — likely while at home, commuting, or in a moment of private concern. Every element is designed mobile-first: touch targets exceed the 44&times;44px minimum, text is readable without zooming, and the single-column mobile layout eliminates horizontal scanning.</p>
+          <p>The KCC WhatsApp button in the sticky footer is always accessible — on every screen, at every scroll position. For a crisis resource, the most important action (contacting professional support) must never be more than one tap away. The sticky footer pattern ensures this without cluttering the main content area.</p>
+          <p>Content is structured for scanning, not reading. Bold titles, short subtitles, and visual labels allow a distressed user to find what they need in seconds. The grid cards function as a table of contents — scan, select, read. No scrolling through long pages, no hunting through navigation menus.</p>
+        </div>
+      </article>
+
+      <article>
+        <p class="section-label">Accessibility</p>
+        <h2>WCAG Compliance &amp; Inclusive Design</h2>
+        <div class="section-divider"></div>
+        <div class="content">
+          <p>All interactive elements include proper ARIA roles and labels. Decorative icons are marked with aria-hidden to prevent screen reader noise. The expanded card implements focus trapping so keyboard users can't tab behind the modal overlay.</p>
+          <p>The prefers-reduced-motion media query is respected throughout. Users who have enabled reduced motion settings will see simplified transitions or no animations at all — including the option to skip the loader entirely. Animation is enhancement, not requirement.</p>
+          <p>Color is never used as the only means of conveying information. Labels like "Urgent" and "Emergency" use text alongside their colored left borders. Contrast ratios meet WCAG AA standards for all text sizes, with the navy-on-off-white combination providing comfortable reading contrast without the harshness of pure black on white.</p>
+        </div>
+      </article>
+
+    </div>
+
+    <div class="footer">
+      <p class="footer-label">Zain Wellbeing</p>
+      <p class="footer-text">Built with care for the Zain family.</p>
+    </div>
+  </div>
+</body>
+</html>
