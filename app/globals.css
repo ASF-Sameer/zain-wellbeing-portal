@@ -4,37 +4,36 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  --wellbeing-deep: #0A1628;
-  --wellbeing-dark: #111D32;
-  --wellbeing-mid: #182842;
-  --wellbeing-surface: rgba(255, 255, 255, 0.04);
-  --wellbeing-teal: #00B7AE;
-  --wellbeing-teal-light: #33CDC5;
-  --wellbeing-teal-muted: rgba(0, 183, 174, 0.12);
-  --wellbeing-warm: #D4896A;
-  --wellbeing-warm-light: #E4A88E;
-  --wellbeing-warm-muted: rgba(212, 137, 106, 0.12);
-  --wellbeing-sage: #6BA68B;
-  --wellbeing-lavender: #8B7FB8;
-  --wellbeing-rose: #C4556A;
-  --wellbeing-text: #E6EBF0;
-  --wellbeing-text-secondary: rgba(230, 235, 240, 0.7);
-  --wellbeing-text-muted: rgba(230, 235, 240, 0.45);
-  --wellbeing-glass: rgba(255, 255, 255, 0.04);
-  --wellbeing-glass-border: rgba(255, 255, 255, 0.07);
-  --wellbeing-card-bg: rgba(255, 255, 255, 0.03);
+  --bw-sky: #D6EEF8;
+  --bw-sky-light: #E8F5FB;
+  --bw-sky-pale: #F0F8FC;
+  --bw-white: #FFFFFF;
+  --bw-pink: #D4267E;
+  --bw-pink-light: #E84B93;
+  --bw-pink-muted: rgba(212, 38, 126, 0.08);
+  --bw-teal: #00A5A8;
+  --bw-teal-light: #00BFC2;
+  --bw-teal-muted: rgba(0, 165, 168, 0.08);
+  --bw-navy: #1A2744;
+  --bw-navy-light: #2A3B5E;
+  --bw-text: #1A2744;
+  --bw-text-secondary: #4A5568;
+  --bw-text-muted: #8896A6;
+  --bw-card: rgba(255, 255, 255, 0.7);
+  --bw-card-border: rgba(255, 255, 255, 0.9);
+  --bw-danger: #C4556A;
 
-  --background: var(--wellbeing-deep);
-  --foreground: var(--wellbeing-text);
-  --card: var(--wellbeing-glass);
-  --card-foreground: var(--wellbeing-text);
-  --primary: var(--wellbeing-teal);
+  --background: var(--bw-sky-light);
+  --foreground: var(--bw-text);
+  --card: var(--bw-card);
+  --card-foreground: var(--bw-text);
+  --primary: var(--bw-pink);
   --primary-foreground: #FFFFFF;
-  --muted: rgba(255, 255, 255, 0.04);
-  --muted-foreground: var(--wellbeing-text-muted);
-  --border: var(--wellbeing-glass-border);
-  --input: rgba(255, 255, 255, 0.08);
-  --ring: var(--wellbeing-teal);
+  --muted: rgba(26, 39, 68, 0.04);
+  --muted-foreground: var(--bw-text-muted);
+  --border: rgba(26, 39, 68, 0.08);
+  --input: rgba(26, 39, 68, 0.06);
+  --ring: var(--bw-pink);
   --radius: 0.75rem;
 
   --radius-sm: calc(var(--radius) - 4px);
@@ -45,7 +44,7 @@
 }
 
 @theme inline {
-  --font-sans: var(--font-dm-sans), 'DM Sans', system-ui, -apple-system, sans-serif;
+  --font-sans: 'Zain', system-ui, -apple-system, sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
 
   --color-background: var(--background);
@@ -74,32 +73,26 @@
   }
   body {
     @apply bg-background text-foreground antialiased;
-    font-family: var(--font-sans);
-    background: var(--wellbeing-deep);
+    font-family: 'Zain', system-ui, -apple-system, sans-serif;
+    background: var(--bw-sky-light);
     min-height: 100vh;
     overflow-x: hidden;
   }
   html {
     scroll-behavior: smooth;
-    scroll-padding-top: 5rem;
+    scroll-padding-top: 5.5rem;
     overflow-x: hidden;
   }
 }
 
 @layer utilities {
-  .glass {
-    background: var(--wellbeing-glass);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid var(--wellbeing-glass-border);
-  }
-
-  .glass-card {
-    background: var(--wellbeing-card-bg);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid var(--wellbeing-glass-border);
-    border-radius: 16px;
+  .card-glass {
+    background: var(--bw-card);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--bw-card-border);
+    border-radius: 20px;
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.04);
   }
 
   .text-balance {
@@ -116,21 +109,18 @@
 
   @keyframes gentle-float {
     0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-6px); }
+    50% { transform: translateY(-4px); }
   }
 
   @keyframes soft-pulse {
-    0%, 100% { opacity: 0.5; }
+    0%, 100% { opacity: 0.6; }
     50% { opacity: 1; }
   }
 
-  .animate-float { animation: gentle-float 6s ease-in-out infinite; }
+  .animate-float { animation: gentle-float 5s ease-in-out infinite; }
   .animate-soft-pulse { animation: soft-pulse 3s ease-in-out infinite; }
 
   @media (prefers-reduced-motion: reduce) {
-    .animate-float,
-    .animate-soft-pulse {
-      animation: none !important;
-    }
+    .animate-float, .animate-soft-pulse { animation: none !important; }
   }
 }
