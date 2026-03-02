@@ -114,15 +114,7 @@ export default function HomePage() {
           ready ? "opacity-100" : "opacity-0"
         } ${isDrawerOpen ? "app-scaled" : ""}`}
       >
-        <div className="bg-[#121626] text-white text-[10px] uppercase tracking-widest py-2 px-6 flex justify-between items-center">
-          <span className="flex items-center gap-2">
-            <span className="inline-block w-1.5 h-1.5 rounded-full bg-emerald-400" />
-            Regional Status: Stable
-          </span>
-          <span className="text-white/50">Last Updated: Just Now</span>
-        </div>
-
-        <section className="px-5 sm:px-8 pt-10 sm:pt-14 pb-14 sm:pb-20">
+        <section className="px-5 sm:px-8 pt-12 sm:pt-16 pb-14 sm:pb-20">
           <div className="max-w-6xl mx-auto">
             <motion.div
               className="flex items-center gap-3 mb-10 sm:mb-14"
