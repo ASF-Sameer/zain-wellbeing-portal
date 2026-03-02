@@ -1,0 +1,96 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  --color-wellbeing-bg: #F8F9FA;
+  --color-wellbeing-navy: #1A1F36;
+  --color-wellbeing-navy-light: #2D3250;
+  --color-wellbeing-teal: #00B5AD;
+  --color-wellbeing-teal-dark: #009A93;
+  --color-wellbeing-magenta: #E20074;
+  --color-wellbeing-warm: #FFF8F0;
+  --color-wellbeing-card: #FFFFFF;
+  --color-wellbeing-text: #1A1F36;
+  --color-wellbeing-text-muted: #6B7280;
+  --color-wellbeing-border: #E5E7EB;
+  --color-wellbeing-urgent: #DC2626;
+  --color-wellbeing-resource: #2563EB;
+  --color-wellbeing-announcement: #7C3AED;
+  --color-wellbeing-wellbeing-tag: #059669;
+
+  --background: #F8F9FA;
+  --foreground: #1A1F36;
+  --card: #FFFFFF;
+  --card-foreground: #1A1F36;
+  --primary: #00B5AD;
+  --primary-foreground: #FFFFFF;
+  --secondary: #F3F4F6;
+  --secondary-foreground: #1A1F36;
+  --muted: #F3F4F6;
+  --muted-foreground: #6B7280;
+  --accent: #00B5AD;
+  --accent-foreground: #FFFFFF;
+  --destructive: #DC2626;
+  --destructive-foreground: #FFFFFF;
+  --border: #E5E7EB;
+  --input: #E5E7EB;
+  --ring: #00B5AD;
+  --radius: 0.75rem;
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+}
+
+@theme inline {
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: var(--font-sans);
+  }
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5rem;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
