@@ -5,56 +5,53 @@ import { POWER_BUDDY_FORM_URL } from "@/data/content";
 
 export default function PowerBuddySection() {
   return (
-    <section id="power-buddy" className="relative py-20 sm:py-28 overflow-hidden">
-      <div className="absolute inset-0">
-        <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-[var(--color-turquoise)] rounded-full blur-[200px] opacity-[0.06]" />
-      </div>
+    <section id="power-buddy" className="relative py-16 sm:py-24 px-4">
+      <div className="absolute top-0 right-0 w-[250px] h-[250px] bg-[var(--wellbeing-teal)] rounded-full blur-[180px] opacity-[0.04]" />
 
-      <div className="relative max-w-4xl mx-auto px-4 sm:px-6">
-        <div className="text-center mb-12">
-          <div className="inline-flex items-center gap-2 glass px-4 py-2 rounded-full mb-4">
-            <Users className="w-4 h-4 text-[var(--color-turquoise)]" />
-            <span className="text-sm font-semibold text-[var(--color-turquoise)]">Power Buddy System</span>
+      <div className="relative max-w-3xl mx-auto">
+        <div className="text-center mb-8 sm:mb-10">
+          <div className="inline-flex items-center gap-2 glass px-3 py-1.5 rounded-full mb-3 sm:mb-4">
+            <Users className="w-3.5 h-3.5 text-[var(--wellbeing-teal)]" />
+            <span className="text-xs font-medium text-[var(--wellbeing-teal)]">Power Buddy System</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
-            Find Your <span className="gradient-text">Power Buddy</span>
+          <h2 className="text-2xl sm:text-3xl font-bold text-[var(--wellbeing-text)] mb-3">
+            Find Your Power Buddy
           </h2>
-          <p className="text-lg text-white/50 max-w-2xl mx-auto">
-            Get instantly matched with a colleague for a quick grounding conversation.
-            No judgment, just connection.
+          <p className="text-sm sm:text-base text-[var(--wellbeing-text-muted)] max-w-lg mx-auto">
+            Get instantly matched with a colleague for a grounding conversation. No judgment, just connection.
           </p>
         </div>
 
-        <div className="glass-card-enhanced overflow-hidden">
-          <div className="bg-gradient-to-r from-[var(--color-turquoise)] to-[var(--color-blue)] px-6 py-4">
-            <h3 className="text-white font-semibold text-lg flex items-center gap-2">
-              <Users className="w-5 h-5" />
+        <div className="glass-card overflow-hidden">
+          <div className="bg-gradient-to-r from-[var(--wellbeing-teal)] to-[var(--wellbeing-sage)] px-4 sm:px-6 py-3 sm:py-4">
+            <h3 className="text-white font-semibold text-sm sm:text-base flex items-center gap-2">
+              <Users className="w-4 h-4" />
               Connect with a Buddy
             </h3>
-            <p className="text-white/80 text-sm mt-1">
-              Fill in your details and we will match you with a colleague within minutes.
+            <p className="text-white/70 text-xs sm:text-sm mt-0.5">
+              Fill in your details and we will match you within minutes.
             </p>
           </div>
-          <div className="p-2 sm:p-4 bg-white/[0.03]">
+          <div className="p-1.5 sm:p-3">
             <iframe
               src={POWER_BUDDY_FORM_URL}
               width="100%"
-              height="500"
-              style={{ border: "none" }}
+              height="480"
+              style={{ border: "none", minHeight: "400px" }}
               title="Power Buddy Sign-Up Form"
               className="rounded-lg"
             />
           </div>
-          <div className="px-6 py-4 border-t border-white/10">
+          <div className="px-4 sm:px-6 py-3 border-t border-white/5">
             <a
               href={POWER_BUDDY_FORM_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 text-[var(--color-turquoise)] hover:text-[var(--color-lime)] font-medium text-sm transition-colors group"
+              className="flex items-center gap-2 text-[var(--wellbeing-teal)] hover:text-[var(--wellbeing-teal-light)] text-xs sm:text-sm transition-colors group"
             >
-              <RefreshCw className="w-4 h-4 group-hover:rotate-180 transition-transform duration-500" />
-              Buddy unavailable? Click here to redirect to another member
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              <RefreshCw className="w-3.5 h-3.5 group-hover:rotate-180 transition-transform duration-500" />
+              <span>Buddy unavailable? Click to redirect</span>
+              <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
             </a>
           </div>
         </div>
