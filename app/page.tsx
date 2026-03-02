@@ -20,9 +20,9 @@ const EASE = [0.85, 0, 0.15, 1] as const;
 const cards: CardData[] = [
   {
     id: "resilience",
-    title: "For You: Resilience Toolkit",
+    title: "For You",
     subtitle:
-      "Breathing exercises, somatic tools, and media diet rules to build daily resilience.",
+      "Regulate, ground, and protect your wellbeing with practical guidance for uncertain times.",
     icon: HeartPulse,
     iconColor: "#0D9488",
     span: 2,
@@ -31,15 +31,15 @@ const cards: CardData[] = [
     id: "manager",
     title: "For Managers",
     subtitle:
-      "Swipe files and empathy guidelines for leading regional teams through uncertainty.",
+      "Acknowledge, validate, and lead your team with empathy during difficult times.",
     icon: ShieldCheck,
     iconColor: "#4F46E5",
   },
   {
     id: "parents",
-    title: "For Parents & Elderly",
+    title: "For Parents",
     subtitle:
-      "Home safety preparation and managing family anxiety during crisis.",
+      "Your calm is their best protection. Practical guidance for supporting your children.",
     icon: Home,
     iconColor: "#EA580C",
   },
@@ -56,9 +56,9 @@ const cards: CardData[] = [
   },
   {
     id: "kcc",
-    title: "Kuwait Counselling Centre",
+    title: "Kuwait Counselling Centre (KCC)",
     subtitle:
-      "Confidential 24hr professional support. Al Hamra Tower, Sharq & Jabriya offices.",
+      "Free confidential counselling sessions for all Zainers. WhatsApp to book.",
     icon: Phone,
     iconColor: "#E40068",
     leftBorder: "#E40068",
@@ -66,9 +66,9 @@ const cards: CardData[] = [
   },
   {
     id: "bewell",
-    title: "Daily BE WELL Updates",
+    title: "Daily BE WELL Support Emails",
     subtitle:
-      "Subscribe to receive daily grounding exercises and regional support updates directly to your inbox.",
+      "Subscribe to receive a daily email with comforting words, connection, and practical wellbeing support.",
     icon: Mail,
     iconColor: "#94A3B8",
     span: 2,

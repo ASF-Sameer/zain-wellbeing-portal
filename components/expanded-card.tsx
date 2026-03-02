@@ -1,9 +1,9 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Phone, MapPin } from "lucide-react";
+import { X, Phone, MessageCircle, Mail } from "lucide-react";
 import { useState, useEffect, useRef, useCallback } from "react";
-import { POWER_BUDDY_FORM_URL, BEWELL_SUBSCRIBE_FORM_URL, KCC_INFO } from "@/data/content";
+import { POWER_BUDDY_FORM_URL, BEWELL_SUBSCRIBE_FORM_URL, KCC_INFO, BEWELL_EMAIL } from "@/data/content";
 import type { CardData } from "@/components/bento-card";
 
 const EASE = [0.85, 0, 0.15, 1] as const;
@@ -138,40 +138,12 @@ function SectionLabel({ text }: { text: string }) {
   );
 }
 
-function CheckItem({ text, defaultChecked = false }: { text: string; defaultChecked?: boolean }) {
-  const [checked, setChecked] = useState(defaultChecked);
-  const id = useRef(`chk-${Math.random().toString(36).slice(2, 9)}`).current;
+function GuidanceCard({ title, text }: { title: string; text: string }) {
   return (
-    <label
-      htmlFor={id}
-      className="flex items-start gap-4 w-full text-left p-4 bg-slate-50 cursor-pointer group transition-colors hover:bg-slate-100"
-    >
-      <input
-        type="checkbox"
-        id={id}
-        checked={checked}
-        onChange={() => setChecked(!checked)}
-        className="peer sr-only"
-      />
-      <div
-        className={`w-5 h-5 flex-shrink-0 mt-0.5 flex items-center justify-center border-2 transition-all duration-200 ${
-          checked
-            ? "bg-[#00B5E2] border-[#00B5E2]"
-            : "border-slate-300 group-hover:border-slate-400"
-        }`}
-      >
-        {checked && (
-          <div className="w-2 h-3 border-r-2 border-b-2 border-white rotate-45 -translate-y-px" />
-        )}
-      </div>
-      <span
-        className={`text-sm leading-relaxed transition-colors ${
-          checked ? "text-slate-400 line-through" : "text-slate-600"
-        }`}
-      >
-        {text}
-      </span>
-    </label>
+    <div className="border-b border-[#E2E8F0] pb-5 last:border-0 last:pb-0">
+      <h4 className="text-sm font-semibold text-[#0F172A] mb-1.5">{title}</h4>
+      <p className="text-sm text-slate-500 leading-relaxed">{text}</p>
+    </div>
   );
 }
 
@@ -237,36 +209,88 @@ function ResilienceContent() {
   return (
     <div className="space-y-8">
       <motion.div variants={staggerItem}>
-        <SectionLabel text="Breathing Exercises" />
-        <div className="space-y-px">
-          <CheckItem text="4-7-8 breathing: Inhale 4s, hold 7s, exhale 8s" />
-          <CheckItem text="Box breathing: 4s inhale, 4s hold, 4s exhale, 4s hold" />
-          <CheckItem text="Practice the 5-4-3-2-1 grounding technique" />
-          <CheckItem text="2-minute body scan before bed" />
+        <SectionLabel text="Wellbeing Guidance" />
+        <div className="space-y-5">
+          <GuidanceCard
+            title="Regulate Before You React"
+            text="When you feel your body tense or your thoughts racing, pause. Take one slow breath in through your nose and a longer breath out through your mouth. A longer exhale signals safety to your nervous system."
+          />
+          <GuidanceCard
+            title="Try Box Breathing"
+            text="Inhale for 4 seconds, hold for 4 seconds, exhale for 4 seconds, hold for 4 seconds. Repeat for one minute. This helps slow your heart rate and calm your body."
+          />
+          <GuidanceCard
+            title="Ground Yourself in the Present"
+            text="Look around and name five things you can see, four things you can feel, three things you can hear. This brings your brain out of future worry and back into the present moment."
+          />
+          <GuidanceCard
+            title="Release Physical Tension"
+            text="Notice your jaw, shoulders, and hands. Gently unclench, drop your shoulders, and press your feet firmly into the floor. Your body often holds stress before your mind processes it."
+          />
         </div>
       </motion.div>
       <motion.div variants={staggerItem} className="h-px bg-[#E2E8F0]" />
       <motion.div variants={staggerItem}>
-        <SectionLabel text="Media Diet" />
-        <div className="space-y-px">
-          <CheckItem text="Set 2 specific times per day for news (morning & evening)" />
-          <CheckItem text="Use only 2-3 trusted, factual news sources" />
-          <CheckItem text="Turn off push notifications for news apps" />
-          <CheckItem text="Avoid social media as a primary news source" />
-          <CheckItem text="If heart rate rises, stop and do breathing exercise" />
-          <CheckItem text="Share facts, not fear -- verify before forwarding" />
+        <SectionLabel text="Daily Practices" />
+        <div className="space-y-5">
+          <GuidanceCard
+            title="Reset Through Temperature"
+            text="Wash your hands with cool water or hold something cold for 30 seconds. Sudden temperature shifts can help regulate your nervous system quickly."
+          />
+          <GuidanceCard
+            title="Create Small Anchors in Your Day"
+            text="Keep simple routines such as making your bed, stepping outside for fresh air, or going for a short walk. Small actions restore a sense of control when the world feels uncertain."
+          />
+          <GuidanceCard
+            title="Protect Your Mental Space"
+            text="Choose specific times to check the news instead of constant scrolling. If you notice your heart rate increasing, step away and reset."
+          />
+          <GuidanceCard
+            title="Stay Connected"
+            text="Reach out to someone you trust. A short conversation can calm your nervous system and remind you that you are not navigating this alone."
+          />
+        </div>
+      </motion.div>
+    </div>
+  );
+}
+
+function ManagerContent() {
+  return (
+    <div className="space-y-8">
+      <motion.div variants={staggerItem}>
+        <SectionLabel text="Supporting Your Team" />
+        <div className="space-y-5">
+          <GuidanceCard
+            title="Acknowledge and Validate"
+            text='Start conversations by recognizing that global events are heavy. A simple, "I know there is a lot happening right now, and I want to check in on how you are feeling," goes a long way.'
+          />
+          <GuidanceCard
+            title="Share Existing Wellbeing Resources"
+            text="Remind your team that free Kuwait Counselling Centre (KCC) sessions are available and free to all Zainers. Encourage them to use these sessions as a dedicated space for their wellbeing."
+          />
+          <GuidanceCard
+            title="Normalize Brief Check-ins"
+            text='Carve out five to ten minutes in one-on-ones specifically for a "pulse check" that is not about tasks. Ask, "What kind of support can I offer today?"'
+          />
         </div>
       </motion.div>
       <motion.div variants={staggerItem} className="h-px bg-[#E2E8F0]" />
       <motion.div variants={staggerItem}>
-        <SectionLabel text="Crisis Readiness" />
-        <div className="space-y-px">
-          <CheckItem text="Keep emergency numbers saved and accessible" />
-          <CheckItem text="Prepare a go-bag with 3 days of essentials" />
-          <CheckItem text="Know building emergency exits and meeting points" />
-          <CheckItem text="Keep phone charged -- carry a power bank" />
-          <CheckItem text="Identify 3-5 people in your support network" />
-          <CheckItem text="Maintain 72-hour supply of any medications" />
+        <SectionLabel text="Leadership Actions" />
+        <div className="space-y-5">
+          <GuidanceCard
+            title="Honor Personal Space"
+            text="Support your team members' choice in how much they wish to share. Ensure they know you are available for them whenever they are ready to talk, without any pressure to do so."
+          />
+          <GuidanceCard
+            title="Adjust Workload Expectations"
+            text="Be proactive in asking if deadlines need to be shifted. If someone is struggling to focus due to external stress, offer to help them prioritize their most essential tasks."
+          />
+          <GuidanceCard
+            title="Lead by Example"
+            text="Share when you are taking a break to disconnect from the news or clear your head. When you acknowledge your own need for a mental break, it gives the team the confidence to do the same."
+          />
         </div>
       </motion.div>
     </div>
@@ -280,7 +304,7 @@ function BuddyContent() {
       <motion.div variants={staggerItem}>
         <SectionLabel text="How It Works" />
         <p className="text-sm text-slate-500 leading-relaxed mb-5">
-          Get matched with a colleague for a grounding conversation. No judgment, just human connection.
+          Get matched with a Zain colleague for a grounding conversation. No judgment, just human connection.
         </p>
         <div className="space-y-3">
           {[
@@ -298,59 +322,19 @@ function BuddyContent() {
         </div>
       </motion.div>
       <motion.div variants={staggerItem}>
+        <div className="border border-[#E2E8F0] bg-[#F8FAFC] p-5">
+          <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">Status</p>
+          <p className="text-sm text-slate-500 leading-relaxed">
+            The Buddy System automation is currently being set up. Check back soon for the sign-up form.
+          </p>
+        </div>
+      </motion.div>
+      <motion.div variants={staggerItem}>
         {isRealForm ? (
           <IframeEmbed src={POWER_BUDDY_FORM_URL} label="Power Buddy Form" />
         ) : (
-          <FormPlaceholder label="Power Buddy -- Sign-Up Form" />
+          <FormPlaceholder label="Power Buddy -- Sign-Up Form (Coming Soon)" />
         )}
-      </motion.div>
-    </div>
-  );
-}
-
-function ManagerContent() {
-  return (
-    <div className="space-y-8">
-      <motion.div variants={staggerItem}>
-        <SectionLabel text="Swipe File: Opening Lines" />
-        <div className="space-y-3">
-          {[
-            "How are you managing today?",
-            "I wanted to check in -- how are things at home?",
-            "I've been feeling [X] this week too. How about you?",
-            "Is there anything I can take off your plate right now?",
-          ].map((line, i) => (
-            <div
-              key={i}
-              className="border-l-2 border-[#00B5E2] pl-4 py-2"
-            >
-              <p className="text-sm text-slate-600 italic">&ldquo;{line}&rdquo;</p>
-            </div>
-          ))}
-        </div>
-      </motion.div>
-      <motion.div variants={staggerItem} className="h-px bg-[#E2E8F0]" />
-      <motion.div variants={staggerItem}>
-        <SectionLabel text="Empathy Guidelines" />
-        <div className="space-y-px">
-          <CheckItem text="Use open questions -- avoid yes/no framing" />
-          <CheckItem text="Share your own feelings briefly to normalize" />
-          <CheckItem text="Listen actively -- avoid rushing to solutions" />
-          <CheckItem text="Encourage Power Buddy sign-ups in your team" />
-          <CheckItem text="Lead by example -- sign up yourself first" />
-        </div>
-      </motion.div>
-      <motion.div variants={staggerItem} className="h-px bg-[#E2E8F0]" />
-      <motion.div variants={staggerItem}>
-        <SectionLabel text="Team Wellness Actions" />
-        <div className="space-y-px">
-          <CheckItem text="Set boundaries around news consumption during work" />
-          <CheckItem text="Maintain normal work rhythms where possible" />
-          <CheckItem text="Encourage regular breaks and physical movement" />
-          <CheckItem text="Small acts of normalcy: team coffee, brief standup" />
-          <CheckItem text="Watch for signs someone needs professional help" />
-          <CheckItem text="Have KCC number readily available for your team" />
-        </div>
       </motion.div>
     </div>
   );
@@ -360,61 +344,54 @@ function ParentsContent() {
   return (
     <div className="space-y-8">
       <motion.div variants={staggerItem}>
-        <SectionLabel text="Home Safety" />
-        <div className="space-y-px">
-          <CheckItem text="Prepare go-bags with essentials for each family member" />
-          <CheckItem text="Keep important documents in one accessible location" />
-          <CheckItem text="Create a family communication plan" />
-          <CheckItem text="Know building emergency exits" />
-          <CheckItem text="Keep a 72-hour supply of essential medications" />
+        <div className="border-l-2 border-[#EA580C] pl-4 py-2 mb-6">
+          <p className="text-sm text-slate-600 italic">
+            &ldquo;Put on your own oxygen mask first. Your children watch you to see if they are safe, so your calm is their best protection.&rdquo;
+          </p>
         </div>
       </motion.div>
-      <motion.div variants={staggerItem} className="h-px bg-[#E2E8F0]" />
-      <motion.div variants={staggerItem}>
-        <SectionLabel text="Managing Anxiety" />
-        <div className="space-y-px">
-          <CheckItem text="Maintain routines -- especially for children and elderly" />
-          <CheckItem text="Limit news exposure for the whole family" />
-          <CheckItem text="Talk openly but age-appropriately with children" />
-          <CheckItem text="Reassure elderly family members with regular check-ins" />
-          <CheckItem text="Practice breathing exercises together as a family" />
-        </div>
-      </motion.div>
-      <motion.div variants={staggerItem} className="h-px bg-[#E2E8F0]" />
       <motion.div variants={staggerItem}>
         <SectionLabel text="How to Take Care of Your Children" />
-        <p className="text-sm text-slate-500 leading-relaxed mb-4 italic">
-          Put your own oxygen mask on first. Your children watch you to see if they are safe, so your calm is their best protection.
-        </p>
-        <div className="space-y-px">
-          <CheckItem text="Stay Calm: Children copy your feelings. Speak quietly, stay calm, and offer them your presence in your home." />
-          <CheckItem text="Mute the News: Turn off the TV and social media when your children are around. Limit their consumption of media to protect their mental wellbeing." />
-          <CheckItem text="Validate Them: Avoid dismissing their feelings and asking them to be brave, but reassure them that you are with them and that they are safe with you." />
-          <CheckItem text="Reassure them of their safety: Tell them that many brave people and strong systems are working 24/7 to keep everyone safe. There's sirens outside, but there are people and systems protecting us." />
-          <CheckItem text="Keep Moving & Assign No-Phone Quality Time: For 20 minutes, offer them your undivided attention. Let them play, jump, or dance inside the house. This helps them release their nervous energy." />
-          <CheckItem text="Relax Before Bed: Spend 15 minutes reading or talking about happy things. Remind them that they are in a safe, peaceful place. Utilize white noise during sleep time to minimize interrupted sleep." />
+        <div className="space-y-5">
+          <GuidanceCard
+            title="Stay Calm"
+            text="Children copy your feelings. Speak quietly, stay calm, and offer them your presence in your home."
+          />
+          <GuidanceCard
+            title="Mute the News"
+            text="Turn off the TV and social media when your children are around. Limit their consumption of media to protect their mental wellbeing."
+          />
+          <GuidanceCard
+            title="Validate Them"
+            text="Avoid dismissing their feelings and asking them to be brave, but reassure them that you are with them and that they are safe with you."
+          />
+          <GuidanceCard
+            title="Reassure Them of Their Safety"
+            text="Tell them that many brave people and strong systems are working 24/7 to keep everyone safe. There are sirens outside, but there are people and systems protecting us."
+          />
+          <GuidanceCard
+            title="Keep Moving & No-Phone Quality Time"
+            text="For 20 minutes, offer them your undivided attention. Let them play, jump, or dance inside the house. This helps them release their nervous energy."
+          />
+          <GuidanceCard
+            title="Relax Before Bed"
+            text="Spend 15 minutes reading or talking about happy things. Remind them that they are in a safe, peaceful place. Utilize white noise during sleep time to minimize interrupted sleep."
+          />
         </div>
-        <div className="mt-5 border border-[#E2E8F0] bg-[#F8FAFC] p-5">
+      </motion.div>
+      <motion.div variants={staggerItem} className="h-px bg-[#E2E8F0]" />
+      <motion.div variants={staggerItem}>
+        <SectionLabel text="Anchor Them in Faith" />
+        <div className="border border-[#E2E8F0] bg-[#F8FAFC] p-5">
           <p className="text-right text-lg leading-relaxed text-[#0F172A] mb-2" dir="rtl">
             ﴿ الَّذِينَ آمَنُوا وَتَطْمَئِنُّ قُلُوبُهُم بِذِكْرِ اللَّهِ ۗ أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ ﴾
           </p>
           <p className="text-sm text-slate-500 leading-relaxed italic">
-            &ldquo;Those who believe, and whose hearts find comfort in the remembrance of Allah. Surely in the remembrance of Allah do hearts find comfort.&rdquo;
+            &ldquo;Those who believe, and whose hearts find comfort in the remembrance of Allah. Truly, in the remembrance of Allah do hearts find comfort.&rdquo;
           </p>
           <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mt-3">
             Surah Ar-Ra&rsquo;d (13:28)
           </p>
-        </div>
-      </motion.div>
-      <motion.div variants={staggerItem} className="h-px bg-[#E2E8F0]" />
-      <motion.div variants={staggerItem}>
-        <SectionLabel text="Pet Care" />
-        <div className="space-y-px">
-          <CheckItem text="Prepare pet emergency kit (food, water, meds, carrier)" />
-          <CheckItem text="Keep pets in a secure, quiet room during disturbances" />
-          <CheckItem text="Maintain feeding schedules as much as possible" />
-          <CheckItem text="Watch for stress signs: panting, hiding, aggression" />
-          <CheckItem text="Identify pet-friendly emergency shelters in advance" />
         </div>
       </motion.div>
     </div>
@@ -426,28 +403,14 @@ function BeWellContent() {
   return (
     <div className="space-y-8">
       <motion.div variants={staggerItem}>
-        <SectionLabel text="Daily Updates" />
+        <SectionLabel text="Daily Support Emails" />
         <p className="text-sm text-slate-500 leading-relaxed mb-5">
-          Receive daily grounding exercises and regional support updates directly in your inbox. Each email takes less than 2 minutes to read.
+          Subscribe to receive a daily BE WELL email with comforting words, connection, and practical wellbeing support during these difficult times.
         </p>
-        <div className="grid grid-cols-3 gap-px bg-[#E2E8F0] border border-[#E2E8F0] mb-6">
-          {[
-            { value: "2 min", label: "Read time" },
-            { value: "Daily", label: "Frequency" },
-            { value: "Free", label: "Cost" },
-          ].map((stat) => (
-            <div key={stat.label} className="bg-white p-4 text-center">
-              <div className="text-lg font-semibold text-[#0F172A] tracking-tight">{stat.value}</div>
-              <div className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mt-0.5">
-                {stat.label}
-              </div>
-            </div>
-          ))}
-        </div>
       </motion.div>
       <motion.div variants={staggerItem}>
         {isRealForm ? (
-          <IframeEmbed src={BEWELL_SUBSCRIBE_FORM_URL} label="Be Well Subscription" />
+          <IframeEmbed src={BEWELL_SUBSCRIBE_FORM_URL} label="BE WELL Subscription" />
         ) : (
           <FormPlaceholder label="Be Well -- Email Subscription" />
         )}
@@ -460,58 +423,59 @@ function KCCContent() {
   return (
     <div className="space-y-8">
       <motion.div variants={staggerItem}>
-        <SectionLabel text="Professional Support" />
+        <SectionLabel text="Free Counselling Sessions" />
         <p className="text-sm text-slate-500 leading-relaxed mb-5">
           {KCC_INFO.supportNote}
         </p>
-        <div className="border-l-2 border-[#E40068] pl-4 py-2 mb-6">
+        <div className="border border-[#E2E8F0] bg-[#F8FAFC] p-5 space-y-4">
+          <div className="flex items-start gap-3">
+            <MessageCircle className="w-4 h-4 text-[#25D366] mt-0.5 flex-shrink-0" strokeWidth={1.5} />
+            <div>
+              <p className="text-sm text-slate-600 leading-relaxed">
+                {KCC_INFO.bookingNote}
+              </p>
+              <a
+                href={`https://wa.me/${KCC_INFO.whatsapp.replace(/\s/g, "").replace("+", "")}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 mt-3 bg-[#0F172A] text-white px-4 py-2.5 text-sm font-semibold tracking-tight hover:bg-[#1E293B] transition-colors"
+              >
+                <MessageCircle className="w-4 h-4" strokeWidth={1.5} />
+                WhatsApp {KCC_INFO.whatsapp}
+              </a>
+            </div>
+          </div>
+        </div>
+      </motion.div>
+      <motion.div variants={staggerItem} className="h-px bg-[#E2E8F0]" />
+      <motion.div variants={staggerItem}>
+        <SectionLabel text="Mental Health First Aid (MHFA)" />
+        <p className="text-sm text-slate-500 leading-relaxed mb-4">
+          Your Mental Health First Aiders (MHFAs), Zain employees certified to support you, are also here for you. These conversations are confidential.
+        </p>
+        <div className="space-y-3">
+          <div className="border border-[#E2E8F0] bg-[#F8FAFC] p-4">
+            <p className="text-sm text-slate-600 leading-relaxed">
+              You can find your MHFAs' contact details by visiting the <strong>BE WELL</strong> tab on the Zainers App and selecting <strong>&ldquo;MHFAs at Zain.&rdquo;</strong>
+            </p>
+          </div>
+          <div className="border border-[#E2E8F0] bg-[#F8FAFC] p-4">
+            <p className="text-sm text-slate-600 leading-relaxed">
+              If you don&rsquo;t have access to Zainers or need any additional support, please email{" "}
+              <a href={`mailto:${BEWELL_EMAIL}`} className="font-semibold text-[#0F172A] hover:text-[#00B5E2] transition-colors underline underline-offset-2">
+                {BEWELL_EMAIL}
+              </a>{" "}
+              and we&rsquo;ll share the information with you directly.
+            </p>
+          </div>
+        </div>
+      </motion.div>
+      <motion.div variants={staggerItem} className="h-px bg-[#E2E8F0]" />
+      <motion.div variants={staggerItem}>
+        <div className="border-l-2 border-[#E40068] pl-4 py-2">
           <p className="text-sm text-slate-600 italic">
             &ldquo;Reaching out is a sign of strength, not weakness. All conversations are strictly confidential.&rdquo;
           </p>
-        </div>
-      </motion.div>
-      <motion.div variants={staggerItem} className="h-px bg-[#E2E8F0]" />
-      <motion.div variants={staggerItem}>
-        <SectionLabel text="Head Office" />
-        <div className="border border-[#E2E8F0] bg-[#F8FAFC] p-5 space-y-4">
-          <div className="flex items-start gap-3">
-            <MapPin className="w-4 h-4 text-slate-400 mt-0.5 flex-shrink-0" strokeWidth={1.5} />
-            <p className="text-sm text-slate-600">{KCC_INFO.headOffice.address}</p>
-          </div>
-          <div className="flex items-center gap-3">
-            <Phone className="w-4 h-4 text-slate-400 flex-shrink-0" strokeWidth={1.5} />
-            <a href={`tel:${KCC_INFO.headOffice.tel.replace(/\s/g, "")}`} className="text-sm font-semibold text-[#0F172A] hover:text-[#00B5E2] transition-colors">
-              {KCC_INFO.headOffice.tel}
-            </a>
-          </div>
-        </div>
-      </motion.div>
-      <motion.div variants={staggerItem} className="h-px bg-[#E2E8F0]" />
-      <motion.div variants={staggerItem}>
-        <SectionLabel text="Jabriya Office" />
-        <div className="border border-[#E2E8F0] bg-[#F8FAFC] p-5 space-y-4">
-          <div className="flex items-start gap-3">
-            <MapPin className="w-4 h-4 text-slate-400 mt-0.5 flex-shrink-0" strokeWidth={1.5} />
-            <p className="text-sm text-slate-600">{KCC_INFO.jabriyaOffice.address}</p>
-          </div>
-          <div className="flex items-center gap-3">
-            <Phone className="w-4 h-4 text-slate-400 flex-shrink-0" strokeWidth={1.5} />
-            <a href={`tel:${KCC_INFO.jabriyaOffice.tel.replace(/\s/g, "")}`} className="text-sm font-semibold text-[#0F172A] hover:text-[#00B5E2] transition-colors">
-              {KCC_INFO.jabriyaOffice.tel}
-            </a>
-          </div>
-        </div>
-      </motion.div>
-      <motion.div variants={staggerItem} className="h-px bg-[#E2E8F0]" />
-      <motion.div variants={staggerItem}>
-        <SectionLabel text="When to Reach Out" />
-        <div className="space-y-px">
-          <CheckItem text="Persistent sleep disruption lasting more than a few days" />
-          <CheckItem text="Inability to focus or complete daily tasks" />
-          <CheckItem text="Withdrawal from social interaction or team activities" />
-          <CheckItem text="Feelings of hopelessness or overwhelming anxiety" />
-          <CheckItem text="Physical symptoms: headaches, chest tightness, fatigue" />
-          <CheckItem text="Increased reliance on substances to cope" />
         </div>
       </motion.div>
     </div>
