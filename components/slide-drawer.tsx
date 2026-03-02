@@ -8,6 +8,26 @@ import { POWER_BUDDY_FORM_URL, BEWELL_SUBSCRIBE_FORM_URL } from "@/data/content"
 const EASE = [0.85, 0, 0.15, 1] as const;
 const STAGGER_EASE = [0.32, 0.72, 0, 1] as const;
 
+const staggerContainer = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.07,
+      delayChildren: 0.3,
+    },
+  },
+};
+
+const staggerItem = {
+  hidden: { opacity: 0, y: 12 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.4, ease: EASE },
+  },
+};
+
 interface SlideDrawerProps {
   isOpen: boolean;
   onClose: () => void;
@@ -37,12 +57,10 @@ export default function SlideDrawer({
   useEffect(() => {
     if (isOpen) {
       document.addEventListener("keydown", handleKeyDown);
-      document.body.style.overflow = "hidden";
       setTimeout(() => drawerRef.current?.focus(), 100);
     }
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
-      document.body.style.overflow = "";
     };
   }, [isOpen, handleKeyDown]);
 
@@ -93,9 +111,9 @@ export default function SlideDrawer({
 
             <motion.div
               className="flex-1 overflow-y-auto px-6 sm:px-8 py-6"
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, ease: EASE, delay: 0.35 }}
+              variants={staggerContainer}
+              initial="hidden"
+              animate="show"
             >
               <DrawerContent type={contentType} />
             </motion.div>
@@ -195,7 +213,7 @@ function FormPlaceholder({ label }: { label: string }) {
 function ResilienceContent() {
   return (
     <div className="space-y-8">
-      <div>
+      <motion.div variants={staggerItem}>
         <SectionLabel text="Breathing Exercises" />
         <div className="space-y-0.5">
           <CheckItem text="4-7-8 breathing: Inhale 4s, hold 7s, exhale 8s" />
@@ -203,9 +221,9 @@ function ResilienceContent() {
           <CheckItem text="Practice the 5-4-3-2-1 grounding technique" />
           <CheckItem text="2-minute body scan before bed" />
         </div>
-      </div>
-      <div className="h-px bg-[#E2E8F0]" />
-      <div>
+      </motion.div>
+      <motion.div variants={staggerItem} className="h-px bg-[#E2E8F0]" />
+      <motion.div variants={staggerItem}>
         <SectionLabel text="Media Diet" />
         <div className="space-y-0.5">
           <CheckItem text="Set 2 specific times per day for news (morning & evening)" />
@@ -215,9 +233,9 @@ function ResilienceContent() {
           <CheckItem text="If heart rate rises, stop and do breathing exercise" />
           <CheckItem text="Share facts, not fear -- verify before forwarding" />
         </div>
-      </div>
-      <div className="h-px bg-[#E2E8F0]" />
-      <div>
+      </motion.div>
+      <motion.div variants={staggerItem} className="h-px bg-[#E2E8F0]" />
+      <motion.div variants={staggerItem}>
         <SectionLabel text="Crisis Readiness" />
         <div className="space-y-0.5">
           <CheckItem text="Keep emergency numbers saved and accessible" />
@@ -227,7 +245,7 @@ function ResilienceContent() {
           <CheckItem text="Identify 3-5 people in your support network" />
           <CheckItem text="Maintain 72-hour supply of any medications" />
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 }
@@ -235,7 +253,7 @@ function ResilienceContent() {
 function BuddyContent() {
   return (
     <div className="space-y-8">
-      <div>
+      <motion.div variants={staggerItem}>
         <SectionLabel text="How It Works" />
         <p className="text-sm text-slate-500 leading-relaxed mb-5">
           Get matched with a colleague for a grounding conversation. No judgment, just human connection.
@@ -254,8 +272,10 @@ function BuddyContent() {
             </div>
           ))}
         </div>
-      </div>
-      <FormPlaceholder label="Power Buddy -- Sign-Up Form" />
+      </motion.div>
+      <motion.div variants={staggerItem}>
+        <FormPlaceholder label="Power Buddy -- Sign-Up Form" />
+      </motion.div>
     </div>
   );
 }
@@ -263,7 +283,7 @@ function BuddyContent() {
 function ManagerContent() {
   return (
     <div className="space-y-8">
-      <div>
+      <motion.div variants={staggerItem}>
         <SectionLabel text="Empathy Guidelines" />
         <div className="space-y-0.5">
           <CheckItem text="Use open questions: 'How are you managing today?'" />
@@ -272,9 +292,9 @@ function ManagerContent() {
           <CheckItem text="Encourage Power Buddy sign-ups in your team" />
           <CheckItem text="Lead by example -- sign up yourself first" />
         </div>
-      </div>
-      <div className="h-px bg-[#E2E8F0]" />
-      <div>
+      </motion.div>
+      <motion.div variants={staggerItem} className="h-px bg-[#E2E8F0]" />
+      <motion.div variants={staggerItem}>
         <SectionLabel text="Team Wellness Actions" />
         <div className="space-y-0.5">
           <CheckItem text="Set boundaries around news consumption during work" />
@@ -284,7 +304,7 @@ function ManagerContent() {
           <CheckItem text="Watch for signs someone needs professional help" />
           <CheckItem text="Have KCC number readily available for your team" />
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 }
@@ -292,7 +312,7 @@ function ManagerContent() {
 function ParentsContent() {
   return (
     <div className="space-y-8">
-      <div>
+      <motion.div variants={staggerItem}>
         <SectionLabel text="Home Safety" />
         <div className="space-y-0.5">
           <CheckItem text="Prepare go-bags with essentials for each family member" />
@@ -301,9 +321,9 @@ function ParentsContent() {
           <CheckItem text="Know building emergency exits" />
           <CheckItem text="Keep a 72-hour supply of essential medications" />
         </div>
-      </div>
-      <div className="h-px bg-[#E2E8F0]" />
-      <div>
+      </motion.div>
+      <motion.div variants={staggerItem} className="h-px bg-[#E2E8F0]" />
+      <motion.div variants={staggerItem}>
         <SectionLabel text="Managing Anxiety" />
         <div className="space-y-0.5">
           <CheckItem text="Maintain routines -- especially for children and elderly" />
@@ -312,9 +332,9 @@ function ParentsContent() {
           <CheckItem text="Reassure elderly family members with regular check-ins" />
           <CheckItem text="Practice breathing exercises together as a family" />
         </div>
-      </div>
-      <div className="h-px bg-[#E2E8F0]" />
-      <div>
+      </motion.div>
+      <motion.div variants={staggerItem} className="h-px bg-[#E2E8F0]" />
+      <motion.div variants={staggerItem}>
         <SectionLabel text="Pet Care" />
         <div className="space-y-0.5">
           <CheckItem text="Prepare pet emergency kit (food, water, meds, carrier)" />
@@ -323,7 +343,7 @@ function ParentsContent() {
           <CheckItem text="Watch for stress signs: panting, hiding, aggression" />
           <CheckItem text="Identify pet-friendly emergency shelters in advance" />
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 }
@@ -331,7 +351,7 @@ function ParentsContent() {
 function BeWellContent() {
   return (
     <div className="space-y-8">
-      <div>
+      <motion.div variants={staggerItem}>
         <SectionLabel text="Daily Updates" />
         <p className="text-sm text-slate-500 leading-relaxed mb-5">
           Receive daily grounding exercises and regional support updates directly in your inbox. Each email takes less than 2 minutes to read.
@@ -350,8 +370,10 @@ function BeWellContent() {
             </div>
           ))}
         </div>
-      </div>
-      <FormPlaceholder label="Be Well -- Email Subscription" />
+      </motion.div>
+      <motion.div variants={staggerItem}>
+        <FormPlaceholder label="Be Well -- Email Subscription" />
+      </motion.div>
     </div>
   );
 }

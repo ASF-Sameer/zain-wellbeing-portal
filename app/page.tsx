@@ -75,6 +75,17 @@ export default function HomePage() {
     setMounted(true);
   }, []);
 
+  useEffect(() => {
+    if (isDrawerOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isDrawerOpen]);
+
   const handleLoaderComplete = useCallback(() => {
     setReady(true);
   }, []);
