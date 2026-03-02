@@ -4,10 +4,10 @@ import { Radio, Calendar, Tag } from "lucide-react";
 import { updates, type UpdatePost } from "@/data/content";
 
 const categoryColors: Record<UpdatePost["category"], string> = {
-  Urgent: "bg-red-100 text-red-700 border-red-200",
-  Resource: "bg-blue-100 text-blue-700 border-blue-200",
-  Announcement: "bg-purple-100 text-purple-700 border-purple-200",
-  Wellbeing: "bg-emerald-100 text-emerald-700 border-emerald-200",
+  Urgent: "bg-[var(--color-quartz)]/20 text-[var(--color-quartz)] border-[var(--color-quartz)]/30",
+  Resource: "bg-[var(--color-light-blue)]/20 text-[var(--color-light-blue)] border-[var(--color-light-blue)]/30",
+  Announcement: "bg-[var(--color-purple)]/20 text-[var(--color-purple)] border-[var(--color-purple)]/30",
+  Wellbeing: "bg-[var(--color-lime)]/20 text-[var(--color-lime)] border-[var(--color-lime)]/30",
 };
 
 function formatDate(dateStr: string): string {
@@ -21,16 +21,16 @@ function formatDate(dateStr: string): string {
 
 function UpdateCard({ post }: { post: UpdatePost }) {
   return (
-    <article className="bg-white rounded-2xl shadow-sm shadow-black/5 border border-gray-100 overflow-hidden hover:shadow-md transition-shadow">
+    <article className="glass-card overflow-hidden hover:bg-white/[0.12] transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-[var(--color-turquoise)]/10">
       {post.imageUrl && (
-        <div className="aspect-video bg-gray-100 overflow-hidden">
-          <div className="w-full h-full bg-gradient-to-br from-[var(--color-wellbeing-teal)]/10 to-[var(--color-wellbeing-navy)]/10 flex items-center justify-center">
-            <Radio className="w-8 h-8 text-[var(--color-wellbeing-teal)]/30" />
+        <div className="aspect-video bg-white/5 overflow-hidden">
+          <div className="w-full h-full bg-gradient-to-br from-[var(--color-turquoise)]/10 to-[var(--color-blue)]/10 flex items-center justify-center">
+            <Radio className="w-8 h-8 text-[var(--color-turquoise)]/30" />
           </div>
         </div>
       )}
       {post.videoUrl && (
-        <div className="aspect-video bg-gray-100">
+        <div className="aspect-video bg-white/5">
           <iframe
             src={post.videoUrl}
             className="w-full h-full"
@@ -48,15 +48,15 @@ function UpdateCard({ post }: { post: UpdatePost }) {
             <Tag className="w-3 h-3" />
             {post.category}
           </span>
-          <span className="flex items-center gap-1 text-xs text-[var(--color-wellbeing-text-muted)]">
+          <span className="flex items-center gap-1 text-xs text-white/40">
             <Calendar className="w-3 h-3" />
             {formatDate(post.date)}
           </span>
         </div>
-        <h3 className="text-lg font-semibold text-[var(--color-wellbeing-navy)] mb-2">
+        <h3 className="text-lg font-semibold text-white mb-2">
           {post.title}
         </h3>
-        <p className="text-[var(--color-wellbeing-text-muted)] leading-relaxed">
+        <p className="text-white/50 leading-relaxed text-sm">
           {post.body}
         </p>
       </div>
@@ -70,17 +70,21 @@ export default function LiveUpdatesSection() {
   );
 
   return (
-    <section id="live-updates" className="py-20 sm:py-28 bg-[var(--color-wellbeing-bg)]">
-      <div className="max-w-5xl mx-auto px-4 sm:px-6">
+    <section id="live-updates" className="relative py-20 sm:py-28 overflow-hidden">
+      <div className="absolute inset-0">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[var(--color-blue)] rounded-full blur-[250px] opacity-[0.08]" />
+      </div>
+
+      <div className="relative max-w-5xl mx-auto px-4 sm:px-6">
         <div className="text-center mb-12">
-          <div className="inline-flex items-center gap-2 bg-[var(--color-wellbeing-teal)]/10 text-[var(--color-wellbeing-teal)] rounded-full px-4 py-2 mb-4">
-            <Radio className="w-4 h-4" />
-            <span className="text-sm font-semibold">Zone 3</span>
+          <div className="inline-flex items-center gap-2 glass px-4 py-2 rounded-full mb-4">
+            <Radio className="w-4 h-4 text-[var(--color-light-blue)]" />
+            <span className="text-sm font-semibold text-[var(--color-light-blue)]">Live Feed</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl font-bold text-[var(--color-wellbeing-navy)] mb-4">
-            Latest Wellbeing Updates
+          <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
+            Latest Wellbeing <span className="gradient-text-purple">Updates</span>
           </h2>
-          <p className="text-lg text-[var(--color-wellbeing-text-muted)] max-w-2xl mx-auto">
+          <p className="text-lg text-white/50 max-w-2xl mx-auto">
             Stay informed with the latest resources, announcements, and support updates.
           </p>
         </div>

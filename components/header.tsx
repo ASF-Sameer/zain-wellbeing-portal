@@ -1,8 +1,9 @@
 "use client";
 
-import { Phone, Heart, Menu, X } from "lucide-react";
+import { Phone, Menu, X } from "lucide-react";
 import { EMERGENCY_HOTLINE } from "@/data/content";
 import { useState } from "react";
+import Image from "next/image";
 
 const navLinks = [
   { href: "#power-buddy", label: "Power Buddy" },
@@ -15,21 +16,22 @@ export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm border-b border-gray-100 shadow-sm">
+    <header className="fixed top-0 left-0 right-0 z-50 glass border-b border-white/10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 sm:h-20">
           <div className="flex items-center gap-3">
-            <div className="flex items-center gap-2">
-              <Heart className="w-7 h-7 text-[var(--color-wellbeing-teal)]" fill="currentColor" />
-              <div>
-                <span className="text-lg sm:text-xl font-bold text-[var(--color-wellbeing-navy)]">
-                  Zain Wellbeing
-                </span>
-                <span className="hidden sm:inline text-sm text-[var(--color-wellbeing-text-muted)] ml-2">
-                  Be Well
-                </span>
-              </div>
-            </div>
+            <Image
+              src="/images/zain-logo-white.svg"
+              alt="Zain"
+              width={100}
+              height={36}
+              className="h-8 sm:h-9 w-auto"
+              priority
+            />
+            <div className="h-6 w-px bg-white/20" />
+            <span className="text-sm sm:text-base font-medium text-white/70">
+              Wellbeing
+            </span>
           </div>
 
           <nav className="hidden md:flex items-center gap-6">
@@ -37,7 +39,7 @@ export default function Header() {
               <a
                 key={link.href}
                 href={link.href}
-                className="text-sm font-medium text-[var(--color-wellbeing-text-muted)] hover:text-[var(--color-wellbeing-teal)] transition-colors"
+                className="text-sm font-medium text-white/60 hover:text-[var(--color-turquoise)] transition-colors"
               >
                 {link.label}
               </a>
@@ -47,14 +49,14 @@ export default function Header() {
           <div className="flex items-center gap-3">
             <a
               href={`tel:${EMERGENCY_HOTLINE}`}
-              className="flex items-center gap-2 bg-[var(--color-wellbeing-magenta)] text-white px-3 sm:px-4 py-2 rounded-full text-sm font-semibold hover:bg-[var(--color-wellbeing-magenta)]/90 transition-colors"
+              className="flex items-center gap-2 bg-[var(--color-quartz)] text-white px-3 sm:px-4 py-2 rounded-full text-sm font-semibold hover:bg-[var(--color-quartz)]/80 transition-colors shadow-lg shadow-[var(--color-quartz)]/20"
             >
               <Phone className="w-4 h-4" />
               <span className="hidden sm:inline">Emergency Hotline</span>
-              <span className="sm:hidden">Call</span>
+              <span className="sm:hidden">SOS</span>
             </a>
             <button
-              className="md:hidden p-2 text-[var(--color-wellbeing-text-muted)]"
+              className="md:hidden p-2 text-white/60"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               aria-label="Toggle menu"
             >
@@ -65,13 +67,13 @@ export default function Header() {
       </div>
 
       {mobileMenuOpen && (
-        <div className="md:hidden bg-white border-t border-gray-100 shadow-lg">
+        <div className="md:hidden glass border-t border-white/10">
           <nav className="flex flex-col px-4 py-4 gap-1">
             {navLinks.map((link) => (
               <a
                 key={link.href}
                 href={link.href}
-                className="text-base font-medium text-[var(--color-wellbeing-text-muted)] hover:text-[var(--color-wellbeing-teal)] hover:bg-gray-50 px-4 py-3 rounded-lg transition-colors"
+                className="text-base font-medium text-white/60 hover:text-[var(--color-turquoise)] hover:bg-white/5 px-4 py-3 rounded-lg transition-colors"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 {link.label}

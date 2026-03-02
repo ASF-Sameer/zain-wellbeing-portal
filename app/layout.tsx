@@ -10,7 +10,7 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: "Zain Wellbeing: Be Well | Crisis Support Portal",
   description:
-    "Zain Wellbeing crisis support portal. Connect with a Power Buddy, access daily wellbeing resources, and find professional support — all in one place.",
+    "Zain Wellbeing crisis support portal. Connect with a Power Buddy, access daily wellbeing resources, and find professional support.",
   keywords: [
     "Zain",
     "Wellbeing",
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#00B5AD",
+  themeColor: "#1E1A5F",
   width: "device-width",
   initialScale: 1,
 };
