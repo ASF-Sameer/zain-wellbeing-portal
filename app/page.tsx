@@ -118,7 +118,7 @@ export default function HomePage() {
             </motion.h1>
 
             <motion.div
-              className="w-16 h-1 bg-[#E40068] mt-6 mb-6"
+              className="w-16 h-[4px] bg-[#E40068] mt-6 mb-6"
               initial={{ opacity: 0, scaleX: 0 }}
               animate={{ opacity: ready ? 1 : 0, scaleX: ready ? 1 : 0 }}
               transition={{ duration: 0.5, ease: EASE, delay: 0.25 }}
