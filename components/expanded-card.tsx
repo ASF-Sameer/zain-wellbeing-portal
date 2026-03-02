@@ -69,18 +69,22 @@ export default function ExpandedCard({ card, onClose }: ExpandedCardProps) {
         const focusableElements = modalRef.current.querySelectorAll<HTMLElement>(
           'a[href], button, textarea, input, select, [tabindex]:not([tabindex="-1"])'
         );
+        if (focusableElements.length === 0) {
+          e.preventDefault();
+          return;
+        }
         const firstFocusable = focusableElements[0];
         const lastFocusable = focusableElements[focusableElements.length - 1];
 
         if (e.shiftKey) {
           if (document.activeElement === firstFocusable) {
             e.preventDefault();
-            lastFocusable?.focus();
+            lastFocusable.focus();
           }
         } else {
           if (document.activeElement === lastFocusable) {
             e.preventDefault();
-            firstFocusable?.focus();
+            firstFocusable.focus();
           }
         }
       }
