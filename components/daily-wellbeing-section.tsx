@@ -11,13 +11,13 @@ export default function DailyWellbeingSection() {
         <div className="grid lg:grid-cols-5 gap-10 lg:gap-14 items-start">
           <div className="lg:col-span-2">
             <ScrollReveal animation="fade-right">
-              <p className="text-white/50 text-[15px] font-bold uppercase tracking-wider mb-2">
+              <p className="text-white/80 text-[15px] font-bold uppercase tracking-wider mb-2">
                 Daily Support
               </p>
               <h2 className="text-[clamp(2rem,5vw,3rem)] font-black tracking-tight leading-tight mb-5">
                 Be Well Daily Emails
               </h2>
-              <p className="text-lg sm:text-xl text-white/65 leading-relaxed mb-8">
+              <p className="text-lg sm:text-xl text-white/85 leading-relaxed mb-8">
                 A moment of calm in your inbox every morning. Quick tips, grounding exercises, and supportive messages that take less than 2 minutes.
               </p>
               <div className="flex gap-8 sm:gap-10">
@@ -28,7 +28,7 @@ export default function DailyWellbeingSection() {
                 ].map((stat) => (
                   <div key={stat.label}>
                     <div className="text-3xl sm:text-4xl font-black">{stat.value}</div>
-                    <div className="text-white/50 text-sm mt-0.5">{stat.label}</div>
+                    <div className="text-white/75 text-sm mt-0.5">{stat.label}</div>
                   </div>
                 ))}
               </div>

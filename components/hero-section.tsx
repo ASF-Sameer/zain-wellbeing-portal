@@ -56,7 +56,7 @@ export default function HeroSection() {
               </span>
             </h1>
 
-            <p className="text-xl sm:text-2xl text-white/55 max-w-lg mb-10 leading-relaxed">
+            <p className="text-xl sm:text-2xl text-white/80 max-w-lg mb-10 leading-relaxed">
               Immediate support for every Zain colleague. Access resources, connect with a buddy, find professional help.
             </p>
 

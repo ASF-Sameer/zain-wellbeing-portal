@@ -11,13 +11,13 @@ export default function PowerBuddySection() {
         <div className="grid lg:grid-cols-5 gap-10 lg:gap-14 items-start">
           <div className="lg:col-span-2 lg:sticky lg:top-24">
             <ScrollReveal animation="fade-right">
-              <p className="text-white/60 text-[15px] font-bold uppercase tracking-wider mb-2">
+              <p className="text-white/80 text-[15px] font-bold uppercase tracking-wider mb-2">
                 Peer Support
               </p>
               <h2 className="text-[clamp(2rem,5vw,3rem)] font-black tracking-tight leading-tight mb-5">
                 Power Buddy System
               </h2>
-              <p className="text-lg sm:text-xl text-white/70 leading-relaxed mb-8">
+              <p className="text-lg sm:text-xl text-white/85 leading-relaxed mb-8">
                 Get matched with a colleague for a grounding conversation. No judgment, just human connection when you need it most.
               </p>
               <div className="space-y-4">
@@ -30,7 +30,7 @@ export default function PowerBuddySection() {
                     <div className="w-8 h-8 rounded-lg bg-white/15 flex items-center justify-center flex-shrink-0 mt-0.5">
                       <span className="text-sm font-black">{i + 1}</span>
                     </div>
-                    <p className="text-lg text-white/80">{step}</p>
+                    <p className="text-lg text-white/90">{step}</p>
                   </div>
                 ))}
               </div>

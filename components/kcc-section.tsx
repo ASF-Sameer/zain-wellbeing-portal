@@ -16,7 +16,7 @@ export default function KCCSection() {
             <h2 className="text-[clamp(2rem,5vw,3rem)] font-black tracking-tight leading-tight mb-4">
               Kuwait Counselling Centre
             </h2>
-            <p className="text-lg sm:text-xl text-white/55 max-w-xl">
+            <p className="text-lg sm:text-xl text-white/80 max-w-xl">
               {KCC_INFO.supportNote}
             </p>
           </div>
@@ -29,7 +29,7 @@ export default function KCCSection() {
               <h3 className="font-bold text-lg mb-2">
                 {KCC_INFO.headOffice.name}
               </h3>
-              <p className="text-white/55 leading-relaxed mb-4">
+              <p className="text-white/75 leading-relaxed mb-4">
                 {KCC_INFO.headOffice.address}
               </p>
               <a
@@ -51,7 +51,7 @@ export default function KCCSection() {
               <h3 className="font-bold text-lg mb-2">
                 {KCC_INFO.jabriyaOffice.name}
               </h3>
-              <p className="text-white/55 leading-relaxed mb-4">
+              <p className="text-white/75 leading-relaxed mb-4">
                 {KCC_INFO.jabriyaOffice.address}
               </p>
               <a
@@ -70,7 +70,7 @@ export default function KCCSection() {
               <h3 className="font-bold text-lg mb-2">
                 <span className="text-[var(--zn-yellow)]">24-Hour</span> Resolution
               </h3>
-              <p className="text-white/55 leading-relaxed">
+              <p className="text-white/75 leading-relaxed">
                 All conversations are strictly confidential. Support available via WhatsApp, Email, and Phone. We guarantee any issue resolved within 24 hours.
               </p>
             </div>
