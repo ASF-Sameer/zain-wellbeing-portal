@@ -12,6 +12,12 @@ export default function Header() {
   const [headerReady, setHeaderReady] = useState(false);
 
   useEffect(() => {
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (prefersReducedMotion) {
+      setShowIntro(false);
+      setHeaderReady(true);
+      return;
+    }
     const t1 = setTimeout(() => setShowIntro(false), 1200);
     const t2 = setTimeout(() => setHeaderReady(true), 1600);
     return () => { clearTimeout(t1); clearTimeout(t2); };

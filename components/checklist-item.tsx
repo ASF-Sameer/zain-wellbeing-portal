@@ -12,10 +12,18 @@ export default function ChecklistItem({ label }: ChecklistItemProps) {
   const [checked, setChecked] = useState(false);
 
   return (
-    <motion.button
+    <div
+      role="checkbox"
+      aria-checked={checked}
+      tabIndex={0}
       onClick={() => setChecked(!checked)}
-      className="flex items-start gap-4 w-full text-left group py-3 px-1"
-      whileTap={{ scale: 0.98 }}
+      onKeyDown={(e) => {
+        if (e.key === " " || e.key === "Enter") {
+          e.preventDefault();
+          setChecked(!checked);
+        }
+      }}
+      className="flex items-start gap-4 w-full text-left group py-3 px-1 cursor-pointer select-none"
     >
       <div
         className={`w-6 h-6 rounded-lg border-2 flex items-center justify-center flex-shrink-0 mt-0.5 transition-all duration-200 ${
@@ -39,6 +47,6 @@ export default function ChecklistItem({ label }: ChecklistItemProps) {
       >
         {label}
       </span>
-    </motion.button>
+    </div>
   );
 }

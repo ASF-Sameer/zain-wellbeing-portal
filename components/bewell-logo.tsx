@@ -16,8 +16,8 @@ export default function BeWellLogo({ className = "" }: { className?: string }) {
         </linearGradient>
       </defs>
       <rect width="100" height="44" rx="5" fill="url(#bw-grad)" />
-      <text x="8" y="20" fill="white" fontFamily="Zain, sans-serif" fontWeight="900" fontSize="14">BE</text>
-      <text x="8" y="37" fill="white" fontFamily="Zain, sans-serif" fontWeight="900" fontSize="14">WELL</text>
+      <text x="8" y="20" fill="white" fontFamily="Inter, system-ui, sans-serif" fontWeight="900" fontSize="14">BE</text>
+      <text x="8" y="37" fill="white" fontFamily="Inter, system-ui, sans-serif" fontWeight="900" fontSize="14">WELL</text>
     </svg>
   );
 }
