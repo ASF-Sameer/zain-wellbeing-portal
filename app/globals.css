@@ -4,29 +4,31 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  --zn-navy: #1A1A24;
+  --zn-navy: #12192A;
+  --zn-magenta: #E40068;
   --zn-cyan: #00B5E2;
-  --zn-magenta: #E40084;
-  --zn-slate: #334155;
   --zn-bg: #F8FAFC;
-  --zn-card-shadow: 0 8px 30px rgb(0 0 0 / 0.06);
-  --zn-card-shadow-hover: 0 12px 40px rgb(0 0 0 / 0.1);
-  --zn-danger: #C4556A;
+  --zn-white: #FFFFFF;
   --zn-border: #E2E8F0;
+  --zn-text: #1E293B;
+  --zn-text-secondary: #64748B;
+  --zn-text-muted: #94A3B8;
 
   --background: var(--zn-bg);
-  --foreground: var(--zn-navy);
-  --primary: var(--zn-cyan);
+  --foreground: var(--zn-text);
+  --primary: var(--zn-magenta);
+  --primary-foreground: #FFFFFF;
   --border: var(--zn-border);
   --ring: var(--zn-cyan);
-  --radius: 0.75rem;
+  --radius: 1.5rem;
 }
 
 @theme inline {
-  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-sans: 'Zain', system-ui, -apple-system, sans-serif;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
   --color-border: var(--border);
   --color-ring: var(--ring);
 }
@@ -37,15 +39,14 @@
     box-sizing: border-box;
   }
   body {
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-family: 'Zain', system-ui, -apple-system, sans-serif;
     background: var(--zn-bg);
-    color: var(--zn-navy);
-    font-size: 16px;
+    color: var(--zn-text);
+    font-size: 17px;
     line-height: 1.6;
     min-height: 100vh;
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
   }
   html {
     scroll-behavior: smooth;
@@ -60,12 +61,4 @@
     scrollbar-width: none;
   }
   .hide-scrollbar::-webkit-scrollbar { display: none; }
-
-  .drawer-overlay {
-    position: fixed;
-    inset: 0;
-    z-index: 50;
-    background: rgba(0, 0, 0, 0.4);
-    backdrop-filter: blur(4px);
-  }
 }

@@ -2,75 +2,64 @@
 
 ## Overview
 
-Premium crisis support hub for Zain employees. Grid-card architecture with slide-over drawers, following "Premium Cognitive Easing" design philosophy -- Apple Health meets modern fintech dashboard. Users self-select from 5 category cards, each opening a smooth slide-over drawer with relevant content.
+Crisis support portal for Zain employees. Bento Box single-page design with a morphing loader, premium card grid overlapping the hero, slide-over drawers for content, and Framer Motion animations. Built with empathetic, grounded tone for crisis context.
 
 ## Tech Stack
 
 - **Framework**: Next.js 16 (App Router)
 - **Language**: TypeScript 5
 - **Styling**: Tailwind CSS v4
-- **Font**: Inter (Google Fonts CDN, weights 300-900)
+- **Animations**: Framer Motion
+- **Font**: Zain (Google Fonts CDN, weights 300-900)
 - **Icons**: Lucide React
-- **Animations**: Framer Motion (logo entrance, card hover/tap, drawer slide-in)
 
 ## Design System
 
-**"Premium Cognitive Easing"** - Calming off-white background, premium gradient cards with centered icons, smooth Framer Motion interactions.
+**"Bento Box Aesthetics"** - Premium Apple Health-style card tiles on an ultra-soft background. Cards overlap the deep navy hero section creating physical depth.
 
-Colors:
-- **Navy** (#1A1A24): Manager cards, text, dark accents
-- **Cyan** (#00B5E2): For You cards, Power Buddy, primary action
-- **Magenta** (#E40084): For Parents cards, Daily BE WELL, Be Well brand
-- **Background** (#F8FAFC): Calming off-white page background
-- **Card Shadow**: `0 8px 30px rgb(0 0 0 / 0.06)` diffused premium shadow
+Color palette:
+- **Navy** (#12192A): Hero background, card headers
+- **Magenta** (#E40068): Be Well brand, accent
+- **Cyan** (#00B5E2): Action CTAs, KCC button, interactive elements
+- **Background** (#F8FAFC): Ultra-soft page background
+- **Cards**: White, rounded-3xl, premium shadows
 
-Typography: Inter font, modern geometric sans-serif. Deep navy for text.
-
-Animation flow: BE WELL logo centers on screen -> glides up into header -> header fades in -> hero text fades in -> cards stagger in from bottom.
+Interaction model: No page navigation. All content opens in a slide-over drawer from the right with blurred backdrop.
 
 ## Page Architecture
 
-1. **Logo Intro** (1.2s centered BE WELL logo, then animates to header)
-2. **Header** (sticky, backdrop-blur, Zain + BE WELL logos, Emergency button)
-3. **Hero** (centered headline + subtitle)
-4. **Grid Hub** (5 category cards, 1/2/3 column responsive grid)
-5. **Sticky Footer** (KCC phone CTA)
-
-## 5 Hub Categories
-
-| Card | Content Type | Drawer Contents |
-|------|-------------|-----------------|
-| For You | Checklist | Grounding checklist + individual resilience toolkit |
-| For Managers | Toolkit | 6 manager leadership guide cards |
-| For Parents & Elderly | Checklist | Family & care checklist |
-| Power Buddy System | Form | How-it-works + MS Forms iframe |
-| Daily BE WELL | Form | Stats + MS Forms iframe |
+1. **Morphing Loader** (1.5s): Full-screen navy with "ZAIN | BE WELL" centered, fades out
+2. **Header**: Zain logo + "BE WELL" mark, no navigation links
+3. **Hero**: Deep navy, "Standing Together." headline with cyan accent
+4. **Bento Grid** (overlaps hero at -mt-32): 5 cards in responsive grid
+   - For You: Resilience Toolkit (span 2 cols)
+   - Power Buddy System
+   - For Managers
+   - For Parents & Elderly
+   - Daily BE WELL Updates (span 2 cols)
+5. **Slide-Over Drawer**: Opens from right on card click, contains checklist UIs and form embeds
+6. **Sticky Footer**: KCC 24hr support with cyan call button
 
 ## Project Structure
 
 ```
 app/
-  layout.tsx          - Root layout with Inter font
-  page.tsx            - Hub page with drawer state management
-  globals.css         - Global styles, premium design system
+  layout.tsx          - Root layout with Zain font
+  page.tsx            - Single-page entry with Bento grid
+  globals.css         - Global styles, color palette
 components/
-  header.tsx          - Animated header with logo entrance
-  bewell-logo.tsx     - SVG Be Well logo (pink gradient badge)
-  hero-section.tsx    - Centered welcome text
-  grid-card.tsx       - Premium gradient card with Framer Motion
-  slide-drawer.tsx    - Right-sliding drawer with overlay
-  drawer-content.tsx  - Content router for 5 category drawers
-  checklist-item.tsx  - Interactive checkbox component
+  loader.tsx          - Morphing loader animation
+  bento-card.tsx      - Reusable Bento grid card (Framer Motion)
+  slide-drawer.tsx    - Slide-over drawer with content panels
   sticky-footer.tsx   - KCC contact footer
+  ui/button.tsx       - Base button component
 data/
-  content.ts          - All data: categories, checklists, toolkits, KCC, form URLs
+  content.ts          - Static data, KCC info, form URLs
 lib/
   utils.ts            - cn() utility
   github.ts           - GitHub API integration
 public/images/
   zain-logo.png       - Official Zain logo (white)
-  bewell-logo.png     - Be Well banner image
-  bewell-hero.png     - Be Well hero image
 ```
 
 ## Configuration
