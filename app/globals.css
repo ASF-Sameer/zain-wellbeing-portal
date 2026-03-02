@@ -4,39 +4,29 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  --zn-navy: #1A2744;
-  --zn-navy-light: #243356;
-  --zn-cyan: #00A5A8;
-  --zn-cyan-light: #00C4C7;
-  --zn-cyan-soft: #E8F7F7;
-  --zn-magenta: #D4267E;
-  --zn-magenta-light: #E84B93;
-  --zn-magenta-soft: #FDF0F5;
-  --zn-yellow: #F5A623;
-  --zn-yellow-soft: #FFF8EB;
-  --zn-white: #FFFFFF;
-  --zn-bg: #F5F7FA;
-  --zn-text: #1A2744;
-  --zn-text-secondary: #4A5568;
-  --zn-text-muted: #8896A6;
-  --zn-border: #E2E8F0;
+  --zn-navy: #1A1A24;
+  --zn-cyan: #00B5E2;
+  --zn-magenta: #E40084;
+  --zn-slate: #334155;
+  --zn-bg: #F8FAFC;
+  --zn-card-shadow: 0 8px 30px rgb(0 0 0 / 0.06);
+  --zn-card-shadow-hover: 0 12px 40px rgb(0 0 0 / 0.1);
   --zn-danger: #C4556A;
+  --zn-border: #E2E8F0;
 
   --background: var(--zn-bg);
-  --foreground: var(--zn-text);
-  --primary: var(--zn-magenta);
-  --primary-foreground: #FFFFFF;
+  --foreground: var(--zn-navy);
+  --primary: var(--zn-cyan);
   --border: var(--zn-border);
-  --ring: var(--zn-magenta);
+  --ring: var(--zn-cyan);
   --radius: 0.75rem;
 }
 
 @theme inline {
-  --font-sans: 'Zain', system-ui, -apple-system, sans-serif;
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-primary: var(--primary);
-  --color-primary-foreground: var(--primary-foreground);
   --color-border: var(--border);
   --color-ring: var(--ring);
 }
@@ -47,80 +37,35 @@
     box-sizing: border-box;
   }
   body {
-    font-family: 'Zain', system-ui, -apple-system, sans-serif;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
     background: var(--zn-bg);
-    color: var(--zn-text);
-    font-size: 18px;
+    color: var(--zn-navy);
+    font-size: 16px;
     line-height: 1.6;
     min-height: 100vh;
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
   html {
     scroll-behavior: smooth;
-    scroll-padding-top: 5rem;
     overflow-x: hidden;
   }
 }
 
 @layer utilities {
   .text-balance { text-wrap: balance; }
-
   .hide-scrollbar {
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
   .hide-scrollbar::-webkit-scrollbar { display: none; }
 
-  .section-navy {
-    background: var(--zn-navy);
-    color: #FFFFFF;
-  }
-  .section-cyan {
-    background: var(--zn-cyan);
-    color: #FFFFFF;
-  }
-  .section-magenta {
-    background: linear-gradient(135deg, var(--zn-magenta) 0%, var(--zn-magenta-light) 100%);
-    color: #FFFFFF;
-  }
-  .section-white {
-    background: var(--zn-white);
-    color: var(--zn-text);
-  }
-  .section-bg {
-    background: var(--zn-bg);
-    color: var(--zn-text);
-  }
-
-  .sr-base {
-    opacity: 0;
-    transition: opacity 0.7s ease, transform 0.7s ease;
-    will-change: opacity, transform;
-  }
-  .sr-fade-up { transform: translateY(32px); }
-  .sr-fade-left { transform: translateX(32px); }
-  .sr-fade-right { transform: translateX(-32px); }
-  .sr-fade-in { transform: none; }
-
-  .sr-visible {
-    opacity: 1 !important;
-    transform: none !important;
-  }
-
-  .sr-group .sr-base { transition-delay: 0ms; }
-  .sr-group-visible .sr-base:nth-child(1) { opacity: 1; transform: none; transition-delay: 0ms; }
-  .sr-group-visible .sr-base:nth-child(2) { opacity: 1; transform: none; transition-delay: 80ms; }
-  .sr-group-visible .sr-base:nth-child(3) { opacity: 1; transform: none; transition-delay: 160ms; }
-  .sr-group-visible .sr-base:nth-child(4) { opacity: 1; transform: none; transition-delay: 240ms; }
-  .sr-group-visible .sr-base:nth-child(5) { opacity: 1; transform: none; transition-delay: 320ms; }
-  .sr-group-visible .sr-base:nth-child(6) { opacity: 1; transform: none; transition-delay: 400ms; }
-
-  @media (prefers-reduced-motion: reduce) {
-    .sr-base {
-      opacity: 1 !important;
-      transform: none !important;
-      transition: none !important;
-    }
+  .drawer-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(4px);
   }
 }

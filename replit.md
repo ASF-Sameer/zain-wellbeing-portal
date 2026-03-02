@@ -2,70 +2,71 @@
 
 ## Overview
 
-Crisis support portal for Zain employees. Single-page design following "Calm Wayfinding" principles: color-blocked sections using the full Zain brand palette, scroll-triggered animations, massive typography, and clear Be Well identity throughout.
+Premium crisis support hub for Zain employees. Grid-card architecture with slide-over drawers, following "Premium Cognitive Easing" design philosophy -- Apple Health meets modern fintech dashboard. Users self-select from 5 category cards, each opening a smooth slide-over drawer with relevant content.
 
 ## Tech Stack
 
 - **Framework**: Next.js 16 (App Router)
 - **Language**: TypeScript 5
 - **Styling**: Tailwind CSS v4
-- **Font**: Zain (Google Fonts CDN, weights 300-900)
+- **Font**: Inter (Google Fonts CDN, weights 300-900)
 - **Icons**: Lucide React
-- **Animations**: Intersection Observer (no libraries)
+- **Animations**: Framer Motion (logo entrance, card hover/tap, drawer slide-in)
 
 ## Design System
 
-**"Calm Wayfinding"** - Color-coded sections like a well-designed emergency department. Each section has a distinct full-bleed background color from the Zain brand palette.
+**"Premium Cognitive Easing"** - Calming off-white background, premium gradient cards with centered icons, smooth Framer Motion interactions.
 
-Color palette (CSS variables with `--zn-` prefix):
-- **Navy** (#1A2744): Hero, KCC section -- authority and grounding
-- **Cyan/Teal** (#00A5A8): Power Buddy -- connection and trust
-- **Magenta/Pink** (#D4267E): Be Well identity, CTAs -- warmth and care
-- **Yellow** (#F5A623): Urgency indicators, accents
-- **White** (#FFFFFF): Resource and update sections -- clean readability
-- **Background** (#F5F7FA): Default page background
+Colors:
+- **Navy** (#1A1A24): Manager cards, text, dark accents
+- **Cyan** (#00B5E2): For You cards, Power Buddy, primary action
+- **Magenta** (#E40084): For Parents cards, Daily BE WELL, Be Well brand
+- **Background** (#F8FAFC): Calming off-white page background
+- **Card Shadow**: `0 8px 30px rgb(0 0 0 / 0.06)` diffused premium shadow
 
-Typography: Body 18px minimum, headings 48-80px using clamp() for responsive scaling.
+Typography: Inter font, modern geometric sans-serif. Deep navy for text.
 
-Logos:
-- Zain: `public/images/zain-logo.png` (white PNG, CSS inverted for light backgrounds)
-- Be Well: SVG component at `components/bewell-logo.tsx` (pink gradient badge, primary brand mark)
+Animation flow: BE WELL logo centers on screen -> glides up into header -> header fades in -> hero text fades in -> cards stagger in from bottom.
 
-Scroll animations: `components/scroll-reveal.tsx` wraps elements with Intersection Observer. Supports fade-up, fade-left, fade-right, fade-in. `ScrollRevealGroup` for staggered children. CSS classes in globals.css with `sr-` prefix.
+## Page Architecture
 
-## Page Layout
+1. **Logo Intro** (1.2s centered BE WELL logo, then animates to header)
+2. **Header** (sticky, backdrop-blur, Zain + BE WELL logos, Emergency button)
+3. **Hero** (centered headline + subtitle)
+4. **Grid Hub** (5 category cards, 1/2/3 column responsive grid)
+5. **Sticky Footer** (KCC phone CTA)
 
-1. Header (Zain logo + Be Well logo + nav + Emergency button) -- white, fixed
-2. Hero (navy full-bleed, 60-80px headline, "Not Alone" in pink gradient, 4 wayfinding cards)
-3. Resource Toolkits (white section, swipable card carousels with colored top borders)
-4. Power Buddy (teal full-bleed, 2-col: info + MS Forms embed)
-5. Be Well Daily Emails (magenta gradient full-bleed, 2-col: stats + MS Forms embed)
-6. Live Updates (gray bg, list cards with colored left borders by category)
-7. KCC Section (navy full-bleed, 3-col: 2 offices + 24hr guarantee)
-8. Sticky Footer (white, KCC phone with teal CTA) with h-20 spacer
+## 5 Hub Categories
+
+| Card | Content Type | Drawer Contents |
+|------|-------------|-----------------|
+| For You | Checklist | Grounding checklist + individual resilience toolkit |
+| For Managers | Toolkit | 6 manager leadership guide cards |
+| For Parents & Elderly | Checklist | Family & care checklist |
+| Power Buddy System | Form | How-it-works + MS Forms iframe |
+| Daily BE WELL | Form | Stats + MS Forms iframe |
 
 ## Project Structure
 
 ```
 app/
-  layout.tsx          - Root layout with Zain font
-  page.tsx            - Single-page entry
-  globals.css         - Global styles, Zain palette, scroll animations
+  layout.tsx          - Root layout with Inter font
+  page.tsx            - Hub page with drawer state management
+  globals.css         - Global styles, premium design system
 components/
-  scroll-reveal.tsx   - Intersection Observer animation wrapper
-  header.tsx          - Fixed header with both logos
-  bewell-logo.tsx     - SVG Be Well logo (pink gradient)
-  hero-section.tsx    - Navy hero with wayfinding cards
-  resource-toolkits-section.tsx - Swipable card carousels
-  power-buddy-section.tsx  - Teal section, 2-col MS Form layout
-  daily-wellbeing-section.tsx  - Magenta section, email subscription
-  live-updates-section.tsx     - Category-colored update cards
-  kcc-section.tsx     - Navy section, 3-col office details
+  header.tsx          - Animated header with logo entrance
+  bewell-logo.tsx     - SVG Be Well logo (pink gradient badge)
+  hero-section.tsx    - Centered welcome text
+  grid-card.tsx       - Premium gradient card with Framer Motion
+  slide-drawer.tsx    - Right-sliding drawer with overlay
+  drawer-content.tsx  - Content router for 5 category drawers
+  checklist-item.tsx  - Interactive checkbox component
   sticky-footer.tsx   - KCC contact footer
 data/
-  content.ts          - Static data, KCC info, form URLs
+  content.ts          - All data: categories, checklists, toolkits, KCC, form URLs
 lib/
   utils.ts            - cn() utility
+  github.ts           - GitHub API integration
 public/images/
   zain-logo.png       - Official Zain logo (white)
   bewell-logo.png     - Be Well banner image

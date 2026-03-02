@@ -14,6 +14,20 @@ export interface ToolkitItem {
   content: string;
 }
 
+export interface ChecklistEntry {
+  id: string;
+  label: string;
+}
+
+export interface HubCategory {
+  id: string;
+  title: string;
+  subtitle: string;
+  icon: string;
+  gradient: [string, string];
+  contentType: "checklist" | "form" | "toolkit";
+}
+
 export const EMERGENCY_HOTLINE = "+96525356444";
 export const KCC_PHONE = "+96525356444";
 
@@ -37,6 +51,75 @@ export const POWER_BUDDY_FORM_URL =
   "https://forms.office.com/Pages/ResponsePage.aspx?id=REPLACE_WITH_ACTUAL_FORM_ID";
 export const BEWELL_SUBSCRIBE_FORM_URL =
   "https://forms.office.com/Pages/ResponsePage.aspx?id=REPLACE_WITH_ACTUAL_FORM_ID";
+
+export const hubCategories: HubCategory[] = [
+  {
+    id: "for-you",
+    title: "For You",
+    subtitle: "Breathing, grounding, somatic tools & self-regulation",
+    icon: "Heart",
+    gradient: ["#00B5E2", "#0097C4"],
+    contentType: "checklist",
+  },
+  {
+    id: "for-managers",
+    title: "For Managers",
+    subtitle: "Swipe files, leadership checklists & team support",
+    icon: "Briefcase",
+    gradient: ["#1A1A24", "#2D2D3D"],
+    contentType: "toolkit",
+  },
+  {
+    id: "for-parents",
+    title: "For Parents & Elderly",
+    subtitle: "Family support guides, checklists & care resources",
+    icon: "Home",
+    gradient: ["#E40084", "#C70070"],
+    contentType: "checklist",
+  },
+  {
+    id: "power-buddy",
+    title: "Power Buddy System",
+    subtitle: "Instant peer connection & grounding support",
+    icon: "Users",
+    gradient: ["#00B5E2", "#00D4AA"],
+    contentType: "form",
+  },
+  {
+    id: "daily-bewell",
+    title: "Daily BE WELL",
+    subtitle: "Subscribe for daily wellbeing tips in your inbox",
+    icon: "Mail",
+    gradient: ["#E40084", "#FF6B35"],
+    contentType: "form",
+  },
+];
+
+export const forYouChecklist: ChecklistEntry[] = [
+  { id: "fy1", label: "Practice 4-7-8 breathing (inhale 4s, hold 7s, exhale 8s)" },
+  { id: "fy2", label: "5-4-3-2-1 grounding: 5 things you see, 4 touch, 3 hear, 2 smell, 1 taste" },
+  { id: "fy3", label: "Body scan: slowly check in with each body part from toes to head" },
+  { id: "fy4", label: "Place both feet flat on the ground and feel the surface beneath you" },
+  { id: "fy5", label: "Drink a full glass of water slowly and mindfully" },
+  { id: "fy6", label: "Step outside for 5 minutes of fresh air and natural light" },
+  { id: "fy7", label: "Write down 3 things you are grateful for right now" },
+  { id: "fy8", label: "Stretch your neck, shoulders, and back for 2 minutes" },
+  { id: "fy9", label: "Call or message someone you trust for a quick check-in" },
+  { id: "fy10", label: "Set a news consumption limit for today (2 times max)" },
+];
+
+export const forParentsChecklist: ChecklistEntry[] = [
+  { id: "fp1", label: "Talk to children about the situation in age-appropriate language" },
+  { id: "fp2", label: "Maintain daily routines as much as possible (meals, bedtime)" },
+  { id: "fp3", label: "Prepare a family emergency bag with essentials for 72 hours" },
+  { id: "fp4", label: "Keep important documents in a single, accessible folder" },
+  { id: "fp5", label: "Establish a family communication plan with meeting points" },
+  { id: "fp6", label: "Check on elderly family members and neighbors daily" },
+  { id: "fp7", label: "Ensure elderly relatives have medications for at least 7 days" },
+  { id: "fp8", label: "Prepare a pet emergency kit (food, carrier, medications)" },
+  { id: "fp9", label: "Limit children's exposure to news and social media" },
+  { id: "fp10", label: "Practice calming activities together: drawing, reading, cooking" },
+];
 
 export const updates: UpdatePost[] = [
   {
