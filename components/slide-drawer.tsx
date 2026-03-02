@@ -2,7 +2,7 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Check, type LucideIcon } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { POWER_BUDDY_FORM_URL, BEWELL_SUBSCRIBE_FORM_URL } from "@/data/content";
 
 interface SlideDrawerProps {
@@ -24,6 +24,27 @@ export default function SlideDrawer({
   iconColor,
   contentType,
 }: SlideDrawerProps) {
+  const drawerRef = useRef<HTMLDivElement>(null);
+
+  const handleKeyDown = useCallback(
+    (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+    },
+    [onClose]
+  );
+
+  useEffect(() => {
+    if (isOpen) {
+      document.addEventListener("keydown", handleKeyDown);
+      document.body.style.overflow = "hidden";
+      drawerRef.current?.focus();
+    }
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+      document.body.style.overflow = "";
+    };
+  }, [isOpen, handleKeyDown]);
+
   return (
     <AnimatePresence>
       {isOpen && (
@@ -35,10 +56,16 @@ export default function SlideDrawer({
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
             onClick={onClose}
+            aria-hidden="true"
           />
 
           <motion.div
-            className="fixed top-0 right-0 bottom-0 z-50 w-full sm:w-[520px] md:w-[580px] bg-white shadow-2xl flex flex-col overflow-hidden"
+            ref={drawerRef}
+            role="dialog"
+            aria-modal="true"
+            aria-label={title}
+            tabIndex={-1}
+            className="fixed top-0 right-0 bottom-0 z-50 w-full sm:w-[520px] md:w-[580px] bg-white shadow-2xl flex flex-col overflow-hidden outline-none"
             initial={{ x: "100%" }}
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
