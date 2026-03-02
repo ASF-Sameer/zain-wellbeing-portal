@@ -179,7 +179,7 @@ export default function HomePage() {
         onClose={() => setActiveCard(null)}
       />
 
-      {ready && <StickyFooter />}
+      {ready && !isExpanded && <StickyFooter />}
     </LayoutGroup>
   );
 }
